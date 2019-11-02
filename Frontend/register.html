@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./login_register.css">
+
+  <title>新豐早餐店會員登入</title>
+</head>
+
+<body>
+  <div class="login-body">
+    <h1>新豐早餐店會員註冊</h1>
+
+    <form action="#" method="POST">
+      <input class="login-data" type="text" name="username" placeholder="帳號" required>
+      <input class="login-data" type="password" name="password" placeholder="密碼" required>
+      <input class="login-data" type="password" name="password-repeat" placeholder="密碼確認" required>
+      <input class="login-data" type="text" name="real-name" placeholder="姓名" required>
+      <input class="login-data" type="tel" pattern="\d{10}" name="password" placeholder="手機" required>
+      <input class="login-data" type="number" min="8" max="150" name="age" placeholder="年齡" required>
+      <div class="sex-section">
+        <label class="login-data">
+          <input type="radio" name="sex" value="男" required>
+          <span>男</span>
+        </label>
+        <label class="login-data">
+          <input type="radio" name="sex" value="女" required>
+          <span>女</span>
+        </label>
+      </div>
+
+      <div class="reg-or-cancel">
+        <input class="action-btn" type="submit" value="註冊">
+        <input class="action-btn" type="button" value="取消" onclick="location.href='./login.html';">
+      </div>
+    </form>
+  </div>
+
+</body>
+
+</html>
