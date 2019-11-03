@@ -15,7 +15,6 @@
     <h1>新豐早餐店會員註冊</h1>
 
     <form action="#" method="POST">
-      <input class="login-data" type="email" name="user_email" placeholder="信箱" required>
       <input class="login-data" type="tel" pattern="\d{10}" name="user_ID" placeholder="手機" required>
       <input class="login-data" type="password" name="user_password" placeholder="密碼" required>
       <input class="login-data" type="password" name="user_password_repeat" placeholder="密碼確認" required>
@@ -23,16 +22,16 @@
 
       <input class="login-data" type="number" min="8" max="150" name="user_age" placeholder="年齡" required>
       <div class="sex-section">
-        <label class="login-data">
+        <label>
           <input type="radio" name="user_gender" value="男" required>
           <span>男</span>
         </label>
-        <label class="login-data">
+        <label>
           <input type="radio" name="user_gender" value="女" required>
           <span>女</span>
         </label>
       </div>
-
+      <input class="login-data" type="email" name="user_email" placeholder="信箱" required>
       <div class="reg-or-cancel">
         <input class="action-btn" type="submit" value="註冊">
         <input class="action-btn" type="button" value="取消" onclick="location.href='./login.html';">

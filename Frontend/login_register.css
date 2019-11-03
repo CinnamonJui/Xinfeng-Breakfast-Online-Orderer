@@ -21,7 +21,7 @@ form {
 .login-data[for='remember'] {
     font-size: 1.0rem;
     display: inline-flex;
-    height: 2.5rem;
+    height: 1rem;
     width: 100%;
 }
 
@@ -43,14 +43,11 @@ form {
 }
 
 .sex-section {
+    margin: 10px 0 0 0;
     width: 100%;
     display: inline-flex;
     justify-content: flex-start;
     
-}
-
-.sex-section * {
-    display: inline;
 }
 
 .sex-section span {
@@ -67,6 +64,7 @@ form {
 .login-or-reg, .reg-or-cancel {
     display: flex;
     justify-content: space-between;
+    margin-top: 1rem;
 }
 
 .action-btn {
