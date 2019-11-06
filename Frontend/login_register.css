@@ -1,3 +1,11 @@
+body {
+    background-color: rgb(185, 234, 191);
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
 .login-body {
     width: fit-content;
     margin: 0 auto;
@@ -31,7 +39,7 @@ form {
     box-sizing: border-box;
     padding: 0.2rem;
     border-style: none;
-    border-bottom: 1px solid gray;
+    border: 1px solid gray;
 }
 
 .login-data[placeholder]:focus {
@@ -43,7 +51,7 @@ form {
 }
 
 .sex-section {
-    margin: 10px 0 0 0;
+    margin: 0;
     width: 100%;
     display: inline-flex;
     justify-content: flex-start;
@@ -70,9 +78,9 @@ form {
 .action-btn {
     font-size: 1.2rem;
     flex-grow: 1;
-    background: #ccc;
+    background: rgb(171, 255, 235);
     margin: 0 0.3rem;
-    border: 0 none;
+    border: 1px solid black;
     cursor: pointer;
     -webkit-border-radius: 5px;
     border-radius: 5px;
