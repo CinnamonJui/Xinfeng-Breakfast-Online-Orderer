@@ -23,9 +23,9 @@ function replaceLoginBtn() {
 
 function isLogin() {
     // TODO: figure out how to use SSO
-    return true;
+    return false;
 }
-
+// DOM Content loaded listener
 $(() => {
     // $('#Menus>[class$="panel"]').hide();
     if (isLogin())
@@ -59,6 +59,7 @@ $(() => {
         }
     });
 
+
     // modal window for combo
     $('.combo-panel').on('click', '.combo>*:not(.toCart)', e => { createItemModalWindow(); });
 
@@ -67,46 +68,46 @@ $(() => {
 })
 
 function createItemModalWindow() {
-    let modalWindow = (function () {
-        console.log('creating modal window');
-        let $window = $(window);
-        let $modal = $('<div class="modal"/>');
-        let $content = $('<div class="modal-content"/>');
-        let $closeBtn = $('<button class="modal-close">關閉</button>').on('click', e => {
-            e.preventDefault();
-            modalWindow.close();
-        });
-        $modal.append($content, $closeBtn);
-
-        return {
-            center: (e) => {
-                console.log(e);
-                $modal.css({
-                    top: Math.max($window.height() - $modal.outerHeight(), 0) / 2 + $window.scrollTop(),
-                    left: Math.max($window.width() - $modal.outerWidth(), 0) / 2 + $window.scrollLeft()
-                })
-            },
-            open: (settings) => {
-                $content.empty().append(settings.content);
-                console.log();
-                $modal.css({
-                    width: $('#Menus').width(),
-                    height: '50vh',
-                }).appendTo('body');
-                modalWindow.center();
-
-                $window.on('resize scroll', modalWindow.center);
-            },
-            close: () => {
-                $content.empty();
-                $modal.remove();
-                $window.off('resize scroll', modalWindow.center);
-            }
-        };
-    })();
-    $('.modal').remove();
+    modalWindow.close();
     modalWindow.open({
         content: "HI",
         height: '300px'
     });
 }
+
+// Singleton pattern for modalWindow
+let modalWindow = (function () {
+    let $window = $(window);
+    let $modal = $('<div class="modal"/>');
+    let $content = $('<div class="modal-content"/>');
+    let $closeBtn = $('<button class="modal-close">關閉</button>').on('click', e => {
+        e.preventDefault();
+        modalWindow.close();
+    });
+    $modal.append($content, $closeBtn);
+    // require('jquery')
+    return {
+        center: (e) => {
+            $modal.css({
+                top: Math.max(window.innerHeight - $modal.outerHeight(), 0) / 2 + $window.scrollTop(),
+                left: Math.max(window.innerWidth - $modal.innerWidth(), 0) / 2 + $window.scrollLeft(),
+            })
+        },
+        open: (settings) => {
+            $content.empty().append(settings.content);
+            $modal.css({
+                // width: $('#Menus').width(),
+                maxWidth: '1024px',
+                height: '50vh',
+            }).appendTo('body');
+            modalWindow.center();
+
+            $window.on('resize scroll', modalWindow.center);
+        },
+        close: () => {
+            $content.empty();
+            $modal.detach();
+            $window.off('resize scroll', modalWindow.center);
+        }
+    };
+})();

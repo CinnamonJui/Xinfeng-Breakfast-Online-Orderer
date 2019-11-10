@@ -1,0 +1,26 @@
+{
+  "name": "xbs",
+  "version": "0.2.0",
+  "private": false,
+  "scripts": {
+    "start": "node ./bin/www",
+    "test": "echo \"No test needed\" && exit 0",
+    "devstart": "nodemon ./bin/www"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "jquery": "^3.4.1",
+    "morgan": "~1.9.1",
+    "smartcrop": "^2.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4"
+  },
+  "engines": {
+    "node": "12.13.0"
+  }
+}
