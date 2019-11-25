@@ -1,0 +1,88 @@
+<!-- Register Page -->
+<!DOCTYPE HTML>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="refresh" content="30">        <!-- reloading the page per 30 sec-->
+       
+        <meta name="description" content="RegisterPage">
+        <meta author="SE-Group4-陳建壹">
+        
+        <base href="預設連結" target="_blank">                                 <!---->
+        <link rel="stylesheet" type="text/css" href="RegisterPageCSS.css">        <!-- link CSS file-->
+        <script src="RegisterPageJs.js"></script>                               <!-- link Javascript-->
+        
+        <title>會員註冊頁面</title>                                        
+    </head>
+    
+    <body>
+        <br/>
+        <div>
+            <form class="RegisterForm" action="XBS_register_action.php" method="POST">
+                <table border="2">
+                    <caption>會員註冊</caption>
+                  
+                    <tr>
+                        <td>手機</td>
+                        <td><input pattern='\d{4}[-]\d{6}' name="tel" required></td>
+                    </tr>
+                    <tr>
+                        <td>密碼</td>
+                        <td><input type="password" name="password" required></td>
+                    </tr>
+                    <tr>
+                        <td>確認密碼</td>
+                        <td><input type="password" name="password" required></td>
+                    </tr>
+                    <tr>
+                        <td>姓名</td>
+                        <td><input type="text" name="name" required></td>
+                    </tr>
+                    <tr>
+                        <td>年齡</td>
+                        <td>
+                            <select id="AgeSelector" name="age">
+                                <!-- MOVE TO RegisterScript.js-->
+                                <script>
+                                    var AgeSelector = document.getElementById("AgeSelector");
+                                    for(var i=1;i<=150;i++){
+                                        var opt = document.createElement("option");
+                                        opt.value = i;
+                                        opt.innerHTML = i;
+                                        AgeSelector.appendChild(opt);
+                                    }
+                                </script>
+                            </select>                               
+                        </td>
+                        
+                    </tr>
+                    <tr>
+                        <td>性別</td>
+                        <td>
+                            <input type="radio" name="gender" value="male">男生              
+                            <input type="radio" name="gender" value="female">女生
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>信箱</td>
+                        <td><input type="email" name="email"></td>
+                    </tr>
+                    <tr >
+                        <td colspan="3" align="center">
+                            <input type="submit" value="註冊">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </body>
+    
+    <nav>
+    </nav>
+    <aside>
+    </aside>
+    <footer>
+    </footer>
+
+</html>
