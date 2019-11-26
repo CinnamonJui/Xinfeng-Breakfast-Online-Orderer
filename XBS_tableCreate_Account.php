@@ -1,6 +1,6 @@
 <?php
     include_once 'dbh.xbs.php';
-
+    try{
     $sql = "create table Account(	 
         
         ID 			nvarchar(15)     PRIMARY	KEY not null,  	
@@ -12,11 +12,12 @@
         total		integer(8)		default 0
     );";
 
-    if (mysqli_query($conn, $sql)) {
-        echo "Table Account created successfully";
-    } else {
-        echo "Error creating table: " . mysqli_error($conn);
+    $conn->exec($sql);
+    echo "Table Account created successfully";
+ 
+    }catch(PDOException $e){
+        echo $e->getMessage();//Remove or change message in production code
     }
-    mysqli_close($conn);
+    
 
 ?>

@@ -5,5 +5,6 @@ $dbUsername="root";
 $dbPassword="";
 $dbName="XBS";
 
-//$conn = mysqli_connect($dbServername,$dbUsername,$dbPassword,$dbName);
-$conn = new PDO('mysql:host='.$dbServername.';dbname='.$dbName.';charset=utf8', $dbUsername, $dbPassword);
+
+$conn = new PDO('mysql:dbname='.$dbName.';host='.$dbServername, $dbUsername, '' );
+$conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );//Error Handling
