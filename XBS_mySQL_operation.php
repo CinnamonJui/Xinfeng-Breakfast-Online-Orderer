@@ -26,12 +26,17 @@
         $sql = "SELECT * 
                 from Orders
                 WHERE status in ('已付款','拒絕') ;";
+
+        mysqli_query($conn,$sql);
+        
     }
     function getNotFinishOrder(){
         global $conn;
         $sql = "SELECT * 
                 from Orders
                 WHERE status in ('未確認','未完成','已完成');";
+                
+        mysqli_query($conn,$sql);
     }
     //更改訂單狀態
     function changeOrderStatus($ID,$status){
