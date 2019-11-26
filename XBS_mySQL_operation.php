@@ -21,8 +21,17 @@
         //mysqli_stmt_execute($stmt);
     }
     //取得訂單資訊(老闆) push
-    function getOrder(){
-        
+    function getFinishOrder(){
+        global $conn;
+        $sql = "SELECT * 
+                from Orders
+                WHERE status in ('已付款','拒絕') ;";
+    }
+    function getNotFinishOrder(){
+        global $conn;
+        $sql = "SELECT * 
+                from Orders
+                WHERE status in ('未確認','未完成','已完成');";
     }
     //更改訂單狀態
     function changeOrderStatus($ID,$status){
@@ -88,7 +97,7 @@
         mysqli_stmt_prepare($stmt,$sql);
     
         mysqli_stmt_bind_param($stmt,"sssiss",$ID,$pw,$name,$age,$gender,$email);
-        mysqli_stmt_execute($stmt);
+        return mysqli_stmt_execute($stmt);
         
     }
     //取得顧客資料(老闆)
@@ -104,6 +113,8 @@
                 $customerData[]=$row;
             }
         }
+
+        $customerData = json_encode($customerData);
         return $customerData;
     }
     //搜尋顧客資料(老闆)
@@ -123,6 +134,8 @@
                 $searchResult[]=$row;
             }
         }
+
+        $searchResult = json_encode($searchResult);
         return $searchResult;
     }
 

@@ -9,7 +9,7 @@
 <body>
 
 
-<form action="XBS_test_action.php" method="POST">
+<form action="XBS_register_action.php" method="POST">
 <input type="text" name="ID" placeholder="ID">
 <br>
 <input type="password" name="pw" placeholder="pw">

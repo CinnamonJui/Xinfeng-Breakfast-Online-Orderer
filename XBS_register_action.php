@@ -8,6 +8,8 @@
     $age =$_POST['age'];
     $gender= mysqli_real_escape_string($conn,$_POST['gender']);
     $email= mysqli_real_escape_string($conn,$_POST['email']);
-    register($ID,$password,$name,$age,$gender,$email);
-
+    if(register($ID,$password,$name,$age,$gender,$email))
+        echo success;
+    else echo fail;
+    
 ?>
