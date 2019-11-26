@@ -9,7 +9,7 @@
     $gender= mysqli_real_escape_string($conn,$_POST['gender']);
     $email= mysqli_real_escape_string($conn,$_POST['email']);
     if(register($ID,$password,$name,$age,$gender,$email))
-        echo success;
-    else echo fail;
+        echo "success";
+    else echo "fail";
     
 ?>
