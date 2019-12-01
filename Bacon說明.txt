@@ -1,0 +1,63 @@
+主要檔案為 Bacon.php
+使用方式為創建一個新的Bacon即可創造連線
+ex. $connection = new Bacon();
+    $connection.login("123","456");
+
+現有訂單類、顧客資料類功能，菜單類功能尚未加入
+
+function 介紹:
+
+    訂單類:
+
+    addOrder($ID,$GT,$FT,$user,$status,$price,$items)
+        新增新的訂單
+        $ID:        訂單編號
+        $GT:        創建時間
+        $FT:        完成時間
+        $user:      訂單的客戶ID
+        $status:    狀態 (請預設為未確認)
+        $price:     價格
+        $items      訂單內容(以JSON方式存入)
+    
+    getFinishOrder()
+        取得[已付款]與[拒絕]狀態的訂單
+        return JSON檔
+
+    getNotFinishOrder()
+        取得[未確認]、[未完成]與[已完成]的訂單
+        return JSON檔
+
+    顧客資料類:
+    
+    login($ID,$pw) //未完成 請先別使用
+        登入帳號
+        $ID:    顧客ID
+        $pw:    顧客帳號
+        return boolean
+            true:   登入成功
+            false:  登入失敗
+    
+    register($ID,$pw,$name,$age,$gender,$email)
+        註冊帳號
+        $ID:        註冊ID(電話號碼)
+        $pw:        註冊密碼
+        $name:      名子
+        $age:       年齡
+        $gender:    性別
+        $email:     郵件帳戶
+        return boolean
+            true:   註冊成功
+            false:  註冊失敗，可能有重複ID
+        *各項資料請在前端就確認有無缺失 此function 沒有檢查功能
+
+    getCustomer()
+        取得全部顧客資料
+        return JSON檔
+
+    searchCustomer($str)
+        搜尋顧客資料
+        $str:   搜尋條件，可為ID或是名子
+        return JSON檔 所有符合搜尋條件的顧客完整資料
+    
+
+
