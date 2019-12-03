@@ -4,7 +4,7 @@ ex. $connection = new Bacon();
     $connection.login("123","456");
 
 *Bacon內的$dbName請先確認名稱是否與你建的資料庫名稱相同
-*確認table是否有建立成功
+*table會直接建立好 不須另外建立
 現有訂單類、顧客資料類功能，菜單類功能尚未加入
 
 function 介紹:
@@ -27,7 +27,7 @@ function 介紹:
         return boolean
             true:   有新訂單 (去執行 getNewOrder())
             false:  無新訂單
-            
+
     getFinishOrder(): JSON
         取得[已付款]與[拒絕]狀態的訂單
         return JSON檔

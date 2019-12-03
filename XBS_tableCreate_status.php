@@ -3,7 +3,7 @@
 
     
     try{
-        $sql = 'create table status(
+        $sqlStatus = 'create table status(
             data   int(1)   not NULL,
             isNew  boolean  not NULL,
             Primary key(data)

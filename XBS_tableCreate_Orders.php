@@ -3,7 +3,7 @@
 
     
     try{
-        $sql = 'create table Orders(
+        $sqlOrders = 'create table Orders(
 
             ID          varchar(15)     not NULL,
             GetTime     TIMESTAMP NULL,
