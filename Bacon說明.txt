@@ -3,13 +3,15 @@
 ex. $connection = new Bacon();
     $connection.login("123","456");
 
+*Bacon內的$dbName請先確認名稱是否與你建的資料庫名稱相同
+*確認table是否有建立成功
 現有訂單類、顧客資料類功能，菜單類功能尚未加入
 
 function 介紹:
 
     訂單類:
 
-    addOrder($ID,$GT,$FT,$user,$status,$price,$items)
+    addOrder($ID,$GT,$FT,$user,$status,$price,$items): void
         新增新的訂單
         $ID:        訂單編號
         $GT:        創建時間
@@ -19,17 +21,28 @@ function 介紹:
         $price:     價格
         $items      訂單內容(以JSON方式存入)
     
-    getFinishOrder()
+    checkNewOrder(): boolean
+        檢查有沒有新的訂單
+        *請前端用一個loop去執行確認
+        return boolean
+            true:   有新訂單 (去執行 getNewOrder())
+            false:  無新訂單
+            
+    getFinishOrder(): JSON
         取得[已付款]與[拒絕]狀態的訂單
         return JSON檔
 
-    getNotFinishOrder()
+    getUnFinishOrder(): JSON
         取得[未確認]、[未完成]與[已完成]的訂單
+        return JSON檔
+
+    getNewOrder(): JSON
+        只取得最新加入的訂單
         return JSON檔
 
     顧客資料類:
     
-    login($ID,$pw) //未完成 請先別使用
+    login($ID,$pw): boolean //未完成 請先別使用
         登入帳號
         $ID:    顧客ID
         $pw:    顧客帳號
@@ -37,7 +50,7 @@ function 介紹:
             true:   登入成功
             false:  登入失敗
     
-    register($ID,$pw,$name,$age,$gender,$email)
+    register($ID,$pw,$name,$age,$gender,$email): boolean
         註冊帳號
         $ID:        註冊ID(電話號碼)
         $pw:        註冊密碼
@@ -50,11 +63,11 @@ function 介紹:
             false:  註冊失敗，可能有重複ID
         *各項資料請在前端就確認有無缺失 此function沒有檢查功能
 
-    getCustomer()
+    getCustomer(): JSON
         取得全部顧客資料
         return JSON檔
 
-    searchCustomer($str)
+    searchCustomer($str): JSON
         搜尋顧客資料
         $str:   搜尋條件，可為ID或是名子
         return JSON檔 所有符合搜尋條件的顧客完整資料
