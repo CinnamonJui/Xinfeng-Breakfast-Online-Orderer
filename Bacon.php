@@ -93,11 +93,15 @@ class Bacon
                     VALUES ($ID,$GT,$FT,$user,$status,$price,$items);";
 
         $this->conn->exec($sql);
+
+        $sql = "UPDATE status SET isNew = true;";
+        $stmt=$this->conn->prepare($sql);
+        $stmt->execute();
     }
     //確認有無新訂單
     function checkNewOrder()
     {
-        $result = $this->conn->exec("SELECT status from CheckList where isNew=true");
+        $result = $this->conn->exec("SELECT status from CheckList where isNew=true;");
         $count = $result->fetchColumn();
         if ($count > 0) return true;
         else return false;
@@ -144,7 +148,7 @@ class Bacon
                 from Orders
                 WHERE is_read = 0;";
         $sql2 = "UPDATE Orders SET isRead = true WHERE isRead=false;";
-        $sql3 = "UPDATE status SET isNew = false";
+        $sql3 = "UPDATE status SET isNew = false;";
         try {
             $result = $this->conn->query($sql);
             $data = $result->fetchAll();
