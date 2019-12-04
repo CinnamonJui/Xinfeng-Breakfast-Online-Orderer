@@ -3,8 +3,9 @@
 ex. $connection = new Bacon();
     $connection.login("123","456");
 
+*請先執行一次"tableSet.php"確定table都建立完成
 *Bacon內的$dbName請先確認名稱是否與你建的資料庫名稱相同
-*table會直接建立好 不須另外建立
+
 現有訂單類、顧客資料類功能，菜單類功能尚未加入
 
 function 介紹:

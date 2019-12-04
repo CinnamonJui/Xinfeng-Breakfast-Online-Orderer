@@ -19,62 +19,6 @@ class Bacon
         } catch (PDOException $e) {
             //echo "No Bacon " . $e->getMessage();
         }
-
-
-
-        //預設table 與資料
-
-        $sqlInsertData = "INSERT INTO status (data,isNew)
-                    VALUES (1,false);";
-        $sqlOrders = 'create table Orders(
-
-            ID          varchar(15)     not NULL,
-            GetTime     TIMESTAMP NULL,
-            FnsTime     TIMESTAMP NULL,
-            user        varchar(15)     not NULL,
-            status      varchar(15)     not NULL,
-            price       integer(4)      not NULL,
-            items       nvarchar(4000)  not NULL,
-            isRead      boolean         not NULL,
-            Primary key(ID)
-        );
-        ALTER TABLE Orders
-            DEFAULT false for isRead;';
-
-        $sqlStatus = 'create table status(
-            data   int(1)   not NULL,
-            isNew  boolean  not NULL,
-            Primary key(data)
-        );';
-
-        $sqlAccount = "create table Account(	 
-        
-            ID 			nvarchar(15)     PRIMARY	KEY not null,  	
-            password 	nvarchar(20) 	not null	,  	
-            name 		nvarchar(20) 	not null	,   
-            age			integer(4) 	 	not null	,	
-            gender		nvarchar(10) 	not null	,	
-            email		nvarchar(40) 	not null	,	
-            total		integer(8)		default 0
-        );";
-
-        
-        try{
-            $this->conn->exec($sqlOrders);
-        }
-        catch (PDOException $e){}
-        try{
-            $this->conn->exec($sqlStatus);
-        }
-        catch (PDOException $e){}
-        try{
-            $this->conn->exec($sqlAccount);
-        }
-        catch (PDOException $e){}
-        try{
-            $this->conn->exec($sqlInsertData);
-        }
-        catch (PDOException $e){}
     }
 
     function __destruct()
