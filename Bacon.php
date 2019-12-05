@@ -28,18 +28,31 @@ class Bacon
 
     /*訂單***********************************/
     //存入訂單(顧客)
-    function addOrder($ID, $GT, $FT, $user, $status, $price, $items)
+    function addOrder($status, $ID, $price, $GT, $FT, $user,  $items)
     {
 
-        $sql = "INSERT INTO Orders (ID,GetTime,
-                                        FnsTime,user,
-                                        status,price,items)
-                    VALUES ($ID,$GT,$FT,$user,$status,$price,$items);";
+        $sql = "INSERT INTO Orders (status,ID,price,
+                                    GetTime,FnsTime,
+                                    user,items)
+                    VALUES (?,?,?,?,?,?,?);";
 
-        $this->conn->exec($sql);
+        $stmtI = $this->conn->prepare($sql);
+        $stmtI->bindParam(1, $status);
+        $stmtI->bindParam(2, $ID);
+        $stmtI->bindParam(3, $price);
+        $stmtI->bindParam(4, $GT);
+        $stmtI->bindParam(5, $FT);
+        $stmtI->bindParam(6, $user);
+        $stmtI->bindParam(7, $items);
 
+        try{
+            $stmtI->execute();
+        }
+        catch (PDOException $e){
+           // echo $e->getMessage();
+        }
         $sql = "UPDATE status SET isNew = true;";
-        $stmt=$this->conn->prepare($sql);
+        $stmt = $this->conn->prepare($sql);
         $stmt->execute();
     }
     //確認有無新訂單
@@ -56,7 +69,7 @@ class Bacon
 
         $sql = "SELECT * 
                 from Orders
-                WHERE status in ('已付款','拒絕') ;";
+                WHERE status in ('已付款','婉拒') ;";
 
         try {
             $result = $this->conn->query($sql);
@@ -80,14 +93,14 @@ class Bacon
             $data = $result->fetchAll();
             $data = json_encode($data);
             return $data;
-        } 
-        catch (PDOException $e) {
+        } catch (PDOException $e) {
             //echo $e->getMessage();
         }
     }
 
     //只取得新的未讀訂單
-    function getNewOrder(){
+    function getNewOrder()
+    {
         $sql = "SELECT * 
                 from Orders
                 WHERE is_read = 0;";
@@ -98,33 +111,33 @@ class Bacon
             $data = $result->fetchAll();
             $data = json_encode($data);
 
-            $stmt=$this->conn->prepare($sql2);
+            $stmt = $this->conn->prepare($sql2);
             $stmt->execute();
 
-            $stmt=$this->conn->prepare($sql3);
+            $stmt = $this->conn->prepare($sql3);
             $stmt->execute();
 
             return $data;
-        } 
-        catch (PDOException $e) {
+        } catch (PDOException $e) {
             //echo $e->getMessage();
         }
     }
 
-    function changeOrderStatus($ID,$status){
+    function changeOrderStatus($ID, $status)
+    {
         $sql = "UPDATE Orders
                 SET status = $status
                 WHERE ID = $ID;";
 
-        
+
         $this->conn->exec($sql);
     }
 
     /*顧客資料*******************************/
     //登入(顧客/老闆)
     function login($ID, $pw)
-    { 
-       /* $sql = "SELECT ID,password
+    {
+        /* $sql = "SELECT ID,password
                 from Account
                 Where ID=?;";
         try {
@@ -135,8 +148,7 @@ class Bacon
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
-*/
-    }
+*/ }
 
     //註冊(顧客) boolen true表示註冊成功 false表示有重複ID
     function register($ID, $pw, $name, $age, $gender, $email)

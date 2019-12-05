@@ -41,6 +41,11 @@ function 介紹:
         只取得最新加入的訂單[未確認]
         return JSON檔
 
+    changeOrderStatus($ID,$status): void
+        更改指定order的status
+        $ID 訂單的ID
+        $status 愈改成的狀態
+
     顧客資料類:
     
     login($ID,$pw): boolean //未完成 請先別使用
