@@ -115,7 +115,20 @@ class Bacon
     /*顧客資料*******************************/
     //登入(顧客/老闆)
     function login($ID, $pw)
-    { }
+    { 
+       /* $sql = "SELECT ID,password
+                from Account
+                Where ID=?;";
+        try {
+            $result = $this->conn->query($sql);
+            $customerData = $result->fetchAll();
+            $customerData = json_encode($customerData);
+            return $customerData;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+*/
+    }
 
     //註冊(顧客) boolen true表示註冊成功 false表示有重複ID
     function register($ID, $pw, $name, $age, $gender, $email)

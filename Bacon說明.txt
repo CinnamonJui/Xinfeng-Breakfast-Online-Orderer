@@ -30,7 +30,7 @@ function 介紹:
             false:  無新訂單
 
     getFinishOrder(): JSON
-        取得[已付款]與[拒絕]狀態的訂單
+        取得[已結帳]與[拒絕]狀態的訂單
         return JSON檔
 
     getUnFinishOrder(): JSON
@@ -38,7 +38,7 @@ function 介紹:
         return JSON檔
 
     getNewOrder(): JSON
-        只取得最新加入的訂單
+        只取得最新加入的訂單[未確認]
         return JSON檔
 
     顧客資料類:

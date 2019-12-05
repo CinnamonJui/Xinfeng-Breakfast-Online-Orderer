@@ -4,5 +4,6 @@ include_once 'Bacon.php';
 
 $bacon = new Bacon();
 
-$result = $bacon->searchCustomer($_POST['search']);
-print_r($result);
+$result = $bacon->login($_POST['search'],1);
+//print_r($result);
+echo $result;
