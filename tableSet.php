@@ -28,7 +28,7 @@ $sqlOrders = 'create table Orders(
     price       integer(4)      not NULL,
     GetTime     time NULL,
     FnsTime     time NULL,
-    user        varchar(128)    not NULL,    
+    user_ID        varchar(128)    not NULL,    
     items       nvarchar(4000)  not NULL,
     isRead      boolean         not NULL,
     Primary key(ID)
@@ -44,7 +44,7 @@ $sqlStatus = 'create table status(
 
 $sqlAccount = "create table Account(	 
         
-            ID 			nvarchar(128)     PRIMARY	KEY not null,  	
+            user_ID 			nvarchar(128)     PRIMARY	KEY not null,  	
             password 	nvarchar(128) 	not null	,  	
             name		nvarchar(128) 	not null	,   
             age			integer(4) 	 	not null	,	
@@ -90,16 +90,60 @@ catch (PDOException $e){
 $conn = new Bacon();
 
 $conn->addOrder("未確認", "19-10-05-029", "30",
- "11:40","12:50", "傑森史塔森", "0975975176", "培根蛋餅 x1 (30)");
+ "11:40","12:50", "0975975176", "培根蛋餅 x1 (30)");
 $conn->addOrder("準備中", "19-10-05-028", "175",
- "11:38", "12:40", "傑森史塔森", "0975975176", "起司蛋餅 x5 (175)");
+ "11:38", "12:40",  "0975975176", "起司蛋餅 x5 (175)");
 $conn->addOrder("已完成", "19-10-05-027", "60",
- "11:34", "12:30", "傑森史塔森", "0975975176", "卡拉雞腿堡 x1 (60)");
+ "11:34", "12:30",  "0975975176", "卡拉雞腿堡 x1 (60)");
 $conn->addOrder("已結帳", "19-10-05-026", "40",
- "11:32", "12:30", "傑森史塔森", "0975975176", "鮮奶茶 x1 (40)");
+ "11:32", "12:30",  "0975975176", "鮮奶茶 x1 (40)");
 $conn->addOrder("已結帳", "19-10-05-025", "130",
- "11:30", "12:25", "傑森史塔森", "0975975176", "鮪魚三明治 x3 (90)、鮮奶茶 x1 (40)");
+ "11:30", "12:25",  "0975975176", "鮪魚三明治 x3 (90)、鮮奶茶 x1 (40)");
 $conn->addOrder("婉拒", "19-10-05-024", "30",
- "11:20", "12:20", "傑森史塔森", "0975975176", "培根蛋餅 x1 (30)");
+ "11:20", "12:20",  "0975975176", "培根蛋餅 x1 (30)");
 $conn->addOrder("婉拒", "19-10-05-023", "60000",
- "11:10", "12:10", "傑森史塔森", "0975975176", "鮮奶茶 x1500 (60000)");
+ "11:10", "12:10",  "0975975176", "鮮奶茶 x1500 (60000)");
+
+$conn->register("0975975176","123","傑森史塔森",20,"男","sss@gmail.com");
+$conn->register("0987987987","456","小瑞",25,"女","156785978@gmail.com");
+$test = $conn-> getNewOrder();
+$test = json_decode($test,true);
+//echo $test;
+//print_r($test);
+foreach($test as $row)
+{
+    echo "<br>";
+    foreach($row as $key => $value)
+    {
+        echo $key." : ".$value."<br />";
+    }
+    
+}   
+if($conn->checkNewOrder()){
+    echo "isNew is true";
+}
+else{
+    echo "isNew is false";
+}
+
+
+/*$test = $conn->getNewOrder();
+$test = json_decode($test,true);
+echo "<br>";
+foreach($test as $row)
+{
+    echo "<br>";
+    foreach($row as $key => $value)
+    {
+        echo $key." : ".$value."<br />";
+    }
+    
+}   
+
+if($conn->checkNewOrder()){
+    echo "isNew is true";
+}
+else{
+    echo "isNew is false";
+}
+*/

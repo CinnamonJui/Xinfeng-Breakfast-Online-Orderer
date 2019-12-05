@@ -16,6 +16,7 @@ class Bacon
             $this->conn = new PDO('mysql:dbname=' . $this->dbName . ';host=' . $this->dbServername, $this->dbUsername, $this->dbPassword);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); //Error Handling
             $this->conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            $this->conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             //echo "No Bacon " . $e->getMessage();
         }
@@ -69,7 +70,8 @@ class Bacon
 
         $sql = "SELECT * 
                 from Orders
-                WHERE status in ('已付款','婉拒') ;";
+                WHERE status in ('已結帳','婉拒') 
+                ORDER BY  order_status DESC,order_ID DESC;";
 
         try {
             $result = $this->conn->query($sql);
@@ -84,13 +86,27 @@ class Bacon
     function getUnFinishOrder()
     {
 
-        $sql = "SELECT * 
+        $sql = "SELECT status,ID,price,
+                GetTime,FnsTime,
+                user,items 
                 from Orders
-                WHERE status in ('未確認','未完成','已完成');";
+                WHERE status in ('未確認','準備中','已完成')
+                ORDER BY  order_status DESC,order_ID DESC;";
 
         try {
             $result = $this->conn->query($sql);
             $data = $result->fetchAll();
+            
+            //echo "<br>count =".count($data)."<br>";
+            /*
+            foreach($data as $row)
+            {
+                foreach($row as $key => $value)
+                {
+                    echo $key." : ".$value."<br />";
+                }
+            }   
+            */
             $data = json_encode($data);
             return $data;
         } catch (PDOException $e) {
@@ -103,7 +119,8 @@ class Bacon
     {
         $sql = "SELECT * 
                 from Orders
-                WHERE is_read = 0;";
+                WHERE is_read = 0;
+                ORDER BY  order_status DESC,order_ID DESC";
         $sql2 = "UPDATE Orders SET isRead = true WHERE isRead=false;";
         $sql3 = "UPDATE status SET isNew = false;";
         try {

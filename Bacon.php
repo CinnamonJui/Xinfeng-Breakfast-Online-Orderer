@@ -16,6 +16,7 @@ class Bacon
             $this->conn = new PDO('mysql:dbname=' . $this->dbName . ';host=' . $this->dbServername, $this->dbUsername, $this->dbPassword);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); //Error Handling
             $this->conn->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            $this->conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             //echo "No Bacon " . $e->getMessage();
         }
@@ -28,12 +29,12 @@ class Bacon
 
     /*訂單***********************************/
     //存入訂單(顧客)
-    function addOrder($status, $ID, $price, $GT, $FT, $user,  $items)
+    function addOrder($status, $ID, $price, $GT, $FT, $user, $items) //ok
     {
 
         $sql = "INSERT INTO Orders (status,ID,price,
                                     GetTime,FnsTime,
-                                    user,items)
+                                    user_ID,items)
                     VALUES (?,?,?,?,?,?,?);";
 
         $stmtI = $this->conn->prepare($sql);
@@ -47,29 +48,34 @@ class Bacon
 
         try{
             $stmtI->execute();
+            $sql = "UPDATE status SET isNew = true;";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
         }
         catch (PDOException $e){
            // echo $e->getMessage();
         }
-        $sql = "UPDATE status SET isNew = true;";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute();
+        
     }
     //確認有無新訂單
     function checkNewOrder()
     {
-        $result = $this->conn->exec("SELECT status from CheckList where isNew=true;");
-        $count = $result->fetchColumn();
-        if ($count > 0) return true;
+        $result = $this->conn->query("SELECT isNew from status where isNew=true;");
+        $result = $result->fetch();
+        print_r($result);
+        if ($result["isNew"]) return true;
         else return false;
     }
     //取得訂單資訊(老闆)
-    function getFinishOrder()
+    function getFinishOrder() //ok
     {
 
-        $sql = "SELECT * 
-                from Orders
-                WHERE status in ('已付款','婉拒') ;";
+        $sql = "SELECT status,ID,price,
+                GetTime,FnsTime,name,
+                user_ID,items
+                from Orders natural join account
+                WHERE status in ('已結帳','婉拒') 
+                ORDER BY  status DESC,ID DESC;";
 
         try {
             $result = $this->conn->query($sql);
@@ -81,16 +87,30 @@ class Bacon
         }
     }
     //取得結束訂單
-    function getUnFinishOrder()
+    function getUnFinishOrder() //ok
     {
 
-        $sql = "SELECT * 
-                from Orders
-                WHERE status in ('未確認','未完成','已完成');";
+        $sql = "SELECT status,ID,price,
+                GetTime,FnsTime,name,
+                user_ID,items
+                from Orders natural join account
+                WHERE status in ('未確認','準備中','已完成') 
+                ORDER BY status DESC,ID DESC;";
 
         try {
             $result = $this->conn->query($sql);
             $data = $result->fetchAll();
+            
+            //echo "<br>count =".count($data)."<br>";
+            /*
+            foreach($data as $row)
+            {
+                foreach($row as $key => $value)
+                {
+                    echo $key." : ".$value."<br />";
+                }
+            }   
+            */
             $data = json_encode($data);
             return $data;
         } catch (PDOException $e) {
@@ -99,28 +119,40 @@ class Bacon
     }
 
     //只取得新的未讀訂單
-    function getNewOrder()
+    function getNewOrder() //ok
     {
-        $sql = "SELECT * 
-                from Orders
-                WHERE is_read = 0;";
-        $sql2 = "UPDATE Orders SET isRead = true WHERE isRead=false;";
-        $sql3 = "UPDATE status SET isNew = false;";
+        $sql = "SELECT status,ID,price,
+                GetTime,FnsTime,name,
+                user_ID,items
+                from Orders natural join account
+                WHERE isRead = 0
+                ORDER BY status DESC,ID DESC;";
+        $sql2 = "UPDATE Orders SET isRead = 1 WHERE isRead= 0;";
+        $sql3 = "UPDATE status SET isNew = 0;";
+        
+        
+
         try {
             $result = $this->conn->query($sql);
             $data = $result->fetchAll();
             $data = json_encode($data);
+            //print_r($data);
+            //return $data;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
 
+        try{
             $stmt = $this->conn->prepare($sql2);
             $stmt->execute();
 
             $stmt = $this->conn->prepare($sql3);
             $stmt->execute();
-
-            return $data;
-        } catch (PDOException $e) {
-            //echo $e->getMessage();
         }
+        catch( PDOException $e){
+
+        }
+        return $data;
     }
 
     function changeOrderStatus($ID, $status)
@@ -128,7 +160,6 @@ class Bacon
         $sql = "UPDATE Orders
                 SET status = $status
                 WHERE ID = $ID;";
-
 
         $this->conn->exec($sql);
     }
@@ -156,7 +187,7 @@ class Bacon
 
         $sqlFind = "SELECT COUNT(*) 
                     from Account
-                    WHERE ID=?;";
+                    WHERE user_ID=?;";
         $stmtF = $this->conn->prepare($sqlFind);
         $stmtF->bindParam(1, $ID);
         $stmtF->execute();
@@ -166,7 +197,7 @@ class Bacon
         if ($count > 0) {
             return false;
         } else {
-            $sqlInsert = "INSERT INTO Account (ID,password,
+            $sqlInsert = "INSERT INTO Account (user_ID,password,
                                         name,age,
                                         gender,email)
                     VALUES (?,?,?,?,?,?);";

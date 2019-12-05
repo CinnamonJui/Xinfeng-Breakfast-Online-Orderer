@@ -3,7 +3,7 @@
 ex. $connection = new Bacon();
     $connection.login("123","456");
 
-*請先執行一次"tableSet.php"確定table都建立完成
+*請先執行一次"tableSet.php"確定table都建立完成 以及匯入測試資料
 *Bacon內的$dbName請先確認名稱是否與你建的資料庫名稱相同
 
 現有訂單類、顧客資料類功能，菜單類功能尚未加入
@@ -12,16 +12,17 @@ function 介紹:
 
     訂單類:
 
-    addOrder($ID,$GT,$FT,$user,$status,$price,$items): void
+    addOrder($status, $ID, $price, $GT, $FT, $user, $items): void
         新增新的訂單
+        $status:    狀態 (請預設為未確認)
         $ID:        訂單編號
+        $price:     價格
         $GT:        創建時間
         $FT:        完成時間
         $user:      訂單的客戶ID
-        $status:    狀態 (請預設為未確認)
-        $price:     價格
         $items      訂單內容(以JSON方式存入)
-    
+        *注意不用存入客戶名稱 取出時會給不用擔心
+
     checkNewOrder(): boolean
         檢查有沒有新的訂單
         *請前端用一個loop去執行確認

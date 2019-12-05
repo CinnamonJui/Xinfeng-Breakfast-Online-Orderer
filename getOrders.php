@@ -1,4 +1,9 @@
-<?php require_once 'login.php';
+<?php 
+    
+    $hn = "localhost";
+    $un = "root";
+    $db ="XBS";
+    $pw ="";
     $conn=new mysqli($hn,$un,$pw,$db);
     if ($conn->connect_error) 
         die("Fatal Error");
@@ -12,14 +17,14 @@
         $order_status=$_POST['order_status'];
         $order_ID=$_POST['order_ID'];
         //UPDATE orders SET order_status = '未確認' WHERE order_ID = '19-10-05-023';
-        $query="UPDATE orders SET order_status = '$order_status' WHERE order_ID = '$order_ID'";
+        $query="UPDATE orders SET status = '$order_status' WHERE ID = '$order_ID'";
         $result=$conn->query($query);
         if(!$result)
             die($query);
             $result->close();
     }
     
-    $query="SELECT * FROM orders WHERE order_status in $history ORDER BY  order_status DESC,order_ID DESC";
+    $query="SELECT * FROM orders WHERE status in $history ORDER BY  status DESC,ID DESC";
     $result=$conn->query($query);
     if(!$result)
         die("get data fail");

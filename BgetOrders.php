@@ -18,5 +18,5 @@
         $conn->changeOrderStatus($order_ID,$order_status);
     }
 
-    if($result!="{}") 
-        echo $result;
+    //if($result!="{}") 
+    echo ($result);

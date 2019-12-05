@@ -54,7 +54,7 @@ function getHistory(check = 0, order_status = null, order_ID = null) {
     console.log(order_status, order_ID);
     let xhr = new XMLHttpRequest();
     let send_data;
-    xhr.open("POST", "BGetOrders.php", true);
+    xhr.open("POST", "BgetOrders.php", true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     if (check == 1) {
         send_data = "order_history=" + order_history.value;
