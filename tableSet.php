@@ -106,30 +106,11 @@ $conn->addOrder("婉拒", "19-10-05-023", "60000",
 
 $conn->register("0975975176","123","傑森史塔森",20,"男","sss@gmail.com");
 $conn->register("0987987987","456","小瑞",25,"女","156785978@gmail.com");
-$test = $conn-> getNewOrder();
-$test = json_decode($test,true);
-//echo $test;
-//print_r($test);
-foreach($test as $row)
-{
-    echo "<br>";
-    foreach($row as $key => $value)
-    {
-        echo $key." : ".$value."<br />";
-    }
-    
-}   
-if($conn->checkNewOrder()){
-    echo "isNew is true";
-}
-else{
-    echo "isNew is false";
-}
 
-
-/*$test = $conn->getNewOrder();
+echo "<br>Order 格式<br>";
+$test = $conn-> getUnFinishOrder();
 $test = json_decode($test,true);
-echo "<br>";
+
 foreach($test as $row)
 {
     echo "<br>";
@@ -140,6 +121,21 @@ foreach($test as $row)
     
 }   
 
+echo "<br>Account 格式<br>";
+$test = $conn-> getCustomer();
+$test = json_decode($test,true);
+
+foreach($test as $row)
+{
+    echo "<br>";
+    foreach($row as $key => $value)
+    {
+        echo $key." : ".$value."<br />";
+    }
+    
+}   
+
+/*
 if($conn->checkNewOrder()){
     echo "isNew is true";
 }
