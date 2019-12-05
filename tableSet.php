@@ -19,12 +19,12 @@ $sqlInsertData = "INSERT INTO status (data,isNew)
                     VALUES (1,false);";
 $sqlOrders = 'create table Orders(
 
-    ID          varchar(15)     not NULL,
-    GetTime     TIMESTAMP NULL,
-    FnsTime     TIMESTAMP NULL,
-    user        varchar(15)     not NULL,
-    status      varchar(15)     not NULL,
+    status      varchar(128)    not NULL,
+    ID          varchar(128)    not NULL,
     price       integer(4)      not NULL,
+    GetTime     time NULL,
+    FnsTime     time NULL,
+    user        varchar(128)    not NULL,    
     items       nvarchar(4000)  not NULL,
     isRead      boolean         not NULL,
     Primary key(ID)
@@ -40,9 +40,9 @@ $sqlStatus = 'create table status(
 
 $sqlAccount = "create table Account(	 
         
-            ID 			nvarchar(15)     PRIMARY	KEY not null,  	
-            password 	nvarchar(20) 	not null	,  	
-            name 		nvarchar(20) 	not null	,   
+            ID 			nvarchar(128)     PRIMARY	KEY not null,  	
+            password 	nvarchar(128) 	not null	,  	
+            name		nvarchar(128) 	not null	,   
             age			integer(4) 	 	not null	,	
             gender		nvarchar(10) 	not null	,	
             email		nvarchar(40) 	not null	,	
