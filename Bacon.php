@@ -192,7 +192,8 @@ class Bacon
         $stmtF->bindParam(1, $ID);
         $stmtF->execute();
         $count = $stmtF->fetchColumn();
-        //echo "123".$count;
+        
+        //echo "count is " .$count;
 
         if ($count > 0) {
             return false;
@@ -251,4 +252,64 @@ class Bacon
             echo $e->getMessage();
         }
     }
+
+    /*菜單*******************************/
+    
+    function addItem($ID,$type,$name,$price,$picture,$info){
+        $sqlFind = "SELECT COUNT(*) 
+                    from Item
+                    WHERE ID=?;";
+        $stmtF = $this->conn->prepare($sqlFind);
+        $stmtF->bindParam(1, $ID);
+        $stmtF->execute();
+        $count = $stmtF->fetchColumn();
+        if($count>0){
+            return false;
+        }
+        else {
+            $sql = "INSERT INTO Item (ID,type,name,price,picture,info) VALUES (?,?,?,?,?,?);";
+            $stmtI = $this->conn->prepare($sql);
+            $stmtI->bindParam(1, $ID);
+            $stmtI->bindParam(2, $type);
+            $stmtI->bindParam(3, $name);
+            $stmtI->bindParam(4, $price);
+            $stmtI->bindParam(5, $picture);
+            $stmtI->bindParam(6, $info);
+            $stmtI->execute();
+
+            return true;
+        }
+    }
+    function editItem($ID,$name,$type,$price,$picture,$info){
+
+        $sql = "UPDATE Item SET name = ?,type = ? ,price = ?,pictuer = ?, info = ? WHERE ID = ?;";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(1, $name);
+        $stmt->bindParam(2, $type);
+        $stmt->bindParam(3, $price);
+        $stmt->bindParam(4, $picture);
+        $stmt->bindParam(5, $info);
+        $stmt->bindParam(6, $ID);
+        
+        try{
+            $stmt->execute();
+            return true;
+        }
+        catch (PDOException $e){
+           return false;
+        }
+    }
+    function delItem($ID){
+        $sql = "DELETE Item where ID = ?;";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(1,$ID);
+        try{
+            $stmt->execute();
+            return true;
+        }
+        catch(PDOException $e){
+            return false;
+        }
+    }
+
 }

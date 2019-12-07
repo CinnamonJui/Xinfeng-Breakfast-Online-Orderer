@@ -44,7 +44,7 @@ $sqlStatus = 'create table status(
 
 $sqlAccount = "create table Account(	 
         
-            user_ID 			nvarchar(128)     PRIMARY	KEY not null,  	
+            user_ID     nvarchar(128)     PRIMARY	KEY not null,  	
             password 	nvarchar(128) 	not null	,  	
             name		nvarchar(128) 	not null	,   
             age			integer(4) 	 	not null	,	
@@ -52,6 +52,26 @@ $sqlAccount = "create table Account(
             email		nvarchar(40) 	not null	,	
             total		integer(8)		default 0
 );";
+
+$sqlItem="create table Item(
+    ID          varchar(128)    not NULL,
+    type        varchar(15)     not NULL,
+    name        nvarchar(128)   not NULL,
+    price       integer(4)      not NULL,
+    picture     varchar(200),
+    info       nvarchar(4000)   not NULL,
+    Primary key(ID)
+);";
+
+$sqlCombo ="create table Combo(
+    ID          nvarchar(128)   not NULL,
+    name        nvarchar(128)   not NULL,
+    price       integer(4)      not NULL,
+    picture     varchar(200),
+    items       nvarchar(4000)  not NULL,
+    Primary key(ID)
+);";
+
 
         
 try{
@@ -79,12 +99,31 @@ catch (PDOException $e){
 }
 echo "<br>";
 try{
+    $conn->exec($sqlItem);
+    echo "Item table success";
+}
+catch (PDOException $e){
+    echo  $e->getMessage();
+}
+echo "<br>";
+try{
+    $conn->exec($sqlCombo);
+    echo "Combo table success";
+}
+catch (PDOException $e){
+    echo  $e->getMessage();
+}
+
+
+echo "<br>";
+try{
     $conn->exec($sqlInsertData);
     echo "initialize success";
     }
 catch (PDOException $e){
     echo  $e->getMessage();
 }
+
     
 
 $conn = new Bacon();
