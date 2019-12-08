@@ -282,7 +282,7 @@ class Bacon
     }
     function editItem($ID,$name,$type,$price,$picture,$info){
 
-        $sql = "UPDATE Item SET name = ?,type = ? ,price = ?,pictuer = ?, info = ? WHERE ID = ?;";
+        $sql = "UPDATE Item SET name = ?,type = ? ,price = ?,picture = ?, info = ? WHERE ID = ?;";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(1, $name);
         $stmt->bindParam(2, $type);
@@ -311,5 +311,36 @@ class Bacon
             return false;
         }
     }
-
+    function searchItem($str)
+    {
+        $searchResult = array();
+        $sql = "SELECT * FROM Item WHERE name LIKE '%" . $str . "%';";
+        try 
+		{
+            $result = $this->conn->query($sql);
+            $searchResult = $result->fetchAll();
+            $searchResult = json_encode($searchResult);
+            return $searchResult;
+        } 
+		catch (PDOException $e) 
+		{
+            echo 'searchItem error<br>';
+        }
+    }
+	function getItem()
+    {
+       
+        $sql = "SELECT * FROM Item;";
+        try 
+		{
+            $result = $this->conn->query($sql);
+            $itemData = $result->fetchAll();
+            $itemData = json_encode($itemData);
+            return $itemData;
+        } 
+		catch (PDOException $e) 
+		{
+            echo 'getItem error';
+        }
+    }
 }
