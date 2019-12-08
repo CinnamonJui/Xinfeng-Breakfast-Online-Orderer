@@ -15,31 +15,31 @@
     <h1>新豐早餐店會員註冊</h1>
 
     <form action="#" method="POST">
-      <input class="login-data" type="tel" pattern="\d{10}" name="user_ID" placeholder="手機" required>
-      <input class="login-data" type="password" name="user_password" placeholder="密碼" required>
-      <input class="login-data" type="password" name="user_password_repeat" placeholder="密碼確認" required>
-      <input class="login-data" type="text" name="user_name" placeholder="姓名" required>
+      <input class="login-data" type="tel" pattern="\d{10}" name="tel" placeholder="手機" required>
+      <input class="login-data" type="password" name="password" placeholder="密碼" required>
+      <input class="login-data" type="password" name="password_repeat" placeholder="密碼確認" required>
+      <input class="login-data" type="text" name="name" placeholder="姓名" required>
 
-      <input style="width: 100%;" class="login-data" type="number" min="8" max="150" name="user_age" placeholder="年齡" required>
+      <input style="width: 100%;" class="login-data" type="number" min="8" max="150" name="age" placeholder="年齡" required>
       <div class="sex-section">
         <span style="font-size: 1.5rem;">性別:</span>
         <label>
-          <input type="radio" name="user_gender" value="男" required>
+          <input type="radio" name="gender" value="男" required>
           <span>男</span>
         </label>
         <label>
-          <input type="radio" name="user_gender" value="女" required>
+          <input type="radio" name="gender" value="女" required>
           <span>女</span>
         </label>
       </div>
-      <input class="login-data" type="email" name="user_email" placeholder="信箱" required>
+      <input class="login-data" type="email" name="email" placeholder="信箱" required>
       <div class="reg-or-cancel">
         <input class="action-btn" type="submit" value="註冊">
         <input class="action-btn" type="button" value="取消" onclick="location.href='./login.html';">
       </div>
     </form>
   </div>
-
+  <script src="javascripts/register.js"></script>
 </body>
 
 </html>
