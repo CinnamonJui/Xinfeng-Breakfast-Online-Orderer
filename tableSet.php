@@ -56,7 +56,6 @@ $sqlAccount = "create table Account(
 $sqlItem="create table Item(
     ID          varchar(128)    not NULL,
     type        varchar(15)     not NULL,
-    name        nvarchar(128)   not NULL,
     price       integer(4)      not NULL,
     picture     varchar(200),
     info       nvarchar(4000)   not NULL,
@@ -65,10 +64,10 @@ $sqlItem="create table Item(
 
 $sqlCombo ="create table Combo(
     ID          nvarchar(128)   not NULL,
-    name        nvarchar(128)   not NULL,
     price       integer(4)      not NULL,
     picture     varchar(200),
     items       nvarchar(4000)  not NULL,
+    info        nvarchar(4000),
     Primary key(ID)
 );";
 

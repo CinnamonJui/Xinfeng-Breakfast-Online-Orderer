@@ -5,8 +5,9 @@ ex. $connection = new Bacon();
 
 *請先執行一次"tableSet.php"確定table都建立完成 以及匯入測試資料
 *Bacon內的$dbName請先確認名稱是否與你建的資料庫名稱相同
+*若以前有跑過而有誤請先刪除table重新跑一次
 
-現有訂單類、顧客資料類功能，菜單類功能尚未加入
+現有訂單類、顧客資料類、菜單類、套餐類功能
 
 function 介紹:
 
@@ -49,7 +50,7 @@ function 介紹:
 
     顧客資料類:
     
-    login($ID,$pw): boolean //未完成 請先別使用
+    login($ID,$pw): boolean
         登入帳號
         $ID:    顧客ID
         $pw:    顧客帳號
@@ -79,5 +80,83 @@ function 介紹:
         $str:   搜尋條件，可為ID或是名子
         return JSON檔 所有符合搜尋條件的顧客完整資料
     
+    餐點類:
 
+    addItem($ID,$type,$price,$picture,$info): boolean
+        新增餐點
+        $ID 餐點的名稱作為primary key 所以更改無法改名稱
+        $type 菜單的種類
+        $price 餐點價格
+        $picture 餐點的照片路徑
+        $info 餐點說明
+        return boolean
+            true: 增加成功
+            false:增加失敗
+    
+    editItem($ID,$type,$price,$picture,$info): boolean
+        修改餐點 修改方式請直接輸入修改後的餐點資訊即可
+        $ID 餐點的名稱作為primary key 所以更改無法改名稱
+        $type 菜單的種類
+        $price 餐點價格
+        $picture 餐點的照片路徑
+        $info 餐點說明
+        return boolean
+            true: 修改成功
+            false:修改失敗
+
+    delItem($ID): boolean
+        刪除餐點 輸入欲刪除的餐點名稱
+        $ID 餐點的名稱
+        return boolean
+            true: 刪除成功
+            false:刪除失敗
+
+    searchItem($str): JSON
+        搜尋餐點
+        $str 搜尋的字串 可為餐點名稱 或 類別
+        return JSON檔
+    
+    getItem(): JSON
+        取得所有餐點資訊
+        return JSON檔
+
+    套餐類:
+
+    addCombo($ID, $price, $picture, $items, $info): boolean
+        新增套餐
+        $ID 套餐名稱
+        $price 套餐價格
+        $picture 套餐圖片路徑
+        $item 套餐內容
+        $info 套餐說明
+        return boolean
+            true: 新增成功
+            false:新增失敗
+    
+    editCombo($ID,$price,$picture,$items,$info): boolean
+        修改套餐 修改方式請直接輸入修改後套餐資料即可
+        $ID 套餐名稱
+        $price 套餐價格
+        $picture 套餐圖片路徑
+        $item 套餐內容
+        $info 套餐說明
+        return boolean
+            true: 修改成功
+            false:修改失敗
+
+    delCombo($ID):boolean 
+        刪除套餐 輸入欲刪除的套餐名稱
+        $ID 套餐的名稱
+        return boolean
+            true: 刪除成功
+            false:刪除失敗
+
+    searchCombo($str): JSON
+        搜尋餐點
+        $str 搜尋的字串 搜尋套餐名稱
+        return JSON檔
+
+    getCombo(): JSON
+        取得所有套餐資訊
+        return JSON檔
 

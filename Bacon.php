@@ -168,18 +168,23 @@ class Bacon
     //登入(顧客/老闆)
     function login($ID, $pw)
     {
-        /* $sql = "SELECT ID,password
+         $sql = "SELECT user_ID,password
                 from Account
-                Where ID=?;";
+                Where user_ID=:ID;";
         try {
-            $result = $this->conn->query($sql);
-            $customerData = $result->fetchAll();
-            $customerData = json_encode($customerData);
-            return $customerData;
+            $query = $this->conn->prepare($sql);
+            $query->bindParam(":ID",$ID);
+            $query->execute();
+            $data = $query->fetch();
+            $checkpw = $data["password"];
+            if($checkpw==$pw)return true;
+            else return false;
+            
+            //return $customerData;
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
-*/ }
+ }
 
     //註冊(顧客) boolen true表示註冊成功 false表示有重複ID
     function register($ID, $pw, $name, $age, $gender, $email)
@@ -253,9 +258,9 @@ class Bacon
         }
     }
 
-    /*菜單*******************************/
+    /***********************菜單*********************/
     
-    function addItem($ID,$type,$name,$price,$picture,$info){
+    function addItem($ID,$type,$price,$picture,$info){
         $sqlFind = "SELECT COUNT(*) 
                     from Item
                     WHERE ID=?;";
@@ -267,29 +272,29 @@ class Bacon
             return false;
         }
         else {
-            $sql = "INSERT INTO Item (ID,type,name,price,picture,info) VALUES (?,?,?,?,?,?);";
+            $sql = "INSERT INTO Item (ID,type,price,picture,info) VALUES (?,?,?,?,?);";
             $stmtI = $this->conn->prepare($sql);
             $stmtI->bindParam(1, $ID);
             $stmtI->bindParam(2, $type);
-            $stmtI->bindParam(3, $name);
-            $stmtI->bindParam(4, $price);
-            $stmtI->bindParam(5, $picture);
-            $stmtI->bindParam(6, $info);
+            
+            $stmtI->bindParam(3, $price);
+            $stmtI->bindParam(4, $picture);
+            $stmtI->bindParam(5, $info);
             $stmtI->execute();
 
             return true;
         }
     }
-    function editItem($ID,$name,$type,$price,$picture,$info){
+    function editItem($ID,$type,$price,$picture,$info){
 
-        $sql = "UPDATE Item SET name = ?,type = ? ,price = ?,picture = ?, info = ? WHERE ID = ?;";
+        $sql = "UPDATE Item SET type = ? ,price = ?,picture = ?, info = ? WHERE ID = ?;";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(1, $name);
-        $stmt->bindParam(2, $type);
-        $stmt->bindParam(3, $price);
-        $stmt->bindParam(4, $picture);
-        $stmt->bindParam(5, $info);
-        $stmt->bindParam(6, $ID);
+        
+        $stmt->bindParam(1, $type);
+        $stmt->bindParam(2, $price);
+        $stmt->bindParam(3, $picture);
+        $stmt->bindParam(4, $info);
+        $stmt->bindParam(5, $ID);
         
         try{
             $stmt->execute();
@@ -300,7 +305,7 @@ class Bacon
         }
     }
     function delItem($ID){
-        $sql = "DELETE Item where ID = ?;";
+        $sql = "DELETE from Item where ID = ?;";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(1,$ID);
         try{
@@ -314,17 +319,30 @@ class Bacon
     function searchItem($str)
     {
         $searchResult = array();
-        $sql = "SELECT * FROM Item WHERE name LIKE '%" . $str . "%';";
+        /*$sql = "SELECT * FROM Item WHERE ID LIKE '%" . $str . "%'
+                or type like '%" . $str . "%';";*/
+        
+        $sql = "SELECT * FROM Item WHERE ID LIKE :keyword1
+                or type like :keyword2;";
         try 
 		{
-            $result = $this->conn->query($sql);
+            
+            /*$result = $this->conn->query($sql);
             $searchResult = $result->fetchAll();
             $searchResult = json_encode($searchResult);
-            return $searchResult;
+            return $searchResult;*/
+            
+            $query = $this->conn->prepare($sql);
+            $query->bindValue(':keyword1','%'.$str.'%',PDO::PARAM_STR);
+            $query->bindValue(':keyword2','%'.$str.'%',PDO::PARAM_STR);
+            $query->execute();
+            $result= $query->fetchAll();
+            $result = json_encode($result);
+            return $result;
         } 
 		catch (PDOException $e) 
 		{
-            echo 'searchItem error<br>';
+            echo $e->getMessage();
         }
     }
 	function getItem()
@@ -340,7 +358,111 @@ class Bacon
         } 
 		catch (PDOException $e) 
 		{
-            echo 'getItem error';
+            echo $e->getMessage();
+        }
+    }
+    /*******************combo***********************/
+    function addCombo($ID, $price, $picture, $items,$info)
+    {
+
+        $sqlFind = "SELECT COUNT(*) 
+                    from Combo
+                    WHERE ID=?;";
+        $stmtF = $this->conn->prepare($sqlFind);
+        $stmtF->bindParam(1, $ID);
+        $stmtF->execute();
+        $count = $stmtF->fetchColumn();
+
+        if ($count > 0) {
+            return false;
+        } else {
+            try{
+                $sqlInsert = "INSERT INTO Combo (ID,
+                                        price,picture,items,info)
+                    VALUES (?,?,?,?,?);";
+
+            $stmtI = $this->conn->prepare($sqlInsert);
+            $stmtI->bindParam(1, $ID);
+            $stmtI->bindParam(2, $price);
+            $stmtI->bindParam(3, $picture);
+            $stmtI->bindParam(4, $items);
+            $stmtI->bindParam(5, $info);
+
+            $stmtI->execute();
+            }catch(PDOException $e){
+                echo $e->getMessage();            
+            }
+            
+            return true;
+        }
+    }
+    //編輯combo
+	function editCombo($ID,$price,$picture,$items,$info)
+	{
+        $sql = "UPDATE Combo SET price = ?, picture = ?, items = ?,info = ? WHERE ID = ?;";
+        
+		try
+		{
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(1,$price);
+            $stmt->bindParam(2,$picture);
+            $stmt->bindParam(3,$items);
+            $stmt->bindParam(4,$info);
+            $stmt->bindParam(5,$ID);
+
+            $stmt->execute();
+        }
+        catch (PDOException $e)
+		{
+           echo $e->getMessage();   
+        }
+	}
+	//刪除combo
+	function delCombo($ID)
+	{
+		$sql = "DELETE FROM Combo where ID = ?";
+		try
+		{
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(1,$ID);
+            $stmt->execute();
+        }
+        catch (PDOException $e)
+		{
+            echo $e->getMessage();   
+        }
+	}
+	function searchCombo($str)
+    {
+        $searchResult = array();
+        $sql = "SELECT * FROM Combo WHERE ID LIKE '%" . $str . "%';";
+                
+        try 
+		{
+            $result = $this->conn->query($sql);
+            $searchResult = $result->fetchAll();
+            $searchResult = json_encode($searchResult);
+            return $searchResult;
+        }
+		catch (PDOException $e) 
+		{
+            echo $e->getMessage();   
+        }
+    }
+	function getCombo()
+    {
+        $comboData = array();
+        $sql = "SELECT * FROM Combo;";
+        try 
+		{
+            $result = $this->conn->query($sql);
+            $comboData = $result->fetchAll();
+            $comboData = json_encode($comboData);
+            return $comboData;
+        } 
+		catch (PDOException $e) 
+		{
+            echo $e->getMessage();   
         }
     }
 }
