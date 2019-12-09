@@ -73,8 +73,11 @@ $(() => {
                 let $target = $(e.target);
                 let $itemNum;
                 let itemNum;
+                let itemPrice;
                 cart = JSON.parse(localStorage.getItem('cart')) || {};
                 itemName = $target.closest('tr, .combo').find('> .title').text();
+                itemPrice = $target.closest('tr, .combo').find('> .price').text();
+                console.log(itemPrice);
                 switch ($target.index()) {
                     case 0:
                         $itemNum = $target.next();
@@ -90,7 +93,7 @@ $(() => {
                         $itemNum.text(itemNum >= 100 ? 100 : itemNum + 1);
                         break;
                 }
-                cart[itemName] = $itemNum.text();
+                cart[itemName] = $itemNum.text() + "," + itemPrice * $itemNum.text();
                 localStorage.setItem('cart', JSON.stringify(cart));
             });
 
