@@ -361,6 +361,23 @@ class Bacon
             echo $e->getMessage();
         }
     }
+
+    function getType(){
+        $sql = "SELECT distinct type
+                from Item
+                ORDER BY `type` ASC;";
+        try{
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+            $result = json_encode($result);
+            return $result;
+        }
+        catch(PDOException $e){
+
+        }
+        
+    }
     /*******************combo***********************/
     function addCombo($ID, $price, $picture, $items,$info)
     {
