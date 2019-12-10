@@ -469,10 +469,12 @@ class Bacon
             $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(1,$ID);
             $stmt->execute();
+            return true;
         }
         catch (PDOException $e)
 		{
-            echo $e->getMessage();   
+            //echo $e->getMessage();   
+            return false;
         }
 	}
 	function searchCombo($str)
