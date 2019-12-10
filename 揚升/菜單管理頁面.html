@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>使用者數據頁面</title>
+    <link rel="stylesheet" type="text/css" href="菜單管理頁面.css">
+    <script src="菜單管理頁面.js"></script>
+</head>
+
+<body>
+    <div class="left">
+        <div class="title_block">
+            <div class="title">菜單管理&ensp;</div>
+            <div class="title_back">
+                <input class="string" id="string" type="text" placeholder="Search...">
+                <input class="search" id="search" type="button" value="搜尋">
+            </div>
+        </div>
+        <div class="blank"></div>
+        <div class="item">
+            <div class="caption">品項管理</div>
+            <div class="blank"></div>
+            <div class="item_left">
+                <div class="att_block">
+                    <label>分類</label>
+                    <select id="item_type" class="att_type_str">
+                    </select>
+                </div>
+                <div class="blank"></div>
+                <div class="att_block">
+                    <label>名稱</label>
+                    <input id="item_name" class="att_str" type="text">
+                </div>
+                <div class="blank"></div>
+                <div class="att_block">
+                    <label>單價</label>
+                    <input id="item_price" class="att_str" type="text">
+                </div>
+                <div class="blank"></div>
+                <div class="att_block">
+                    <label>圖片</label>
+                    <input id="item_picture" class="att_pic_str" type="text" disabled>
+                    <label class="upload">
+                    <input id="item_upload" type="file" style="display:none;" accept="image/*">上傳</label>
+                </div>
+                <div class="blank"></div>
+                <label class="item_info">說明</label>
+                <textarea id="item_info" class="item_info_str"></textarea>
+                <input class="add_refresh" id="item_add" type="button" value="新增/更新">
+
+            </div>
+            <div class="item_right">
+                <table>
+                    <thead>
+                        <select id="thead" class="item_type_search"></select>
+                    </thead>
+                    <tbody id="item_tbody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="right">
+        <div class="caption">套餐管理</div>
+        <div class="blank"></div>
+        <div class="combo_left">
+            <div class="att_block">
+                <label>名稱</label>
+                <input id="combo_name" class="att_str" type="text">
+            </div>
+            <div class="blank"></div>
+            <div class="att_block">
+                <label>單價</label>
+                <input id="combo_price" class="att_str" type="text">
+            </div>
+            <div class="blank"></div>
+            <div class="att_block">
+                <label>圖片</label>
+                <input id="combo_picture" class="att_pic_str" type="text" disabled>
+                <label class="upload">
+                    <input id="combo_upload" type="file" style="display:none;" accept="image/*">上傳</label>
+            </div>
+        </div>
+        <div class="combo_right">
+            <label class="combo_item_label">品項</label>
+            <div class="combo_items">
+                <table>
+                    <tbody id="combo_items"></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="blank"></div>
+        <label class="combo_info">說&ensp;明</label>
+        <textarea id="combo_info" class="combo_info_str"></textarea>
+        <input class="add_refresh combo_add" id="combo_add" type="button" value="新增/更新">
+        <div class="blank"></div>
+        <div class="combo_down">
+            <div class="combo_tbody">
+                <table>
+                    <tbody id="combo_tbody">
+                    </tbody>
+                </table>
+            </div>
+            <div class="att_block">
+                <label class="ci_label">內容</label>
+                <div id="combo_items_content" class="combo_items_content"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

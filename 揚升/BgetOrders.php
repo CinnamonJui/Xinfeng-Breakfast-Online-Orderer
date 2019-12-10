@@ -1,6 +1,6 @@
 <?php
 
-    include_once '../Bacon.php';
+    include_once '../php/Bacon.php';
     //連接database
     $conn = new Bacon();
     $result;
