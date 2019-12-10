@@ -1,6 +1,6 @@
 <?php
 
-    include_once 'Bacon.php';
+    include_once '../Bacon.php';
     //連接database
     $conn = new Bacon();
     $result;
@@ -11,7 +11,6 @@
     else if(isset($_POST['order_history'])&&$_POST['order_history']=="現時訂單"){
         $result = $conn->getUnFinishOrder();
     }
-
     //更新訂單狀態
     if(isset($_POST['order_status'])&&isset($_POST['order_ID'])){
         $order_status=$_POST['order_status'];
@@ -19,7 +18,13 @@
         //UPDATE orders SET order_status = '未確認' WHERE order_ID = '19-10-05-023';
         $conn->changeOrderStatus($order_ID,$order_status);
     }
-
+    if(isset($_POST['checkNew'])){
+        if($conn->checkNewOrder()){
+            echo (1);
+        }
+        else echo (0);
+        exit();
+    }
     //回傳資料
     if($result!="[]") 
         echo ($result);

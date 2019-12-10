@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./stylesheets/cart.css">
+    <title>新豐早餐店購物車</title>
+</head>
+
+<body onload="ShowTime(),createTable()">
+    <div id="page">
+        <div id="option-bar">
+            <span id="title">購物車</span>
+            <span id="display-userID"></span>
+            <div id="back_to_main">
+                <input type="button" value="返回" onclick="location.href='./main.html';">
+            </div>
+        </div>
+
+        <div class=panel>
+            <table class=carts>
+                <thead>
+                    <tr>
+                        <th class=title>品項</th>
+                        <th class=title>小計</th>
+                        <th class=title>數量</th>
+                        <th class=title>功能</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody1">
+
+                </tbody>
+                <tfoot>
+
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+
+    <div class=time_and_button>
+        <form method="POST" class=time id="form1" runat="server" action="./php/makeOrder.php">
+            <div id="showbox"></div>
+            <input type="text" name="item_list" id="item_list">
+            <input type="hidden" name="finishTime" id="finishTime">
+            
+            <button class=action_btn type="submit" id="send">送出</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('send').addEventListener('click', (e) => {
+            document.getElementById('item_list').value =localStorage.getItem('cart');
+            document.getElementById("finishTime").value=document.getElementById("finish_Time").value;
+        }, false);
+    </script>
+    <script src="./javascripts/cart.js"></script>
+</body>
+
+</html>

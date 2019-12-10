@@ -1,0 +1,104 @@
+#Menus {
+    display: inline-flex;
+    flex-flow: column;
+    width: 100%;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#Menus>button {
+    background-color: #d7ff76;
+    margin: 2rem 0 0.5rem;
+    border: 1px solid black;
+    text-align: left;
+    padding: auto 0 auto 1rem;
+    font-size: 1.2rem;
+    display: inline-flex;
+    flex-flow: row;
+    justify-content: space-between;
+}
+
+#Menus>button>span {
+    margin: auto 0;
+}
+
+#Menus>button:focus {
+    outline: none;
+}
+
+/* combo container */
+
+#Menus .combo-panel {
+    display: inline-flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.control {
+    position: sticky;
+    top: 5px;
+}
+
+/* combo item */
+
+.combo-panel>.combo {
+    text-align: center;
+    margin: 0.8rem 0;
+    flex: 0 0 15%;
+}
+
+.combo-panel>.combo>div {
+    text-align: center;
+    border: 1px solid black;
+}
+
+.combo-panel>.combo>.title {
+    background-color: #d7ff76;
+}
+
+.combo-panel>.combo>:not(.title) {
+    background-color: white;
+}
+
+#Menus .panel table {
+    width: 100%;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+#Menus .panel table tr:nth-child(odd) {
+    background-color: white;
+}
+
+#Menus .panel table tr:nth-child(even) {
+    background-color: #d7ff76;
+}
+
+#Menus .panel table tr:hover{
+    background-color: aqua;
+}
+
+.toCart {
+    color: #2e5c77;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.toCart button {
+    background: none;
+    margin: auto 0.2rem;
+    border: none;
+    color: #1a77ad;
+    height: 100%;
+}
+
+.toCart button:hover {
+    color: #0aa5ff;
+    background-color: wheat;
+}

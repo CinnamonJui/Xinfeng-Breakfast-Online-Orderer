@@ -16,16 +16,34 @@ var time;
 
 function start() {
     window.clearInterval(time);
-    time = window.setInterval("getHistory();", 10000);
+    time = window.setInterval("checkRefresh();", 10000);
     thead = document.getElementById("thead");
     buildthead();
     tbody = document.getElementById("tbody");
-    document.getElementById("refresh").addEventListener("click", getHistory, false);
+    document.getElementById("refresh").addEventListener("click", checkRefresh, false);
     order_history = document.getElementById("order_history");
     order_history.addEventListener("click", function() {
         getHistory(1);
     }, false);
     getHistory();
+}
+function checkRefresh(){
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "BgetOrders.php", true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send("checkNew=1");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            console.log(xhr.response);
+            if(xhr.response==1){
+                getHistory();
+                console.log("success");
+            }else{
+                console.log("error");
+            }
+                
+        }
+    }
 }
 
 function getString() {
@@ -77,6 +95,7 @@ function getHistory(check = 0, order_status = null, order_ID = null) {
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             let importData = JSON.parse(xhr.response);
+            console.log(importData);
             buildtbody(importData);
         }
     }
@@ -122,7 +141,7 @@ function buildtbody(tdata) {
     for (let i in tdata) {
         let row = document.createElement("tr");
         for (let j in state_name[0])
-            if (tdata[i][0] == state_name[0][j])
+            if (tdata[i]['status'] == state_name[0][j])
                 row.setAttribute("class", state_name[1][j]);
         for (let j in tdata[i]) {
             let col = document.createElement("td");
@@ -140,7 +159,7 @@ function buildtbody(tdata) {
             row.appendChild(col);
         }
         row.setAttribute("height", "25");
-        row.setAttribute("id", tdata[i][1]);
+        row.setAttribute("id", tdata[i]['ID']);
         tbody.appendChild(row);
     }
 }
