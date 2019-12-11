@@ -22,6 +22,8 @@ var combo_ex = [
     ["寫程式好累套餐", "45", "pic/6.jpg", "薯條、奶茶", "好累喔"],
     ["都是點心套餐", "60", "pic/2.jpg", "薯條、抓餅", "會胖"]
 ];
+var itemData = [],
+    comboData = [];
 var item_type_name = [
     ["三明治", "飲料", "點心"],
     ["sandwich", "drink", "dessert"]
@@ -69,14 +71,26 @@ function itemInit() {
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send("check=item");
     xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            //console.log(xhr.response);
-            let importData = JSON.parse(xhr.response);
-            console.log(importData);
-            buildItemBody(importData);
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                //console.log(xhr.response);
+                let importData = JSON.parse(xhr.response);
+                console.log(importData);
+                for (let i in importData) {
+                    let index = 0,
+                        tmp = [];
+                    for (let j in importData[i]) {
+                        tmp[index++] = importData[i][j];
+                    }
+                    let t = tmp[0];
+                    tmp[0] = tmp[1];
+                    tmp[1] = t;
+                    index = 0;
+                    itemData[i] = tmp;
+                }
+                buildItemBody(itemData);
+            }
         }
-    }
-    //buildItemBody(item_ex);
+        //buildItemBody(item_ex);
 }
 
 function comboInit() {
@@ -94,14 +108,21 @@ function comboInit() {
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send("check=combo");
     xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            //console.log(xhr.response);
-            let importData = JSON.parse(xhr.response);
-            console.log(importData);
-            buildComboBody(importData);
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                let importData = JSON.parse(xhr.response);
+                console.log(importData);
+                for (let i in importData) {
+                    let index = 0,
+                        tmp = [];
+                    for (let j in importData[i]) {
+                        tmp[index++] = importData[i][j];
+                    }
+                    comboData[i] = tmp;
+                }
+                buildComboBody(comboData);
+            }
         }
-    }
-    //buildComboBody(combo_ex);
+        //buildComboBody(combo_ex);
 }
 
 function buildItemBody(tdata) {
@@ -241,29 +262,29 @@ function item_add() {
         if (item_type_name[1][i] == item_type.value)
             it = item_type_name[0][i];
     let arr = [it, item_name.value, item_price.value, item_upload_src, item_info.value];
-    let send_data="add_check=item"+
-    "&ID="+arr[1]+
-    "&type="+arr[0]+
-    "&price="+arr[2]+
-    "&picture="+arr[3]+
-    "&info="+arr[4];
+    let send_data = "add_check=item" +
+        "&ID=" + arr[1] +
+        "&type=" + arr[0] +
+        "&price=" + arr[2] +
+        "&picture=" + arr[3] +
+        "&info=" + arr[4];
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "getMenu.php", true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send(send_data);
     xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            console.log(xhr.response);
-            if(xhr.response)
-                console.log("success");
-            else
-                console.log("error");
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                console.log(xhr.response);
+                if (xhr.response)
+                    console.log("success");
+                else
+                    console.log("error");
+            }
         }
-    }
-/*
-    console.log(arr);
-    item_ex.push(arr);
-    console.log(item_ex);*/
+        /*
+            console.log(arr);
+            item_ex.push(arr);
+            console.log(item_ex);*/
     ito[0].selected = true;
     item_name.value = "";
     item_price.value = "";
@@ -285,26 +306,26 @@ function combo_add() {
         combo_items_value[i] = ci_contents[i].id;
     combo_items_value = combo_items_value.join("、");
     let arr = [combo_name.value, combo_price.value, combo_upload_src, combo_items_value, combo_info.value];
-    let send_data="add_check=combo"+
-    "&ID="+arr[0]+
-    "&price="+arr[1]+
-    "&picture="+arr[2]+
-    "&items="+arr[3]+
-    "&info="+arr[4];
+    let send_data = "add_check=combo" +
+        "&ID=" + arr[0] +
+        "&price=" + arr[1] +
+        "&picture=" + arr[2] +
+        "&items=" + arr[3] +
+        "&info=" + arr[4];
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "getMenu.php", true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send(send_data);
     xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            console.log(xhr.response);
-            if(xhr.response)
-                console.log("success");
-            else
-                console.log("error");
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                console.log(xhr.response);
+                if (xhr.response)
+                    console.log("success");
+                else
+                    console.log("error");
+            }
         }
-    }
-    //combo_ex.push(arr);
+        //combo_ex.push(arr);
     combo_name.value = "";
     combo_price.value = "";
     combo_picture.value = "";
@@ -314,11 +335,12 @@ function combo_add() {
     combo_info.value = "";
     //buildComboBody(combo_ex);
 }
-function delete_data(item_combo,del_id){
-    console.log(item_combo,del_id);
+
+function delete_data(item_combo, del_id) {
+    console.log(item_combo, del_id);
     let send_data;
-    send_data="del_check="+item_combo+
-    "&ID="+del_id;
+    send_data = "del_check=" + item_combo +
+        "&ID=" + del_id;
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "getMenu.php", true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -326,20 +348,21 @@ function delete_data(item_combo,del_id){
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             console.log(xhr.response);
-            if(xhr.response)
+            if (xhr.response)
                 console.log("success");
             else
                 console.log("error");
         }
     }
 }
+
 function itemEdit(ev) {
     if (item_price.value || item_name.value || item_upload_src || item_info.value) {
         if (!window.confirm("資料欄位中有值，確定覆蓋?"))
             return;
     }
     let parent = ev.target.parentNode.parentNode;
-    delete_data("item",parent.id);
+    delete_data("item", parent.id);
     for (let i in item_ex) {
         if (item_ex[i][1] == parent.id) {
             for (let j in item_type_name[0])
@@ -367,7 +390,7 @@ function comboEdit(ev) {
     }
     even = 0;
     let parent = ev.target.parentNode.parentNode;
-    delete_data("combo",parent.id);
+    delete_data("combo", parent.id);
     for (let i in combo_ex) {
         if (combo_ex[i][0] == parent.id) {
             combo_name.value = combo_ex[i][0];
@@ -396,7 +419,7 @@ function itemRemove(ev) {
         return;
     let parent = ev.target.parentNode.parentNode;
     parent.parentNode.removeChild(parent);
-    delete_data("item",parent.id);
+    delete_data("item", parent.id);
     /*for (let i in item_ex) {
         if (item_ex[i][1] == parent.id) {
             item_ex.splice(i, 1);
@@ -411,7 +434,7 @@ function comboRemove(ev) {
     if (!window.confirm("確定要刪除此套餐嗎?"))
         return;
     let parent = ev.target.parentNode.parentNode;
-    delete_data("combo",parent.id);
+    delete_data("combo", parent.id);
     //parent.parentNode.removeChild(parent);
     for (let i in combo_ex) {
         if (combo_ex[i][0] == parent.id) {
@@ -446,8 +469,8 @@ function printComboItems(ev) {
         parent = ev.target.parentNode;
     let cic = document.getElementById("combo_items_content");
     console.log(parent);
-    for (let i in combo_ex) {
-        if (combo_ex[i][0] == parent.id) {
+    for (let i in comboData) {
+        if (comboData[i][0] == parent.id) {
             cic.innerHTML = "&nbsp;[ " + parent.id + " : " + combo_ex[i][3] + " ] ";
         }
     }

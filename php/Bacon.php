@@ -160,10 +160,20 @@ class Bacon
     function changeOrderStatus($ID, $status)
     {
         $sql = "UPDATE Orders
-                SET status = $status
-                WHERE ID = $ID;";
+                SET status = :status
+                WHERE ID = :ID;";
 
-        $this->conn->exec($sql);
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(":status",$status);
+        $stmt->bindValue(":ID",$ID);
+        try{
+            $stmt->execute();
+        }
+        catch(PDOException $e){
+            echo $e->getMessage();
+        }
+        
+
     }
 
     /*顧客資料*******************************/

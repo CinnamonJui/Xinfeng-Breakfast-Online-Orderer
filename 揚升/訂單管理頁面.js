@@ -1,5 +1,3 @@
-
-
 var data = [];
 var thead_name = ["狀態", "編號", "金額", "訂單時間", "預定時間", "姓名", "帳戶", "品項明細"];
 var table_width = [8, 11, 5, 7, 7, 10, 11, 40];
@@ -27,7 +25,8 @@ function start() {
     }, false);
     getHistory();
 }
-function checkRefresh(){
+
+function checkRefresh() {
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "BgetOrders.php", true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -35,13 +34,13 @@ function checkRefresh(){
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             console.log(xhr.response);
-            if(xhr.response==1){
+            if (xhr.response == 1) {
                 getHistory();
                 console.log("success");
-            }else{
+            } else {
                 console.log("error");
             }
-                
+
         }
     }
 }
@@ -69,7 +68,7 @@ function buildthead() {
 }
 
 function getHistory(check = 0, order_status = null, order_ID = null) {
-    console.log(order_status, order_ID);
+    //console.log(order_status, order_ID);
     let xhr = new XMLHttpRequest();
     let send_data;
     xhr.open("POST", "BgetOrders.php", true);
@@ -94,6 +93,7 @@ function getHistory(check = 0, order_status = null, order_ID = null) {
     xhr.send(send_data);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
+            console.log(xhr.response);
             let importData = JSON.parse(xhr.response);
             console.log(importData);
             buildtbody(importData);
@@ -103,6 +103,7 @@ function getHistory(check = 0, order_status = null, order_ID = null) {
 
 function changeState(ev) {
     if (ev.target.tagName.toLowerCase() == "span") {
+        
         if (ev.target.nextSibling) {
             ev.target.parentNode.removeChild(ev.target.nextSibling);
             return;
@@ -127,7 +128,8 @@ function changeState(ev) {
          parent.firstChild.textContent = "[" + ev.target.textContent + "]";*/
 
         getHistory(0, ev.target.textContent, parent.parentNode.getAttribute("id"));
-        location.reload();
+        console.log(ev.target.textContent, parent.parentNode.getAttribute("id"));
+        //location.reload();
         parent.removeChild(ev.target.parentNode);
         return;
     }
@@ -145,7 +147,7 @@ function buildtbody(tdata) {
                 row.setAttribute("class", state_name[1][j]);
         for (let j in tdata[i]) {
             let col = document.createElement("td");
-            if (j == 0) {
+            if (j == 'status') {
                 let state = document.createElement("span");
                 state.setAttribute("class", "state");
                 state.addEventListener("click", changeState, false);

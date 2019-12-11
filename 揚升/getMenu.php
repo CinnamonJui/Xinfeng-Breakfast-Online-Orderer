@@ -19,7 +19,7 @@
             $result = $conn->addItem($_POST['ID'],$_POST['type'],
             $_POST['price'],$_POST['picture'],$_POST['info']);
         else if($add_check=="combo")
-            $result = $conn->getCombo($_POST['ID'],$_POST['price'],
+            $result = $conn->addCombo($_POST['ID'],$_POST['price'],
             $_POST['picture'],$_POST['items'],$_POST['info']);
         else
             die("add_check error");
