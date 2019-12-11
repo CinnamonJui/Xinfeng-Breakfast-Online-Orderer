@@ -94,6 +94,8 @@ $(() => {
                         $itemNum.text(itemNum >= 100 ? 100 : itemNum + 1);
                         break;
                 }
+                if (cart[itemName] === "0,0")
+                    delete cart[itemName];
                 cart[itemName] = $itemNum.text() + "," + itemPrice * $itemNum.text();
                 localStorage.setItem('cart', JSON.stringify(cart));
             });
