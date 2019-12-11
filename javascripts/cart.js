@@ -52,10 +52,22 @@ function ShowTime(){
    }
 
 function deleteRow(r){
+    var carts = JSON.parse(localStorage.getItem('cart'));
     var i=r.parentNode.parentNode.rowIndex;
     var temp = document.getElementById("tbody1");
+    let del=r.parentNode.parentNode.childNodes[0].textContent;
+    for(let i in carts){
+        //console.log(i,carts[i]);
+        if(i==del){
+            delete(carts[i]);
+            localStorage.setItem('cart', JSON.stringify(carts));
+        }
+            
+
+    }
+    //console.log(carts);
     priceSum -= parseInt(temp.rows[i-1].cells[1].innerHTML);
     temp.deleteRow(i-1);
     updateTfoot();
-    console.log(priceSum);
+    //console.log(priceSum);
 }
