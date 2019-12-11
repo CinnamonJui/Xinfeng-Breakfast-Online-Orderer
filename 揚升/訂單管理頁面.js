@@ -68,7 +68,7 @@ function buildthead() {
 }
 
 function getHistory(check = 0, order_status = null, order_ID = null) {
-    //console.log(order_status, order_ID);
+    console.log(order_status, order_ID);
     let xhr = new XMLHttpRequest();
     let send_data;
     xhr.open("POST", "BgetOrders.php", true);
@@ -103,7 +103,6 @@ function getHistory(check = 0, order_status = null, order_ID = null) {
 
 function changeState(ev) {
     if (ev.target.tagName.toLowerCase() == "span") {
-        
         if (ev.target.nextSibling) {
             ev.target.parentNode.removeChild(ev.target.nextSibling);
             return;

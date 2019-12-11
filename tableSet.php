@@ -145,8 +145,8 @@ $conn->addOrder("婉拒", "19-10-05-023", "60000",
 $conn->register("0975975176","123","傑森史塔森",20,"男","sss@gmail.com");
 $conn->register("0987987987","456","小瑞",25,"女","156785978@gmail.com");
 
-$conn->addCombo("美式套餐",70,"./picture/pic1","漢堡+薯條","好吃");
-$conn->addCombo("內湖熱狗堡","90","./picture/gif4","熱狗*50","金寶逼你食");
+$conn->addCombo("美式套餐",70,"./picture/pic1","漢堡,薯條","好吃");
+$conn->addCombo("內湖熱狗堡",90,"./picture/gif4","熱狗1,熱狗2,熱狗3","金寶逼你食");
 $conn->addItem("蘿蔔糕","點心",70,"./picture/pic1","好吃");
 $conn->addItem("炸雞塊","點心",70,"./picture/pic1","好吃");
 $conn->addItem("熱狗","點心",70,"./picture/pic1","好吃");

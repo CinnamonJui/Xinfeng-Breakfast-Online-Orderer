@@ -384,7 +384,8 @@ class Bacon
 	function getItem()
     {
        
-        $sql = "SELECT * FROM Item;";
+        $sql = "SELECT * FROM Item
+                Order by `type` ASC;";
         try 
 		{
             $result = $this->conn->query($sql);

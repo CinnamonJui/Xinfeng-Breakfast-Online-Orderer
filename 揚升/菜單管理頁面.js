@@ -53,6 +53,55 @@ function start() {
     comboInit();
 }
 
+function getItemData() {
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "getMenu.php", true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send("check=item");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            //console.log(xhr.response);
+            let importData = JSON.parse(xhr.response);
+            itemData = [];
+            for (let i in importData) {
+                let index = 0,
+                    tmp = [];
+                for (let j in importData[i]) {
+                    tmp[index++] = importData[i][j];
+                }
+                let t = tmp[0];
+                tmp[0] = tmp[1];
+                tmp[1] = t;
+                index = 0;
+                itemData[i] = tmp;
+            }
+            buildItemBody(itemData);
+        }
+    }
+}
+
+function getComboData() {
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "getMenu.php", true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send("check=combo");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            let importData = JSON.parse(xhr.response);
+            comboData = [];
+            for (let i in importData) {
+                let index = 0,
+                    tmp = [];
+                for (let j in importData[i]) {
+                    tmp[index++] = importData[i][j];
+                }
+                comboData[i] = tmp;
+            }
+            buildComboBody(comboData);
+        }
+    }
+}
+
 function itemInit() {
     item_type = document.getElementById("item_type");
     item_name = document.getElementById("item_name");
@@ -65,32 +114,9 @@ function itemInit() {
     itemBody = document.getElementById("item_tbody");
     buildItemHead(document.getElementById("thead"));
     buildItemHead(item_type);
+    getItemData();
 
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", "getMenu.php", true);
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhr.send("check=item");
-    xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                //console.log(xhr.response);
-                let importData = JSON.parse(xhr.response);
-                console.log(importData);
-                for (let i in importData) {
-                    let index = 0,
-                        tmp = [];
-                    for (let j in importData[i]) {
-                        tmp[index++] = importData[i][j];
-                    }
-                    let t = tmp[0];
-                    tmp[0] = tmp[1];
-                    tmp[1] = t;
-                    index = 0;
-                    itemData[i] = tmp;
-                }
-                buildItemBody(itemData);
-            }
-        }
-        //buildItemBody(item_ex);
+    //buildItemBody(item_ex);
 }
 
 function comboInit() {
@@ -102,27 +128,8 @@ function comboInit() {
     combo_upload.addEventListener("change", comboUploadFile, false);
     document.getElementById("combo_add").addEventListener("click", combo_add, false);
     comboBody = document.getElementById("combo_tbody");
-
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", "getMenu.php", true);
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhr.send("check=combo");
-    xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                let importData = JSON.parse(xhr.response);
-                console.log(importData);
-                for (let i in importData) {
-                    let index = 0,
-                        tmp = [];
-                    for (let j in importData[i]) {
-                        tmp[index++] = importData[i][j];
-                    }
-                    comboData[i] = tmp;
-                }
-                buildComboBody(comboData);
-            }
-        }
-        //buildComboBody(combo_ex);
+    getComboData();
+    //buildComboBody(combo_ex);
 }
 
 function buildItemBody(tdata) {
@@ -275,9 +282,10 @@ function item_add() {
     xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 console.log(xhr.response);
-                if (xhr.response)
+                if (xhr.response) {
+                    getItemData();
                     console.log("success");
-                else
+                } else
                     console.log("error");
             }
         }
@@ -304,7 +312,7 @@ function combo_add() {
     let combo_items_value = [];
     for (let i = 0; i < ci_contents.length; i++)
         combo_items_value[i] = ci_contents[i].id;
-    combo_items_value = combo_items_value.join("、");
+    combo_items_value = combo_items_value.join(",");
     let arr = [combo_name.value, combo_price.value, combo_upload_src, combo_items_value, combo_info.value];
     let send_data = "add_check=combo" +
         "&ID=" + arr[0] +
@@ -319,9 +327,10 @@ function combo_add() {
     xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 console.log(xhr.response);
-                if (xhr.response)
+                if (xhr.response) {
+                    getComboData();
                     console.log("success");
-                else
+                } else
                     console.log("error");
             }
         }
@@ -348,12 +357,17 @@ function delete_data(item_combo, del_id) {
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             console.log(xhr.response);
-            if (xhr.response)
+            if (xhr.response) {
                 console.log("success");
-            else
+                if (item_combo == "item")
+                    getItemData();
+                else
+                    getComboData();
+            } else
                 console.log("error");
         }
     }
+
 }
 
 function itemEdit(ev) {
@@ -362,24 +376,24 @@ function itemEdit(ev) {
             return;
     }
     let parent = ev.target.parentNode.parentNode;
-    delete_data("item", parent.id);
-    for (let i in item_ex) {
-        if (item_ex[i][1] == parent.id) {
+    for (let i in itemData) {
+        if (itemData[i][1] == parent.id) {
             for (let j in item_type_name[0])
-                if (item_type_name[0][j] == item_ex[i][0])
+                if (item_type_name[0][j] == itemData[i][0])
                     item_type.value = item_type_name[1][j];
-            item_name.value = item_ex[i][1];
-            item_price.value = item_ex[i][2];
-            item_upload_src = item_ex[i][3];
+            item_name.value = itemData[i][1];
+            item_price.value = itemData[i][2];
+            item_upload_src = itemData[i][3];
             let pic_src = item_upload_src;
             console.log(item_upload_src);
             pic_src = pic_src.split("\\");
             item_picture.value = pic_src[pic_src.length - 1];
-            item_info.value = item_ex[i][4];
-            item_ex.splice(i, 1);
+            item_info.value = itemData[i][4];
+            itemData.splice(i, 1);
             break;
         }
     }
+    delete_data("item", parent.id);
     parent.parentNode.removeChild(parent);
 }
 
@@ -390,14 +404,13 @@ function comboEdit(ev) {
     }
     even = 0;
     let parent = ev.target.parentNode.parentNode;
-    delete_data("combo", parent.id);
-    for (let i in combo_ex) {
-        if (combo_ex[i][0] == parent.id) {
-            combo_name.value = combo_ex[i][0];
-            combo_price.value = combo_ex[i][1];
-            combo_upload_src = combo_ex[i][2];
-            let ci_contents = combo_ex[i][3];
-            ci_contents = ci_contents.split("、");
+    for (let i in comboData) {
+        if (comboData[i][0] == parent.id) {
+            combo_name.value = comboData[i][0];
+            combo_price.value = comboData[i][1];
+            combo_upload_src = comboData[i][2];
+            let ci_contents = comboData[i][3];
+            ci_contents = ci_contents.split(",");
             let items = itemBody.getElementsByTagName("tr");
             for (let j in ci_contents)
                 for (let k in items)
@@ -406,12 +419,11 @@ function comboEdit(ev) {
             let pic_src = combo_upload_src;
             pic_src = pic_src.split("\\");
             combo_picture.value = pic_src[pic_src.length - 1];
-            combo_info.value = combo_ex[i][4];
-            combo_ex.splice(i, 1);
+            combo_info.value = comboData[i][4];
             break;
         }
     }
-    buildComboBody(combo_ex);
+    delete_data("combo", parent.id);
 }
 
 function itemRemove(ev) {
@@ -426,8 +438,7 @@ function itemRemove(ev) {
             console.log(item_ex);
             break;
         }
-    }
-    buildItemBody(item_ex);*/
+    }*/
 }
 
 function comboRemove(ev) {
@@ -435,16 +446,7 @@ function comboRemove(ev) {
         return;
     let parent = ev.target.parentNode.parentNode;
     delete_data("combo", parent.id);
-    //parent.parentNode.removeChild(parent);
-    for (let i in combo_ex) {
-        if (combo_ex[i][0] == parent.id) {
-            combo_ex.splice(i, 1);
-            console.log(combo_ex);
-            break;
-        }
-    }
     even = 0;
-    buildComboBody(combo_ex);
 }
 
 function comboItemsRemove(ev) {
@@ -471,7 +473,7 @@ function printComboItems(ev) {
     console.log(parent);
     for (let i in comboData) {
         if (comboData[i][0] == parent.id) {
-            cic.innerHTML = "&nbsp;[ " + parent.id + " : " + combo_ex[i][3] + " ] ";
+            cic.innerHTML = "&nbsp;[ " + parent.id + " : " + comboData[i][3] + " ] ";
         }
     }
 }
