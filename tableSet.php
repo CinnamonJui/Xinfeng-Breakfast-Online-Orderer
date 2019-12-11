@@ -142,22 +142,36 @@ $conn->addOrder("婉拒", "19-10-05-024", "30",
 $conn->addOrder("婉拒", "19-10-05-023", "60000",
  "11:10", "12:10",  "0975975176", "鮮奶茶 x1500 (60000)");
 
+$conn->register("admin","0000","管理員","0","0","0");
 $conn->register("0975975176","123","傑森史塔森",20,"男","sss@gmail.com");
 $conn->register("0987987987","456","小瑞",25,"女","156785978@gmail.com");
 
 $conn->addCombo("美式套餐",70,"./picture/pic1","漢堡,薯條","好吃");
-$conn->addCombo("內湖熱狗堡",90,"./picture/gif4","熱狗1,熱狗2,熱狗3","金寶逼你食");
+$conn->addCombo("內湖熱狗堡",90,"./picture/gif4","熱狗,熱狗,熱狗","金寶逼你食");
+$conn->addCombo("晨博套餐",69,"./picture/pic1","熱狗,荷包蛋","陳柏霖大力推荐");
+$conn->addCombo("薯條套餐", 45, "pic/1.jpg", "薯條、紅茶", "好ㄘ");
+$conn->addCombo("好多飲料套餐", 30, "pic/4.jpg", "奶茶、紅茶", "豪好喝");
+$conn->addCombo("沒有比較便宜套餐", 60, "pic/5.jpg", "牛肉三明治、紅茶", "好貴");
+$conn->addCombo("寫程式好累套餐", 45, "pic/6.jpg", "薯條、奶茶", "好累喔");
+$conn->addCombo("都是點心套餐", 60, "pic/2.jpg", "薯條、抓餅", "會胖");
+
 $conn->addItem("蘿蔔糕","點心",70,"./picture/pic1","好吃");
 $conn->addItem("炸雞塊","點心",70,"./picture/pic1","好吃");
 $conn->addItem("熱狗","點心",70,"./picture/pic1","好吃");
 $conn->addItem("蛋餅","點心",70,"./picture/pic1","好吃");
 $conn->addItem("包子","點心",70,"./picture/pic1","好吃");
+$conn->addItem("抓餅","點心", 35, "pic/6.jpg", "這是點心嗎0.0");
+
 
 $conn->addItem("鮪魚三明治","三明治",70,"./picture/pic1","好吃");
 $conn->addItem("肌肉三明治","三明治",70,"./picture/pic1","好吃");
 $conn->addItem("牛肉三明治","三明治",70,"./picture/pic1","好吃");
 $conn->addItem("總匯三明治","三明治",70,"./picture/pic1","好吃");
 $conn->addItem("里肌三明治","三明治",70,"./picture/pic1","好吃");
+
+$conn->addItem("奶茶","飲料",20,"./picture/pic1","保證拉肚子");
+$conn->addItem("苦瓜汁","飲料",25,"./picture/pic1","苦");
+
 
 echo "<br>Order 格式<br>";
 $test = $conn-> getUnFinishOrder();
