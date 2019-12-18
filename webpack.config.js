@@ -1,0 +1,98 @@
+const path = require('path');
+// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const webpack = require('webpack');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+
+module.exports = {
+    mode: "development",
+    entry: {
+        main: './src/main.js',
+    },
+    output: {
+        filename: '[name].bundle.js',
+        path: path.resolve(__dirname, 'build')
+    },
+    module: {
+        rules: [
+            {
+                test: /\.vue$/,
+                use: [
+                    'vue-loader'
+                ]
+            },
+            {
+                test: /\.html$/,
+                exclude: /node_modules/,
+                use: [
+                    'html-loader'
+                ]
+            },
+            {
+                test: /\.s[ac]ss$/,
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            sourceMap: true,
+                            config: {
+                                path: 'postcss.config.js'
+                            }
+                        }
+
+                    },
+                    'sass-loader'
+                ]
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['@babel/preset-env']
+                        }
+                    }
+                ]
+            },
+            {
+                test: /\.(png|svg|jpg|gif)$/,
+                loader: 'file-loader',
+                options: {
+                    name(file) {
+                        if (process.env.NODE_ENV === 'development') {
+                            return '[path][name].[ext]';
+                        }
+
+                        return '[contenthash].[ext]';
+                    },
+                    outputPath: 'asset/img',
+                    esModule: false
+                }
+            },
+        ],
+    },
+    plugins: [
+        new webpack.ProgressPlugin(),
+        new HtmlWebpackPlugin({
+            template: './src/main.html',
+            filename: 'main.html',
+            chunks: ['main']
+        }),
+        new VueLoaderPlugin(),
+    ],
+    resolve: {
+        alias: {
+            'vue$': 'vue/dist/vue.esm.js',
+        }
+    }
+    ,
+    devServer: {
+        contentBase: path.join(__dirname, 'build'),
+        port: 9000,
+        hot: true,
+    }
+} 

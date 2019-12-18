@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title>新豐早餐店</title>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand navbar-dark bg-success">
+    <!-- Brand & Cart -->
+    <a href="./main.html" class="navbar-brand">新豐早餐店</a>
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#nav-items"
+      onclick="location.href='./購物車.html';">
+      <i class="navbar-toggler-icon"></i>
+    </button>
+    <!-- Log in&out control -->
+    <div class="navbar-collapse collapse justify-content-end" id="nav-items">
+      <button class="btn btn-outline-light mr-auto" id="cart">
+        <i class="fa fa-shopping-cart"></i>
+      </button>
+      <div class="mx-1" id="user-action">
+        <div id="logout" v-if="isLogin">
+          <span class="text-white">{{ username }} 你好！</span>
+          <button class="btn btn-outline-light" @click="logout">登出</button>
+        </div>
+        <div id="reg-login" class="btn-group" v-else>
+          <button class="btn btn-outline-light" onclick="location.href='./login.html';">登入</button>
+          <button class="btn btn-outline-light" onclick="location.href='./register.html';">註冊</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="container-fluid mt-3" id="menu">
+    <!-- a single row for combo -->
+    <div class="row">
+      <div class="col-12">
+        <!-- combo control -->
+        <button id="combo-control" class="btn btn-dark btn-block text-left my-2 position-sticky sticky-top"
+          data-toggle="collapse" data-target="#combo-panel">套餐</button>
+        <!-- combo panel, vue here -->
+        <div id="combo-panel" class="row mx-n1 collapse show">
+          <combo-card class="m-1" v-for="(combo, index) in combos" :key="index" :combo="combo" />
+        </div>
+      </div>
+    </div>
+    <!-- a single row for combo end here-->
+
+    <!-- rows for items -->
+    <div id="items">
+      <item-card v-for="(val, key, index) in items" :key="index" :type="key" :items="val" />
+    </div>
+  </div>
+
+<script type="text/javascript" src="main.bundle.js"></script></body>
+
+</html>

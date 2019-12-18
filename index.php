@@ -1,1 +1,0 @@
-<?php header("Location: http://localhost/XBS/main.html"); ?>
