@@ -2,12 +2,5 @@
 
 require_once '../core/init.php';
 
-/*$users = DB::Instance()->query('SELECT name FROM Account');
-if($users->count()){
-    foreach($users as $user){
-        echo $user->name;
-    }
-}*/
-DB::getInstance();
+DB::getInstance()->query("SELECT name FROM account WHERE name =?",array('alex'));
 
-//echo Config::get('mysql/host'); //localhost
