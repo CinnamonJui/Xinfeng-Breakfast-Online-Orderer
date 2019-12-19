@@ -1,4 +1,13 @@
 .vscode
-images
 node_modules
 package-lock.json
+
+/php
+/src/php/Bacon.php
+images
+javascripts
+stylesheets
+testFile
+temp
+/*.*
+揚升
