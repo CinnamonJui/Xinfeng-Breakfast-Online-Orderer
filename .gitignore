@@ -3,7 +3,7 @@ node_modules
 package-lock.json
 
 /php
-/src/php/Bacon.php
+/src/php
 images
 javascripts
 stylesheets
