@@ -12,7 +12,7 @@ module.exports = {
     },
     output: {
         filename: '[name].bundle.js',
-        path: path.resolve(__dirname, 'build')
+        path: path.resolve(__dirname, 'build/javascripts')
     },
     module: {
         rules: [
@@ -25,9 +25,7 @@ module.exports = {
             {
                 test: /\.html$/,
                 exclude: /node_modules/,
-                use: [
-                    'html-loader'
-                ]
+                use: ['html-loader']
             },
             {
                 test: /\.s[ac]ss$/,
@@ -80,7 +78,7 @@ module.exports = {
         new webpack.ProgressPlugin(),
         new HtmlWebpackPlugin({
             template: './src/main.html',
-            filename: 'main.html',
+            filename: './../main.html',
             chunks: ['main']
         }),
         new VueLoaderPlugin(),
