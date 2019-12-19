@@ -10,7 +10,7 @@
       <p class="card-text">{{ combo.info }}</p>
     </div>
     <ul class="list-group list-group-flush">
-      <hr>
+      <hr />
       <li class="list-group-item">{{ combo.items }}</li>
     </ul>
     <!-- card foot: cart control -->
@@ -46,6 +46,21 @@
 export default {
   props: {
     combo: Object
+  },
+  data() {
+    return {
+      toCartCount: 0
+    };
+  },
+  methods: {
+    increment() {
+      this.toCartCount < 50 ? ++this.toCartCount : null;
+      this.$emit("item-to-cart");
+    },
+    decrement() {
+      this.toCartCount > 0 ? --this.toCartCount : null;
+      this.$emit("item-to-cart");
+    }
   }
 };
 </script>

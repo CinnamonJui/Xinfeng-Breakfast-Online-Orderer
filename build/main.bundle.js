@@ -138,7 +138,7 @@ eval("/*!\n * Font Awesome Free 5.12.0 by @fontawesome - https://fontawesome.com
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\n  props: {\n    combo: Object\n  }\n});\n\n//# sourceURL=webpack:///./src/combo-card.vue?./node_modules/babel-loader/lib??ref--3-0!./node_modules/vue-loader/lib??vue-loader-options");
+eval("__webpack_require__.r(__webpack_exports__);\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n//\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\n  props: {\n    combo: Object\n  },\n  data: function data() {\n    return {\n      toCartCount: 0\n    };\n  },\n  methods: {\n    increment: function increment() {\n      this.toCartCount < 50 ? ++this.toCartCount : null;\n      this.$emit(\"item-to-cart\");\n    },\n    decrement: function decrement() {\n      this.toCartCount > 0 ? --this.toCartCount : null;\n      this.$emit(\"item-to-cart\");\n    }\n  }\n});\n\n//# sourceURL=webpack:///./src/combo-card.vue?./node_modules/babel-loader/lib??ref--3-0!./node_modules/vue-loader/lib??vue-loader-options");
 
 /***/ }),
 
