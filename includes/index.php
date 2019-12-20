@@ -2,5 +2,11 @@
 
 require_once '../core/init.php';
 
-DB::getInstance()->query("SELECT name FROM account WHERE name =?",array('alex'));
+$user=DB::getInstance()->get('Account',array('ID','=','0988843568'));
+
+if(!$user->count()){
+    echo 'No user';
+}else{
+    echo 'OK!';
+}
 
