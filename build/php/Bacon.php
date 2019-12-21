@@ -180,7 +180,7 @@ class Bacon
     //登入(顧客/老闆)
     function login($ID, $pw)
     {
-         /*$sql = "SELECT user_ID,password
+        /*$sql = "SELECT user_ID,password
                 from Account
                 Where user_ID=:ID;";
         try {
@@ -203,10 +203,10 @@ class Bacon
         $stmt = $this->conn->prepare($sqlFind);
         $stmt->bindParam(1,$ID);
         $stmt->bindParam(2,$pw);
+
         try{
             $stmt-> execute();
             $account = $stmt->fetchObject();
-
             if($account->password==$pw){
                 session_start();
                 $_SESSION['ID'] = $account->user_id;
@@ -217,7 +217,7 @@ class Bacon
         catch (PDOException $e){
             return false;
         }
- }
+}
 
     //註冊(顧客) boolen true表示註冊成功 false表示有重複ID
     function register($ID, $pw, $name, $age, $gender, $email)
@@ -337,7 +337,7 @@ class Bacon
             return true;
         }
         catch (PDOException $e){
-           return false;
+            return false;
         }
     }
     function delItem($ID){
@@ -383,7 +383,6 @@ class Bacon
     }
 	function getItem()
     {
-       
         $sql = "SELECT * FROM Item
                 Order by `type` ASC;";
         try 
@@ -468,7 +467,7 @@ class Bacon
         }
         catch (PDOException $e)
 		{
-           echo $e->getMessage();   
+            echo $e->getMessage();   
         }
 	}
 	//刪除combo
@@ -520,5 +519,24 @@ class Bacon
 		{
             echo $e->getMessage();   
         }
+    }
+    function checkIfIDAlreadyTaken($ID)
+    {
+
+        $sqlFind = "SELECT COUNT(*) 
+                    from Account
+                    WHERE user_ID=?;";
+        $stmtF = $this->conn->prepare($sqlFind);
+        $stmtF->bindParam(1, $ID);
+        $stmtF->execute();
+        $count = $stmtF->fetchColumn();
+        
+        //echo "count is " .$count;
+
+        if ($count > 0) 
+            return false;
+        else 
+            return true;
+        
     }
 }
