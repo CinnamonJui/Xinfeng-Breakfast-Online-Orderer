@@ -534,9 +534,9 @@ class Bacon
         //echo "count is " .$count;
 
         if ($count > 0) 
-            return false;
-        else 
             return true;
+        else 
+            return false;
         
     }
 }

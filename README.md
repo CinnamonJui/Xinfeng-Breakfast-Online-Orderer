@@ -8,7 +8,7 @@
 
 ## About this Branch
 
-This is Luo Jie's branch, which is dedicated to front-end of *[main](src/main.html)*, *[login](src/login.html)* and *register* page.
+This is Luo Jie's branch, which is dedicated to front-end of *[main](src/main.html)*, *[login](src/login.html)* and *[register](src/register.html)* page.
 
 From this commit on, I'll will **only** commit files related to what this branch is responsible for. I believe by simplify the structure of this branch you shall be able to **quickly find** what you are expecting from me.
 
