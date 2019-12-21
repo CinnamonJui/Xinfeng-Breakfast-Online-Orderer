@@ -1,4 +1,4 @@
-import indexScss from './main.scss';
+import './main.scss';
 import Vue from 'vue';
 import 'bootstrap';
 import $ from 'jquery';
@@ -31,8 +31,8 @@ new Vue({
     });
   },
 });
-import ComboCard from './combo-card.vue';
-import ItemCard from './item-card.vue';
+import ComboCard from './vue/combo-card.vue';
+import ItemCard from './vue/item-card.vue';
 
 
 class Combo {
