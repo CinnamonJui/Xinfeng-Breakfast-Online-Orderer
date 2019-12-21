@@ -9,6 +9,7 @@ module.exports = {
     mode: "development",
     entry: {
         main: './src/main.js',
+        login: './src/login.js'
     },
     output: {
         filename: '[name].bundle.js',
@@ -80,6 +81,11 @@ module.exports = {
             template: './src/main.html',
             filename: './../main.html',
             chunks: ['main']
+        }),
+        new HtmlWebpackPlugin({
+            template: './src/login.html',
+            filename: './../login.html',
+            chunks: ['login']
         }),
         new VueLoaderPlugin(),
         new CopyPlugin([{
