@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/runtime": "^7.7.7",
     "bootstrap": "^4.4.1",
     "glyphicons": "^0.2.0",
     "jquery": "^3.4.1",
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.7.5",
+    "@babel/plugin-transform-runtime": "^7.7.6",
     "@babel/preset-env": "^7.7.6",
     "@babel/register": "^7.7.4",
     "@fortawesome/fontawesome-free": "^5.12.0",
