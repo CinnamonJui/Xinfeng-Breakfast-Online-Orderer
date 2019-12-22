@@ -1,6 +1,6 @@
 <template>
   <div class="row px-1 justify-content-between">
-    <div class="col m-0 my-auto">
+    <div class="col m-0 my-auto click-area" @click="mealclicked">
       <h5 class="d-inline">{{item.ID}}</h5>
       <span class="text-muted">{{ item.price }}元</span>
     </div>
@@ -35,6 +35,7 @@
 
 <script>
 import Vue from "vue";
+import { ModalEventBus } from "./eventbus-modal";
 export default {
   props: {
     item: Object
@@ -47,11 +48,12 @@ export default {
   methods: {
     increment() {
       this.toCartCount < 50 ? ++this.toCartCount : null;
-      this.$emit("item-to-cart");
     },
     decrement() {
       this.toCartCount > 0 ? --this.toCartCount : null;
-      this.$emit("item-to-cart");
+    },
+    mealclicked() {
+      ModalEventBus.$emit("meal-clicked", this.item);
     }
   },
   watch: {
@@ -74,5 +76,8 @@ export default {
   & * {
     max-width: 4rem;
   }
+}
+.click-area {
+  cursor: pointer;
 }
 </style>

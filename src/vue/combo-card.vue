@@ -6,7 +6,7 @@
       <span class="price card-subtitle text-muted">{{ combo.price }}元</span>
     </div>
     <!-- card body: content & description -->
-    <div class="card-body">
+    <div class="card-body click-area" @click="this.mealclicked">
       <p class="card-text">{{ combo.info }}</p>
     </div>
     <ul class="list-group list-group-flush">
@@ -43,6 +43,7 @@
 </template>
 <!-- DOM template end here-->
 <script>
+import { ModalEventBus } from "./eventbus-modal";
 export default {
   props: {
     combo: Object
@@ -55,11 +56,12 @@ export default {
   methods: {
     increment() {
       this.toCartCount < 50 ? ++this.toCartCount : null;
-      this.$emit("item-to-cart");
     },
     decrement() {
       this.toCartCount > 0 ? --this.toCartCount : null;
-      this.$emit("item-to-cart");
+    },
+    mealclicked() {
+      ModalEventBus.$emit("meal-clicked", this.combo);
     }
   },
   watch: {
@@ -77,5 +79,8 @@ export default {
 <style lang="scss">
 .combo {
   width: 15rem;
+}
+.click-area {
+  cursor: pointer;
 }
 </style>

@@ -34,26 +34,27 @@ new Vue({
 });
 import ComboCard from './vue/combo-card.vue';
 import ItemCard from './vue/item-card.vue';
-
+import Modal from './vue/modal.vue'
 
 class Combo {
   constructor({ ID, price, picture, items, info }) {
     this.ID = ID;
     this.price = price;
+    this.info = info;
     this.picture = picture;
     this.items = items;
-    this.info = info;
   }
 }
 class Item {
   constructor({ ID, type, price, picture, info }) {
     this.ID = ID;
-    this.type = type;
     this.price = price;
-    this.picture = picture;
     this.info = info;
+    this.picture = picture;
+    this.type = type;
   }
 }
+
 localStorage.setItem('cart', '{}')
 new Vue({
   el: '#combo-panel',
@@ -70,7 +71,7 @@ new Vue({
   }
 });
 
-let really = new Vue({
+new Vue({
   el: '#items',
   data: {
     items: {}
@@ -91,3 +92,7 @@ let really = new Vue({
   }
 })
 
+new Vue({
+  el: '#modal',
+  components: { Modal }
+})
