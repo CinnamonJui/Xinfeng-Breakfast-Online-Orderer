@@ -36,7 +36,9 @@
 <script>
 import Vue from "vue";
 export default {
-  props: ["item"],
+  props: {
+    item: Object
+  },
   data() {
     return {
       toCartCount: 0
@@ -50,6 +52,15 @@ export default {
     decrement() {
       this.toCartCount > 0 ? --this.toCartCount : null;
       this.$emit("item-to-cart");
+    }
+  },
+  watch: {
+    toCartCount() {
+      const cartObj = JSON.parse(localStorage.getItem("cart"));
+      this.toCartCount == 0
+        ? delete cartObj[this.item.ID]
+        : (cartObj[this.item.ID] = this.toCartCount);
+      localStorage.setItem("cart", JSON.stringify(cartObj));
     }
   }
 };

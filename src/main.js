@@ -17,6 +17,7 @@ new Vue({
   },
   methods: {
     logout() {
+      localStorage.removeItem('cart')
       $.get('./php/XBS_validate_login.php?logout=true');
       location.reload();
     },
@@ -53,6 +54,7 @@ class Item {
     this.info = info;
   }
 }
+localStorage.setItem('cart', '{}')
 new Vue({
   el: '#combo-panel',
   data: {

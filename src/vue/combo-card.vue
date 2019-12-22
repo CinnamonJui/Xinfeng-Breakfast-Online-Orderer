@@ -61,6 +61,15 @@ export default {
       this.toCartCount > 0 ? --this.toCartCount : null;
       this.$emit("item-to-cart");
     }
+  },
+  watch: {
+    toCartCount() {
+      const cartObj = JSON.parse(localStorage.getItem("cart"));
+      this.toCartCount === 0
+        ? delete cartObj[this.combo.ID]
+        : (cartObj[this.combo.ID] = this.toCartCount);
+      localStorage.setItem("cart", JSON.stringify(cartObj));
+    }
   }
 };
 </script>
