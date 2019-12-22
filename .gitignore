@@ -4,7 +4,8 @@ package-lock.json
 
 /php
 /src/php
-images
+/images
+/src/images
 /javascripts
 stylesheets
 testFile

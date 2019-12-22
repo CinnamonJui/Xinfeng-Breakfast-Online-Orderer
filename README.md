@@ -14,7 +14,9 @@ From this commit on, I'll will **only** commit files related to what this branch
 
 Should you want to test these pages, simply copy files in *[build directory](https://github.com/a129123659/Xinfeng-Breakfast-Online-Orderer/tree/LuoJie/build)* to whatever your project folder is in *XAMPP*, then open the service should do the trick.
 
-Any issue (especially merging with our whole app) is welcome.
+Any issue (especially merging with our whole app) is ~~unwanted~~ welcome.
+
+![Tired](https://stickershop.line-scdn.net/stickershop/v1/sticker/180150448/android/sticker.png)
 
 ### Tool used
 
@@ -25,3 +27,14 @@ Refactored (majorly) with the following tools
 - Scss
 - font awesome
 - webpack
+
+---
+
+## Exhibition
+
+### Main page
+
+#### modal window
+
+![ModalWindow](./demo/ModalWindow.gif)
+

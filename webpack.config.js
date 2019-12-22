@@ -62,12 +62,12 @@ module.exports = {
             {
                 test: /\.(png|svg|jpg|gif)$/,
                 loader: 'file-loader',
+                exclude: path.resolve(__dirname, 'src/images'),
                 options: {
                     name(file) {
                         if (process.env.NODE_ENV === 'development') {
                             return '[path][name].[ext]';
                         }
-
                         return '[contenthash].[ext]';
                     },
                     outputPath: 'asset/img',
@@ -97,6 +97,10 @@ module.exports = {
         new CopyPlugin([{
             from: path.resolve(__dirname, 'src/php'),
             to: path.resolve(__dirname, 'build/php')
+        }]),
+        new CopyPlugin([{
+            from: path.resolve(__dirname, 'src/images'),
+            to: path.resolve(__dirname, 'build/images')
         }])
     ],
     resolve: {
