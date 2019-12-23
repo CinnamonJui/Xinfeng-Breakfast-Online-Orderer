@@ -15,12 +15,19 @@
     }
     if(isset($_POST['add_check'])){
         $add_check=$_POST['add_check'];
-        if($add_check=="item")
+        if($add_check=="item"){
+            $file_dir=".\\images\\item\\";
+            move_uploaded_file($_FILES["file"]["tmp_name"],".".$file_dir.$_FILES["file"]["name"]);
             $result = $conn->addItem($_POST['ID'],$_POST['type'],
-            $_POST['price'],$_POST['picture'],$_POST['info']);
-        else if($add_check=="combo")
+            $_POST['price'],$file_dir.$_FILES["file"]["name"],$_POST['info']);
+        }
+            
+        else if($add_check=="combo"){
+            $file_dir=".\\images\\combo\\";
+            move_uploaded_file($_FILES["file"]["tmp_name"],".".$file_dir.$_FILES["file"]["name"]);
             $result = $conn->addCombo($_POST['ID'],$_POST['price'],
-            $_POST['picture'],$_POST['items'],$_POST['info']);
+            $file_dir.$_FILES["file"]["name"],$_POST['items'],$_POST['info']);
+        }
         else
             die("add_check error");
         echo $result;
@@ -28,6 +35,7 @@
     }
     if(isset($_POST['del_check'])){
         $del_check=$_POST['del_check'];
+        unlink(".".$_POST['picture']);
         if($del_check=="item")
             $result = $conn->delItem($_POST['ID']);
         else if($del_check=="combo")

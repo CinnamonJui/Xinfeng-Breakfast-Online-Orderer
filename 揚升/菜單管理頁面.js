@@ -1,7 +1,7 @@
 var item_type, item_name, item_price, item_picture, item_info;
-var item_upload, item_upload_src;
+var item_upload, item_upload_file;
 var combo_type, combo_name, combo_price, combo_picture, combo_info;
-var combo_upload, combo_upload_src;
+var combo_upload, combo_upload_file;
 var item_width = [10, 20, 30, 15, 15, 10];
 var combo_width = [50, 15, 20, 15];
 var combo_item_width = [25, 60, 15];
@@ -34,18 +34,17 @@ var itemBody, comboBody;
 var even = 0;
 
 function itemUploadFile(ev) {
-    console.log(ev.target.files, ev.target.files[0]);
-    item_upload_src = item_upload.value;
-    let pic_src = item_upload_src;
+    let pic_src = item_upload.value;
     pic_src = pic_src.split("\\");
     item_picture.value = pic_src[pic_src.length - 1];
+    item_upload_file = ev.target.files[0];
 }
 
 function comboUploadFile(ev) {
-    combo_upload_src = combo_upload.value;
-    let pic_src = combo_upload_src;
+    let pic_src = combo_upload.value;
     pic_src = pic_src.split("\\");
     combo_picture.value = pic_src[pic_src.length - 1];
+    combo_upload_file = ev.target.files[0];
 }
 
 function start() {
@@ -258,52 +257,45 @@ function addToCombo(ev) {
 }
 
 function item_add() {
-    if (!item_price.value || !item_name.value || !item_upload_src || !item_info.value) {
+    if (!item_price.value || !item_name.value || !item_upload_file || !item_info.value) {
         window.alert("資料填寫不完全");
         return;
     }
-
     let ito = item_type.getElementsByTagName("option");
     let it;
     for (let i in item_type_name[0])
         if (item_type_name[1][i] == item_type.value)
             it = item_type_name[0][i];
-    let arr = [it, item_name.value, item_price.value, item_upload_src, item_info.value];
-    let send_data = "add_check=item" +
-        "&ID=" + arr[1] +
-        "&type=" + arr[0] +
-        "&price=" + arr[2] +
-        "&picture=" + arr[3] +
-        "&info=" + arr[4];
+    let form_data = new FormData();
+    form_data.append('file', item_upload_file);
+    form_data.append('add_check', "item");
+    form_data.append('type', it);
+    form_data.append('ID', item_name.value);
+    form_data.append('price', item_price.value);
+    form_data.append('info', item_info.value);
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "getMenu.php", true);
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhr.send(send_data);
+    xhr.send(form_data);
     xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                console.log(xhr.response);
-                if (xhr.response) {
-                    getItemData();
-                    console.log("success");
-                } else
-                    console.log("error");
-            }
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            if (xhr.response) {
+                getItemData();
+                console.log("success");
+            } else
+                console.log("error");
         }
-        /*
-            console.log(arr);
-            item_ex.push(arr);
-            console.log(item_ex);*/
+    }
     ito[0].selected = true;
     item_name.value = "";
     item_price.value = "";
     item_picture.value = "";
-    item_upload_src = "";
+    item_upload_file = "";
     item_info.value = "";
     //buildItemBody(item_ex);
 }
 
 function combo_add() {
-    if (!combo_price.value || !combo_name.value || !combo_upload_src || !combo_info.value || !combo_items.innerHTML) {
+    if (!combo_price.value || !combo_name.value || !combo_upload_file || !combo_info.value || !combo_items.innerHTML) {
         window.alert("資料填寫不完全");
         return;
     }
@@ -313,32 +305,29 @@ function combo_add() {
     for (let i = 0; i < ci_contents.length; i++)
         combo_items_value[i] = ci_contents[i].id;
     combo_items_value = combo_items_value.join(",");
-    let arr = [combo_name.value, combo_price.value, combo_upload_src, combo_items_value, combo_info.value];
-    let send_data = "add_check=combo" +
-        "&ID=" + arr[0] +
-        "&price=" + arr[1] +
-        "&picture=" + arr[2] +
-        "&items=" + arr[3] +
-        "&info=" + arr[4];
+    let form_data = new FormData();
+    form_data.append('file', combo_upload_file);
+    form_data.append('add_check', "combo");
+    form_data.append('ID', combo_name.value);
+    form_data.append('price', combo_price.value);
+    form_data.append('info', combo_info.value);
+    form_data.append('items', combo_items_value);
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "getMenu.php", true);
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhr.send(send_data);
+    xhr.send(form_data);
     xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                console.log(xhr.response);
-                if (xhr.response) {
-                    getComboData();
-                    console.log("success");
-                } else
-                    console.log("error");
-            }
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            if (xhr.response) {
+                getComboData();
+                console.log("success");
+            } else
+                console.log("error");
         }
-        //combo_ex.push(arr);
+    }
     combo_name.value = "";
     combo_price.value = "";
     combo_picture.value = "";
-    combo_upload_src = "";
+    combo_upload_file = "";
     combo_items.innerHTML = "";
     combo_items_value = "";
     combo_info.value = "";
@@ -346,17 +335,30 @@ function combo_add() {
 }
 
 function delete_data(item_combo, del_id) {
-    console.log(item_combo, del_id);
     let send_data;
     send_data = "del_check=" + item_combo +
         "&ID=" + del_id;
+    if (item_combo == "item") {
+        for (let i in itemData) {
+            if (itemData[i][1] == del_id) {
+                send_data += "&picture=" + itemData[i][3];
+                break;
+            }
+        }
+    } else if (item_combo == "combo") {
+        for (let i in comboData) {
+            if (comboData[i][1] == del_id) {
+                send_data += "&picture=" + comboData[i][3];
+                break;
+            }
+        }
+    }
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "getMenu.php", true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send(send_data);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
-            console.log(xhr.response);
             if (xhr.response) {
                 console.log("success");
                 if (item_combo == "item")
@@ -367,11 +369,10 @@ function delete_data(item_combo, del_id) {
                 console.log("error");
         }
     }
-
 }
 
 function itemEdit(ev) {
-    if (item_price.value || item_name.value || item_upload_src || item_info.value) {
+    if (item_price.value || item_name.value || item_upload_file || item_info.value) {
         if (!window.confirm("資料欄位中有值，確定覆蓋?"))
             return;
     }
@@ -383,22 +384,19 @@ function itemEdit(ev) {
                     item_type.value = item_type_name[1][j];
             item_name.value = itemData[i][1];
             item_price.value = itemData[i][2];
-            item_upload_src = itemData[i][3];
-            let pic_src = item_upload_src;
-            console.log(item_upload_src);
+            /*item_upload_file = itemData[i][3];
+            let pic_src = item_upload_file;
             pic_src = pic_src.split("\\");
-            item_picture.value = pic_src[pic_src.length - 1];
+            item_picture.value = pic_src[pic_src.length - 1];*/
             item_info.value = itemData[i][4];
-            itemData.splice(i, 1);
             break;
         }
     }
     delete_data("item", parent.id);
-    parent.parentNode.removeChild(parent);
 }
 
 function comboEdit(ev) {
-    if (combo_price.value || combo_name.value || combo_upload_src || combo_info.value) {
+    if (combo_price.value || combo_name.value || combo_upload_file || combo_info.value) {
         if (!window.confirm("資料欄位中有值，確定覆蓋?"))
             return;
     }
@@ -408,7 +406,6 @@ function comboEdit(ev) {
         if (comboData[i][0] == parent.id) {
             combo_name.value = comboData[i][0];
             combo_price.value = comboData[i][1];
-            combo_upload_src = comboData[i][2];
             let ci_contents = comboData[i][3];
             ci_contents = ci_contents.split(",");
             let items = itemBody.getElementsByTagName("tr");
@@ -416,9 +413,10 @@ function comboEdit(ev) {
                 for (let k in items)
                     if (ci_contents[j] == items[k].id)
                         addToCombo(items[k]);
-            let pic_src = combo_upload_src;
-            pic_src = pic_src.split("\\");
-            combo_picture.value = pic_src[pic_src.length - 1];
+                    /*combo_upload_file = comboData[i][2];
+                    let pic_src = combo_upload_file;
+                    pic_src = pic_src.split("\\");
+                    combo_picture.value = pic_src[pic_src.length - 1];*/
             combo_info.value = comboData[i][4];
             break;
         }
@@ -432,13 +430,6 @@ function itemRemove(ev) {
     let parent = ev.target.parentNode.parentNode;
     parent.parentNode.removeChild(parent);
     delete_data("item", parent.id);
-    /*for (let i in item_ex) {
-        if (item_ex[i][1] == parent.id) {
-            item_ex.splice(i, 1);
-            console.log(item_ex);
-            break;
-        }
-    }*/
 }
 
 function comboRemove(ev) {
