@@ -44,9 +44,14 @@
 <!-- DOM template end here-->
 <script>
 import { ModalEventBus } from "./eventbus-modal";
+import { Combo } from "./../models/meal";
+
 export default {
   props: {
-    combo: Object
+    combo: {
+      type: Combo,
+      required: true
+    }
   },
   data() {
     return {

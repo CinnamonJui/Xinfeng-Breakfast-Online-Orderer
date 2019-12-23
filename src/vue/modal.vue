@@ -29,18 +29,19 @@
 <script>
 import { ModalEventBus } from "./eventbus-modal";
 import $ from "jquery";
+import { Meal, Item, Combo } from "./../models/meal";
 
 export default {
   props: {},
   data() {
     return {
-      meal: Object,
+      meal: Meal,
       _modal: Object
     };
   },
   computed: {
     isItem() {
-      return Object.prototype.hasOwnProperty.call(this.meal, "type");
+      return this.meal instanceof Item;
     },
     imgSrc() {
       return `./images/${this.isItem ? "item" : "combo"}/${this.meal.ID}.jpg`;

@@ -1,12 +1,11 @@
-import './main.scss';
-import Vue from 'vue';
 import 'bootstrap';
-import $ from 'jquery';
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
-import '@fortawesome/fontawesome-free/js/regular'
-import '@fortawesome/fontawesome-free/js/brands'
+import './main.scss';
+import Vue from 'vue';
+import $ from 'jquery';
 
+localStorage.setItem('cart', '{}')
 
 // Log in&out control
 new Vue({
@@ -32,30 +31,12 @@ new Vue({
     });
   },
 });
+
 import ComboCard from './vue/combo-card.vue';
 import ItemCard from './vue/item-card.vue';
 import Modal from './vue/modal.vue'
+import { Combo, Item } from './models/meal'
 
-class Combo {
-  constructor({ ID, price, picture, items, info }) {
-    this.ID = ID;
-    this.price = price;
-    this.info = info;
-    this.picture = picture;
-    this.items = items;
-  }
-}
-class Item {
-  constructor({ ID, type, price, picture, info }) {
-    this.ID = ID;
-    this.price = price;
-    this.info = info;
-    this.picture = picture;
-    this.type = type;
-  }
-}
-
-localStorage.setItem('cart', '{}')
 new Vue({
   el: '#combo-panel',
   data: {

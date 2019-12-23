@@ -36,9 +36,14 @@
 <script>
 import Vue from "vue";
 import { ModalEventBus } from "./eventbus-modal";
+import { Item } from "./../models/meal";
+
 export default {
   props: {
-    item: Object
+    item: {
+      type: Item,
+      required: true
+    }
   },
   data() {
     return {

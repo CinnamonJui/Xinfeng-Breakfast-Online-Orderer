@@ -54,7 +54,8 @@ module.exports = {
                     {
                         loader: 'babel-loader',
                         options: {
-                            presets: ['@babel/preset-env']
+                            presets: ['@babel/preset-env'],
+                            plugins: ['@babel/plugin-proposal-object-rest-spread']
                         }
                     }
                 ]
@@ -101,7 +102,7 @@ module.exports = {
         new CopyPlugin([{
             from: path.resolve(__dirname, 'src/images'),
             to: path.resolve(__dirname, 'build/images')
-        }])
+        }]),
     ],
     resolve: {
         alias: {
