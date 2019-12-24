@@ -6,7 +6,7 @@ $GLOBALS['config']=array(
         'host'=>'localhost',
         'username'=>'wei',
         'password'=>"chun",
-        'db'=>'XBS'
+        'db'=>'xbs'
     ),
     'remember'=>array(
         'cookie_name'=>'hash',

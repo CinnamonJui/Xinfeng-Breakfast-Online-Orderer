@@ -5,11 +5,12 @@ class DB{
             $_query,
             $_error = false,
             $_results,
-            $_count=0;
+            $_count=0,$bindValue;
     private function __construct(){
         try{
             $this->_pdo = new PDO('mysql:dbname='.Config::get('mysql/db').';host='.Config::get('mysql/host'),
             Config::get('mysql/username'),Config::get('mysql/password'));
+            $this->_pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
             echo 'Connected';
         }catch(PDOException $e){
             die($e->getMessage());
@@ -25,21 +26,27 @@ class DB{
     }
     public function query($sql,$params = array()){
         $this->_error=false;
+      
         if($this->_query = $this->_pdo->prepare($sql)){
             $x=1;
+            //echo '<br>'. $sql;
             if(count($params))
-            foreach($params as $param){
-                $this->_query->bindValue($x,$param);
-                $x++;
-                
-            }
+                foreach($params as $param){
+                    $bindValue=$this->_query->bindValue($x,$param);
+                    $x++;
+                    echo '<br>'.$bindValue;
+                }
+                //echo '<br>'. $this->_query;
             if($this->_query->execute()){
                 $this->results = $this->_query->fetchAll(PDO::FETCH_OBJ);
                 $this->_count=$this->_query->rowCount();
+                echo $this->_query->rowCount();
     
             }else{
                 $this->_error = true;
+                echo 'fail exec<br>';
             }
+           
         }
         
         return  $this;
@@ -51,9 +58,11 @@ class DB{
             $field      = $where[0];
             $operator   = $where[1];
             $value      = $where[2];
+            echo $field.'<br>';
             if(in_array($operator,$operators)){
-                $sql ='{$action} FROM {$table} WHERE {$field} {$operator} ?'; 
-                //echo $sql;
+                $sql ="{$action} FROM {$table} WHERE {$field} {$operator} ?"; 
+                //$sql='SELECT * FROM xbs.account WHERE ID = ?';
+                echo $sql;
                 if(!$this->query($sql,array($value))->error()){
                     return $this;
                 }
