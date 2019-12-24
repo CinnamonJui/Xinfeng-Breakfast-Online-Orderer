@@ -5,8 +5,8 @@ include_once "Bacon.php";
 $conn; //PDO connection class
 
 $dbServername = "localhost";
-$dbUsername = "root";
-$dbPassword = "";
+$dbUsername = "wer";
+$dbPassword = "chun";
 $dbName = "XBS";
 
 try {
