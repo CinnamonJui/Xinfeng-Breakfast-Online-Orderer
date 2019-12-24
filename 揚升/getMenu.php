@@ -16,17 +16,19 @@
     if(isset($_POST['add_check'])){
         $add_check=$_POST['add_check'];
         if($add_check=="item"){
-            $file_dir=".\\images\\item\\";
-            move_uploaded_file($_FILES["file"]["tmp_name"],".".$file_dir.$_FILES["file"]["name"]);
+            $fname=$_FILES["file"]["name"];
+            $file_dir=".\\images\\item\\".$_POST['ID'].".".substr(strrchr($fname, '.'), 1);
+            move_uploaded_file($_FILES["file"]["tmp_name"],".".$file_dir);
             $result = $conn->addItem($_POST['ID'],$_POST['type'],
-            $_POST['price'],$file_dir.$_FILES["file"]["name"],$_POST['info']);
+            $_POST['price'],$file_dir,$_POST['info']);
         }
             
         else if($add_check=="combo"){
-            $file_dir=".\\images\\combo\\";
-            move_uploaded_file($_FILES["file"]["tmp_name"],".".$file_dir.$_FILES["file"]["name"]);
+            $fname=$_FILES["file"]["name"];
+            $file_dir=".\\images\\combo\\".$_POST['ID'].".".substr(strrchr($fname, '.'), 1);
+            move_uploaded_file($_FILES["file"]["tmp_name"],".".$file_dir);
             $result = $conn->addCombo($_POST['ID'],$_POST['price'],
-            $file_dir.$_FILES["file"]["name"],$_POST['items'],$_POST['info']);
+            $file_dir,$_POST['items'],$_POST['info']);
         }
         else
             die("add_check error");

@@ -278,6 +278,7 @@ function item_add() {
     xhr.send(form_data);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
+            console.log(xhr.response);
             if (xhr.response) {
                 getItemData();
                 console.log("success");
