@@ -26,21 +26,23 @@ class DB{
     }
     public function query($sql,$params = array()){
         $this->_error=false;
-      
+        //$testSql = "SELECT * from xbs.account;";
         if($this->_query = $this->_pdo->prepare($sql)){
             $x=1;
             //echo '<br>'. $sql;
+            
             if(count($params))
                 foreach($params as $param){
-                    $bindValue=$this->_query->bindValue($x,$param);
+                    $this->_query->bindValue($x,$param);
                     $x++;
                     //echo '<br>'.$bindValue;
                 }
+            
                 //echo '<br>'. $this->_query;
             if($this->_query->execute()){
-                $this->results = $this->_query->fetchAll(PDO::FETCH_ASSOC);
+                $this->_results = $this->_query->fetchAll(PDO::FETCH_ASSOC);
                 $this->_count=$this->_query->rowCount();
-                echo print_r($this->_results).'results';
+                //echo print_r($this->results);//.'results'
     
             }else{
                 $this->_error = true;
