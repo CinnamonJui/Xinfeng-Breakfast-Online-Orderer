@@ -10,7 +10,7 @@ class DB{
         try{
             $this->_pdo = new PDO('mysql:dbname='.Config::get('mysql/db').';host='.Config::get('mysql/host'),
             Config::get('mysql/username'),Config::get('mysql/password'));
-            //echo 'Connected';
+            echo 'Connected';
         }catch(PDOException $e){
             die($e->getMessage());
         }
@@ -33,15 +33,15 @@ class DB{
                 $x++;
                 
             }
-
+            if($this->_query->execute()){
+                $this->results = $this->_query->fetchAll(PDO::FETCH_OBJ);
+                $this->_count=$this->_query->rowCount();
+    
+            }else{
+                $this->_error = true;
+            }
         }
-        if($this->_query->execute()){
-            $this->results = $this->_query->fetchAll(PDO::FETCH_OBJ);
-            $this->_count=$this_query->rowCount();
-
-        }else{
-            $this->_error = true;
-        }
+        
         return  $this;
     }
     public function action($action,$table,$where=array()){
@@ -53,11 +53,14 @@ class DB{
             $value      = $where[2];
             if(in_array($operator,$operators)){
                 $sql ='{$action} FROM {$table} WHERE {$field} {$operator} ?'; 
+                //echo $sql;
                 if(!$this->query($sql,array($value))->error()){
-
+                    return $this;
                 }
+                //echo 'error ='.$this->error();
             }
         }
+        return $this;
     }
     public function get($table,$where){
         return $this->action('SELECT *',$table,$where);
