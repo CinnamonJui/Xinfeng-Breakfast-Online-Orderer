@@ -2,93 +2,63 @@
 <html lang="zh-Hant-TW">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="./stylesheets/menu.css">
-    <link rel="stylesheet" href="./stylesheets/menu-item.css">
-    <title>新豐早餐店</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title>新豐早餐店</title>
 </head>
 
 <body>
-    <div id="page">
-        <div id="option-bar">
-            <div id="cart"><input type="button" value="購物車" onclick="location.href='./購物車.html';"></div>
-            <span id="display-userID"></span>
-            <div id="login-register">
-                <input type="button" value="登入" onclick="location.href='./login.html';">
-                <input type="button" value="註冊" onclick="location.href='./register.html';">
-            </div>
-        </div>
-        <h1>歡迎光臨新豐早餐店</h1>
 
-        <!-- Menu -->
-        <!--
-        <div id="Menus">
-            <button class="control"><span>套餐</span></button>
-            <div class="combo-panel">
-                <div class="combo">
-                    <div class="title">Life套餐</div>
-                    <div class="content">培根蛋土司</div>
-                    <div class="price">2K</div>
-                    <div class="toCart">
-                        <button class="cart-minus">[-]</button>
-                        <span>0</span>
-                        <button class="cart-plus">[+]</button>
-                    </div>
-                </div>
-                <div class="combo">
-                    <div class="title">晨博套餐</div>
-                    <div class="content">
-                        <ul>
-                            <li>江POI</li>
-                        </ul>
-                    </div>
-                    <div class="price">1.5M</div>
-                    <div class="toCart">
-                        <button class="cart-minus">[-]</button>
-                        <span>0</span>
-                        <button class="cart-plus">[+]</button>
-                    </div>
-                </div>
-                <div class="combo">
-                    <div class="title">江POI奶茶</div>
-                    <div class="content">
-                        <ul>
-                            <li>江POI</li>
-                        </ul>
-                    </div>
-                    <div class="price">1.5M</div>
-                    <div class="toCart">
-                        <button class="cart-minus">[-]</button>
-                        <span>0</span>
-                        <button class="cart-plus">[+]</button>
-                    </div>
-                </div>
-            </div>
-            <button class="control">三明治</button>
-            <div class="panel">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td class="title">江POI三明治</td>
-                            <td class="price">50</td>
-                            <td class="toCart">
-                                <button class="cart-minus">[-]</button>
-                                <span>0</span>
-                                <button class="cart-plus">[+]</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+  <nav class="navbar navbar-expand navbar-dark bg-success">
+    <!-- Brand & Cart -->
+    <a href="./main.html" class="navbar-brand">新豐早餐店</a>
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#nav-items"
+      onclick="location.href='./購物車.html';">
+      <i class="navbar-toggler-icon"></i>
+    </button>
+    <!-- Log in&out control -->
+    <div class="navbar-collapse collapse justify-content-end" id="nav-items">
+      <button class="btn btn-outline-light mr-auto" id="cart">
+        <i class="fa fa-shopping-cart"></i>
+      </button>
+      <div class="mx-1" id="user-action">
+        <div id="logout" v-if="isLogin">
+          <span class="text-white">{{ username }} 你好！</span>
+          <button class="btn btn-outline-light" @click="logout">登出</button>
         </div>
-        -->
-        <div id="Menus">
+        <div id="reg-login" class="btn-group" v-else>
+          <button class="btn btn-outline-light" onclick="location.href='./login.html';">登入</button>
+          <button class="btn btn-outline-light" onclick="location.href='./register.html';">註冊</button>
         </div>
+      </div>
     </div>
-    <script src="./javascripts/jquery.min.js"></script>
-    <script src="./javascripts/menu.js"></script>
-</body>
+  </nav>
+  <div class="container-fluid mt-3" id="menu">
+    <!-- a single row for combo -->
+    <div class="row">
+      <div class="col-12">
+        <!-- combo control -->
+        <button id="combo-control" class="btn btn-dark btn-block text-left my-2 position-sticky sticky-top"
+          data-toggle="collapse" data-target="#combo-panel">套餐</button>
+        <!-- combo panel, vue here -->
+        <div id="combo-panel" class="row mx-n1 collapse show">
+          <combo-card class="m-1" v-for="(combo, index) in combos" :key="index" :combo="combo" />
+        </div>
+      </div>
+    </div>
+    <!-- a single row for combo end here-->
+
+    <!-- rows for items -->
+    <div id="items">
+      <item-card v-for="(val, key, index) in items" :key="index" :type="key" :items="val" />
+    </div>
+  </div>
+  <!-- modal -->
+  <div id="modal">
+    <modal></modal>
+  </div>
+<script type="text/javascript" src="javascripts/main.bundle.js"></script></body>
 
 </html>
