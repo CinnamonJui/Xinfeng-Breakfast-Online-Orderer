@@ -5,13 +5,13 @@ class DB{
             $_query,
             $_error = false,
             $_results,
-            $_count=0,$bindValue;
+            $_count=0;
     private function __construct(){
         try{
             $this->_pdo = new PDO('mysql:dbname='.Config::get('mysql/db').';host='.Config::get('mysql/host'),
             Config::get('mysql/username'),Config::get('mysql/password'));
             $this->_pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-            echo 'Connected';
+            //echo 'Connected';
         }catch(PDOException $e){
             die($e->getMessage());
         }
@@ -34,13 +34,13 @@ class DB{
                 foreach($params as $param){
                     $bindValue=$this->_query->bindValue($x,$param);
                     $x++;
-                    echo '<br>'.$bindValue;
+                    //echo '<br>'.$bindValue;
                 }
                 //echo '<br>'. $this->_query;
             if($this->_query->execute()){
-                $this->results = $this->_query->fetchAll(PDO::FETCH_OBJ);
+                $this->results = $this->_query->fetchAll(PDO::FETCH_ASSOC);
                 $this->_count=$this->_query->rowCount();
-                echo $this->_query->rowCount();
+                echo print_r($this->_results).'results';
     
             }else{
                 $this->_error = true;
@@ -58,11 +58,11 @@ class DB{
             $field      = $where[0];
             $operator   = $where[1];
             $value      = $where[2];
-            echo $field.'<br>';
+            //echo $field.'<br>';
             if(in_array($operator,$operators)){
                 $sql ="{$action} FROM {$table} WHERE {$field} {$operator} ?"; 
                 //$sql='SELECT * FROM xbs.account WHERE ID = ?';
-                echo $sql;
+                //echo $sql;
                 if(!$this->query($sql,array($value))->error()){
                     return $this;
                 }
@@ -78,11 +78,16 @@ class DB{
     public function delete($table,$where){
         return $this->action('DELETE',$table,$where);
     }
+    public function results(){
+        //echo $this->results->__toString();
+        return $this->_results;
+    }
     public function error(){
         return $this->_error;
     }
     public function count(){
         return $this->_count;
     }
+    
 }
         

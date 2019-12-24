@@ -8,6 +8,8 @@ $user=DB::getInstance()->get('xbs.account',array('ID','=','0912345678'));
 if(!$user->count()){
     echo 'No user';
 }else{
-    echo 'OK!';
+    //foreach($user->results() as $users){
+        //echo $user->username, '<br>';
+    //}
 }
 
