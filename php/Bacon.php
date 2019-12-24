@@ -522,7 +522,7 @@ class Bacon
     }
     function checkIfIDAlreadyTaken($ID)
     {
-
+        //merge test
         $sqlFind = "SELECT COUNT(*) 
                     from Account
                     WHERE ID=?;";
