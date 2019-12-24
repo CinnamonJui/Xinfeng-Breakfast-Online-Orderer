@@ -4,14 +4,20 @@ require_once '../core/init.php';
 
 //$user=DB::getInstance()->get('account',array('name','=','1111'));
 //$user=DB::getInstance()->query('SELECT ID FROM xbs.account WHERE ID = ?',array('0912345678'));
-$user=DB::getInstance()->get('xbs.account',array('ID','=','0912345678'));
+//$user=DB::getInstance()->get('xbs.account',array('ID','=','0912345678'));
+/*$user=DB::getInstance()->get('xbs.account',array('ID','=','0912345678'));
+
 if(!$user->count()){
     echo 'No user';
 }else{
-    foreach($user->results() as $users){
-        echo $users['ID'], '<br>';
-    }
+    echo $user->first()->ID;
     
     //echo print_r($user->results());
-}
+}*/
+
+$user= DB::getInstance()->insert('account',array(
+    'ID'=>'wei',
+    'password'=>'123',
+    'salt'=>'salt'
+));
 

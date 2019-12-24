@@ -293,8 +293,7 @@ class Bacon
             }catch(PDOException $e){
                 echo $e->getMessage();            
             }
-            
-            
+                       
             return true;
         }
     }

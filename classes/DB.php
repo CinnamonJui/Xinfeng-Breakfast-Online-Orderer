@@ -40,7 +40,7 @@ class DB{
             
                 //echo '<br>'. $this->_query;
             if($this->_query->execute()){
-                $this->_results = $this->_query->fetchAll(PDO::FETCH_ASSOC);
+                $this->_results = $this->_query->fetchAll(PDO::FETCH_OBJ);//FETCH_OBJ
                 $this->_count=$this->_query->rowCount();
                 //echo print_r($this->results);//.'results'
     
@@ -90,6 +90,29 @@ class DB{
     public function count(){
         return $this->_count;
     }
-    
+    public function first(){
+        return $this->results()[0];
+    }
+    public function insert($table,$fields = array()){
+        if(count($fields)){
+            $keys = array_keys($fields);
+            $values = null;
+            $x= 1;
+            foreach($fields as $field){
+                $values .= "?";
+                if($x< count($fields)){
+                    $values .= ', ';
+                }
+                $x++;
+            }
+            //die($values);
+            $sql = "INSERT INTO account (`" . implode('`,`',$keys) . "`) VALUES ({$values})";
+            
+            if($this->query($sql,$fields)->error()){
+                return true;
+            }
+        }
+        return false;
+    }
 }
         
