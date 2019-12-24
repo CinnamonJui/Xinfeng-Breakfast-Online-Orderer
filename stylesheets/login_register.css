@@ -1,0 +1,87 @@
+body {
+    background-color: rgb(185, 234, 191);
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+.login-body {
+    width: fit-content;
+    margin: 0 auto;
+    position: relative;
+    top: 2rem;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+form {
+    margin: 0 auto;
+    display: inline-block;
+}
+
+.login-data {
+    display: block;
+    margin: 10px 0;
+    height: 3.5rem;
+}
+
+.login-data[for='remember'] {
+    font-size: 1.0rem;
+    display: inline-flex;
+    height: 1rem;
+    width: 100%;
+}
+
+
+.login-data[placeholder] {
+    font-size: 1.5rem;
+    box-sizing: border-box;
+    padding: 0.2rem;
+    border-style: none;
+    border: 1px solid gray;
+}
+
+.login-data[placeholder]:focus {
+    border-bottom: none;
+    border: 1px 1px solid #80bdff;
+    border-radius: 4px;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    outline: none;
+}
+
+.sex-section {
+    margin: 0;
+    width: 100%;
+    display: inline-flex;
+    justify-content: flex-start;
+    
+}
+
+.sex-section span {
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+}
+
+.sex-section input {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.5);
+}
+
+.login-or-reg, .reg-or-cancel {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.action-btn {
+    font-size: 1.2rem;
+    flex-grow: 1;
+    background: rgb(171, 255, 235);
+    margin: 0 0.3rem;
+    border: 1px solid black;
+    cursor: pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}

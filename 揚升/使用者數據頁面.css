@@ -1,0 +1,64 @@
+@media all {
+    div {
+        display: inline-block;
+    }
+    .title {
+        width: 100%;
+        float: left;
+    }
+    .blank {
+        width: 100%;
+        height: 1px;
+    }
+    .caption {
+        float: left;
+        font-size: 200%;
+        font-weight: bold;
+    }
+    .even {
+        background-color: rgba(244, 219, 195, 0.8);
+    }
+    .odd {
+        background-color: white;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    td {
+        border: 1px solid black;
+    }
+    thead {
+        font-weight: bold;
+        background-color: rgba(244, 177, 133, 0.8);
+    }
+    input {
+        float: left;
+        border: 1px solid black;
+    }
+    .search {
+        background-color: rgba(224, 183, 135, 0.8);
+        margin-left: 15px;
+        border-radius: 4px;
+        height: 100%;
+        cursor: pointer;
+    }
+    select {
+        border: 1px solid black;
+        float: left;
+        height: 100%;
+    }
+    input.string {
+        border-right: 0px;
+        width: 200px;
+        height: 85%;
+    }
+    .title_back {
+        display: inline-block;
+        width: 65%;
+        height: 25px;
+        margin-top: 10px;
+    }
+}
+
+@media screen and (max-width:900px) {}

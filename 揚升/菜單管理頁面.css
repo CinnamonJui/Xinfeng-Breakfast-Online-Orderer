@@ -1,0 +1,258 @@
+.left {
+    float: left;
+    width: 50%;
+    height: auto;
+}
+
+.right {
+    float: right;
+    width: 45%;
+    height: auto;
+}
+
+.title {
+    float: left;
+    font-size: 200%;
+    font-weight: bold;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td {
+    border: 1px solid black;
+}
+
+.title_block {
+    width: 100%;
+    float: left;
+}
+
+.title_back {
+    display: inline-block;
+    width: 60%;
+    height: 25px;
+    margin-top: 10px;
+}
+
+input.string {
+    width: 70%;
+    height: 85%;
+}
+
+input {
+    float: left;
+    border: 1px solid black;
+}
+
+.search {
+    background-color: rgba(224, 183, 135, 0.8);
+    border-radius: 4px;
+    height: 100%;
+    cursor: pointer;
+}
+
+.blank {
+    display: inline-block;
+    width: 100%;
+    height: 1px;
+}
+
+.item {
+    display: inline-block;
+    width: 100%;
+}
+
+.caption {
+    font-weight: bold;
+    display: inline-block;
+    font-size: 150%;
+    width: 100%;
+    line-height: 30px;
+    text-align: center;
+    background-color: rgba(246, 218, 124, 0.8);
+}
+
+.item_left {
+    float: left;
+    width: 40%;
+}
+
+.combo_left {
+    float: left;
+    width: 42.5%;
+}
+
+.item_right {
+    text-align: center;
+    float: right;
+    width: 55%;
+    overflow: auto;
+    height: 350px;
+    display: block;
+}
+
+.combo_right {
+    float: right;
+    width: 52.5%;
+}
+
+.att_block {
+    width: 100%;
+    height: 30px;
+}
+
+label {
+    text-align: center;
+    float: left;
+    line-height: 30px;
+    width: 30%;
+    background-color: rgba(249, 156, 150);
+    border: 1px solid black;
+}
+
+label.item_info {
+    width: 100%;
+}
+
+label.combo_info {
+    writing-mode: vertical-lr;
+    width: 30px;
+    height: 84px;
+    float: left;
+}
+
+.att_type_str {
+    height: 32px;
+    width: 66%;
+    border: 1px solid black;
+    font-size: 105%;
+}
+
+.att_str {
+    height: 28px;
+    width: 65%;
+    border: 1px solid black;
+    font-size: 105%;
+}
+
+.att_pic_str {
+    height: 28px;
+    width: 40%;
+    border: 1px solid black;
+    font-size: 105%;
+}
+
+.item_info_str {
+    width: 99%;
+    height: 80px;
+    border: 1px solid black;
+    font-size: 150%;
+    resize: none;
+}
+
+.combo_info_str {
+    width: calc(100% - 40px);
+    height: 80px;
+    border: 1px solid black;
+    font-size: 150%;
+    resize: none;
+}
+
+.upload {
+    text-align: center;
+    background-color: rgba(224, 183, 135, 0.8);
+    border-radius: 4px;
+    height: 30px;
+    width: 27%;
+    cursor: pointer;
+}
+
+.add_refresh {
+    cursor: pointer;
+    text-align: center;
+    float: right;
+    background-color: rgba(224, 183, 135, 0.8);
+    border-radius: 4px;
+    height: 30px;
+    width: 45%;
+}
+
+.combo_add {
+    width: 20%;
+}
+
+.item_type_search {
+    position: sticky;
+    background-color: rgba(249, 156, 150);
+    border: 1px solid black;
+    font-size: 105%;
+    height: 32px;
+    width: 100%;
+    font-weight: bold;
+}
+
+.clickable {
+    color: rgba(46, 163, 229, 1.0);
+}
+
+.clickable:hover {
+    color: navy;
+    cursor: pointer;
+}
+
+.sandwich {
+    background-color: rgba(255, 255, 114, 0.8);
+}
+
+.dessert {
+    background-color: rgba(148, 220, 250, 0.8);
+}
+
+.drink {
+    background-color: rgba(184, 255, 78, 0.8);
+}
+
+.combo_item_label {
+    width: 99%;
+}
+
+.combo_down {
+    width: 100%;
+}
+
+.combo_items_content {
+    width: 99.5%;
+    background-color: white;
+    border: 1px solid black;
+    height: 100%;
+    line-height: 30px;
+}
+
+.even {
+    background-color: white;
+}
+
+.odd {
+    background-color: rgba(244, 219, 195, 0.8);
+}
+
+.ci_label {
+    width: 13%;
+}
+
+.combo_tbody {
+    text-align: center;
+    overflow: auto;
+    height: 96px;
+}
+
+.combo_items {
+    text-align: center;
+    border: 1px solid black;
+    overflow: auto;
+    height: 100px;
+    width: 99%;
+}

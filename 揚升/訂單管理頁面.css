@@ -1,0 +1,103 @@
+@media all {
+    div {
+        display: inline-block;
+    }
+    .color_display {
+        padding: 5px;
+        text-align: center;
+        float: left;
+        width: 60px;
+        height: 20px;
+        border: 0.5px solid black;
+    }
+    .title {
+        width: 100%;
+        float: left;
+        margin: 0px 0px 15px;
+    }
+    .title_back {
+        display: inline-block;
+        width: 65%;
+        height: 25px;
+        margin-top: 5px;
+    }
+    .unconfirm {
+        background-color: rgba(202, 202, 202, 0.8);
+        border-right: 0px;
+    }
+    .prepared {
+        background-color: rgba(255, 255, 128, 0.8);
+        border-right: 0px;
+    }
+    .done {
+        background-color: rgba(220, 160, 253, 0.8);
+        border-right: 0px;
+    }
+    .finished {
+        background-color: rgba(202, 249, 130, 0.8);
+        border-right: 0px;
+    }
+    .rejected {
+        background-color: rgba(246, 157, 178, 0.8);
+    }
+    .caption {
+        float: left;
+        font-size: 200%;
+        font-weight: bold;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    td {
+        border: 1px solid black;
+    }
+    thead {
+        font-weight: bold;
+        background-color: rgba(244, 177, 133, 0.8);
+    }
+    input {
+        font-size: 110%;
+        width: 120px;
+        height: 30px;
+        float: left;
+        align-self: center;
+        border: 1px solid black;
+        background-color: rgba(242, 198, 146, 0.8);
+        border-radius: 4px;
+        margin: 0% 4%;
+        cursor: pointer;
+    }
+    .history {
+        float: right;
+        margin-top: 5px;
+    }
+    .state {
+        color: rgba(46, 163, 229, 1.0);
+    }
+    .state:hover {
+        color: navy;
+        cursor: pointer;
+    }
+    ul {
+        width: 8%;
+        display: block;
+        position: absolute;
+        line-height: 23px;
+        list-style: none;
+        /*margin-top: 3px;
+        margin-left: -2px;*/
+        margin-top: -22px;
+        margin-left: calc(8% - 3px);
+        padding: 0;
+    }
+    ul li {
+        background-color: white;
+        border: 1px solid black;
+    }
+    ul li:hover {
+        background-color: PowderBlue;
+    }
+}
+
+@media screen and (max-width:900px) {}

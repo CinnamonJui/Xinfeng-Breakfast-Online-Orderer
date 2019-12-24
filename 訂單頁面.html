@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./stylesheets/訂單.css">
+        <title>訂單狀態</title>
+    </head>
+
+<body onload="ShowTime()">
+    <div id="page">    
+            <div id="option-bar">
+                <span id="title">訂單進度</span>
+                <span id="display-userID"></span>
+            </div>
+            <div class= panel>
+                    <table>  
+                        <tbody>
+                            <tr>
+                                <th class=title>編號</th>
+                                <th class=value >19-10-05-24</th>
+                            </tr>
+                            <tr>
+                                <th class=title>總計</th>
+                                <th class=value>190</th>
+                            </tr>
+                            <tr>
+                                <th class=title>狀態</th>
+                                <th class=value >準備中(10m)</th>
+                            </tr>
+                            <tr>
+                                <th class=title>預定</th>
+                                <th class=value ></th>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <textarea name="myTextBox" readonly>
+NT$ 90 - 鮪魚三明治 *3
+NT$ 40 - 鮮奶茶 *1
+NT$ 60 - 卡拉雞腿堡 *1 
+                    </textarea> 
+            </div>
+                  
+            
+            <div class =time_and_button>
+                    <form class = time id="form1" runat="server">
+                            <div id = "showbox"></div>
+                    </form>
+                    <button class = action_btn>返回</button>
+            </div> 
+            <script src="./javascripts/訂單.js"></script>
+    </div> 
