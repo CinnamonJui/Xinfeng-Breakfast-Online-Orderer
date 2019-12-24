@@ -7,3 +7,4 @@ if ($bacon->checkIfIDAlreadyTaken($_POST["tel"]))
     echo 'Taken';
 else
     echo 'Can';
+    

@@ -197,9 +197,9 @@ class Bacon
             echo $e->getMessage();
         }*/
 
-        $sqlFind = 'SELECT user_id, password
+        $sqlFind = 'SELECT id, password
                     from account
-                    where user_id =? and password =?;';
+                    where id =? and password =?;';
         $stmt = $this->conn->prepare($sqlFind);
         $stmt->bindParam(1,$ID);
         $stmt->bindParam(2,$pw);
@@ -209,7 +209,7 @@ class Bacon
             $account = $stmt->fetchObject();
             if($account->password==$pw){
                 session_start();
-                $_SESSION['ID'] = $account->user_id;
+                $_SESSION['ID'] = $account->id;
                 return true;
             }
             return false;
@@ -525,7 +525,7 @@ class Bacon
 
         $sqlFind = "SELECT COUNT(*) 
                     from Account
-                    WHERE user_ID=?;";
+                    WHERE ID=?;";
         $stmtF = $this->conn->prepare($sqlFind);
         $stmtF->bindParam(1, $ID);
         $stmtF->execute();
