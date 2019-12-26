@@ -10,5 +10,6 @@ package-lock.json
 stylesheets
 testFile
 temp
+/build
 /*.*
 揚升
