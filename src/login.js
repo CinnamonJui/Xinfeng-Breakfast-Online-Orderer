@@ -1,7 +1,5 @@
 import './login.scss'
 import debounce from 'lodash/debounce'
-import '@fortawesome/fontawesome-free/js/fontawesome'
-import '@fortawesome/fontawesome-free/js/solid'
 
 const theForm = document.getElementById('login-form')
 const submitBtn = theForm.querySelector('input[type=submit]')

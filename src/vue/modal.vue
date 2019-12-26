@@ -50,7 +50,9 @@ export default {
       return this.meal instanceof Item;
     },
     imgSrc() {
-      return `./images/${this.isItem ? "item" : "combo"}/${this.meal.ID}.jpg`;
+      if (this.meal.ID)
+        return `./images/${this.isItem ? "item" : "combo"}/${this.meal.ID}.jpg`;
+      return '#'
     }
   },
   created() {
