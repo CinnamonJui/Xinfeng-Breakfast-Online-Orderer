@@ -39,6 +39,12 @@ export default {
       _modal: Object
     };
   },
+  methods: {
+    mealclicked(meal) {
+      this.meal = meal;
+      this._modal.modal("show");
+    }
+  },
   computed: {
     isItem() {
       return this.meal instanceof Item;
@@ -48,13 +54,13 @@ export default {
     }
   },
   created() {
-    ModalEventBus.$on("meal-clicked", item => {
-      this.meal = item;
-      this._modal.modal("show");
-    });
+    ModalEventBus.$on("meal-clicked", this.mealclicked);
   },
   mounted() {
     this._modal = $(this.$el);
+  },
+  beforeDestroy() {
+    this._modal.$off("meal-clicked", this.mealclicked);
   }
 };
 </script>
