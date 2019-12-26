@@ -10,7 +10,8 @@
         <!-- item decrease -->
         <div class="cart-minus input-group-prepend">
           <button class="btn btn-danger form-control" @click="decrement">
-            <i class="fa fa-minus"></i>
+            <font-awesome-icon icon="minus" />
+            <!-- <i class="fa fa-minus"></i> -->
           </button>
         </div>
         <!-- item num, user can direct input # of items as he wishes -->
@@ -25,7 +26,8 @@
         <!-- item increase -->
         <div class="cart-plus input-group-append">
           <button class="btn btn-success form-control" @click="increment">
-            <i class="fa fa-plus"></i>
+            <font-awesome-icon icon="plus" />
+            <!-- <i class="fa fa-plus"></i> -->
           </button>
         </div>
       </div>
@@ -37,6 +39,12 @@
 import Vue from "vue";
 import { ModalEventBus } from "./eventbus-modal";
 import { Item } from "./../models/meal";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
+library.add(faPlus, faMinus);
+Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 export default {
   props: {

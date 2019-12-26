@@ -1,9 +1,10 @@
 import 'bootstrap';
-import '@fortawesome/fontawesome-free/js/fontawesome'
-import '@fortawesome/fontawesome-free/js/solid'
+import { library, dom } from '@fortawesome/fontawesome-svg-core'
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 import './main.scss';
 import Vue from 'vue';
-
+library.add(faShoppingCart)
+dom.i2svg()
 localStorage.setItem('cart', '{}')
 
 // Log in&out control
