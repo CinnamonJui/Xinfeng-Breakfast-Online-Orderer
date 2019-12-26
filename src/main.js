@@ -3,7 +3,6 @@ import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import './main.scss';
 import Vue from 'vue';
-import $ from 'jquery';
 
 localStorage.setItem('cart', '{}')
 
@@ -17,18 +16,24 @@ new Vue({
   methods: {
     logout() {
       localStorage.removeItem('cart')
-      $.get('./php/XBS_validate_login.php?logout=true');
+      fetch('./php/XBS_validate_login.php?logout=true');
       location.reload();
     },
   },
   created() {
-    $.get('./php/XBS_validate_login.php', (data) => {
-      if (data) {
-        console.log(data);
-        this.isLogin = true;
-        this.username = data;
-      }
-    });
+
+    fetch('./php/XBS_validate_login.php', {
+      method: 'GET',
+      credentials: 'same-origin',
+    })
+      .then(res => res.text())
+      .then(username => {
+        if (username) {
+          this.isLogin = true;
+          this.username = username;
+        }
+      })
+
   },
 });
 
@@ -44,10 +49,15 @@ new Vue({
   },
   components: { ComboCard },
   created() {
-    $.getJSON('./php/XBS_combos.php')
-      .then(rep => {
-        for (const combo of rep)
+    fetch('./php/XBS_combos.php', {
+      method: 'GET',
+      credentials: 'same-origin',
+    })
+      .then(res => res.json())
+      .then(combos => {
+        for (const combo of combos) {
           this.combos.push(new Combo(combo))
+        }
       })
   }
 });
@@ -59,17 +69,22 @@ new Vue({
   },
   components: { ItemCard },
   created() {
-    $.getJSON('./php/XBS_items.php').then(rep => {
-      for (const item of rep) {
-        if (!this.items.hasOwnProperty(item.type)) {
-          // Be aware: Change-Detection-Caveats
-          // Use vanilla js to set property won't make it reactive
-          Vue.set(this.items, [item.type])
-          this.items[item.type] = []
-        }
-        this.items[item.type].push(new Item(item))
-      }
+    fetch('./php/XBS_items.php', {
+      method: 'GET',
+      credentials: 'same-origin'
     })
+      .then(res => res.json())
+      .then(items => {
+        for (const item of items) {
+          if (!this.items.hasOwnProperty(item.type)) {
+            // Be aware: Change-Detection-Caveats
+            // Use vanilla js to set property won't make it reactive
+            Vue.set(this.items, [item.type])
+            this.items[item.type] = []
+          }
+          this.items[item.type].push(new Item(item))
+        }
+      })
   }
 })
 
