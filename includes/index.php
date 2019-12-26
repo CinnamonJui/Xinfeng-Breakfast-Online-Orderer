@@ -15,9 +15,9 @@ if(!$user->count()){
     //echo print_r($user->results());
 }*/
 
-$user= DB::getInstance()->insert('account',array(
-    'ID'=>'wei',
-    'password'=>'123',
-    'salt'=>'salt'
+$user= DB::getInstance()->update('xbs.account','0912345678',array(
+    'password'=>'HEHE',
+    'salt'=>'update'
 ));
 
+//$user=DB::getInstance()->query('INSERT INTO xbs.account (`ID`, `password`, `salt`) VALUES ("0922222222","11","123")');

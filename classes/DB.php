@@ -35,18 +35,19 @@ class DB{
                 foreach($params as $param){
                     $this->_query->bindValue($x,$param);
                     $x++;
-                    //echo '<br>'.$bindValue;
+                    //echo 'bind!';
                 }
             
                 //echo '<br>'. $this->_query;
             if($this->_query->execute()){
-                $this->_results = $this->_query->fetchAll(PDO::FETCH_OBJ);//FETCH_OBJ
+                echo 'enter execute! <br>';
+                $this->_results = $this->_query->fetchAll(PDO::FETCH_OBJ);//FETCH_OBJ be broken on update n insert
                 $this->_count=$this->_query->rowCount();
                 //echo print_r($this->results);//.'results'
     
             }else{
                 $this->_error = true;
-                echo 'fail exec<br>';
+                echo 'fail exec.<br>';
             }
            
         }
@@ -71,7 +72,7 @@ class DB{
                 //echo 'error ='.$this->error();
             }
         }
-        return $this;
+        return false;//$this
     }
     public function get($table,$where){
         return $this->action('SELECT *',$table,$where);
@@ -96,21 +97,39 @@ class DB{
     public function insert($table,$fields = array()){
         if(count($fields)){
             $keys = array_keys($fields);
-            $values = null;
+            $values = '';
             $x= 1;
             foreach($fields as $field){
-                $values .= "?";
+                $values .= '?';
                 if($x< count($fields)){
                     $values .= ', ';
                 }
                 $x++;
             }
             //die($values);
-            $sql = "INSERT INTO account (`" . implode('`,`',$keys) . "`) VALUES ({$values})";
-            
-            if($this->query($sql,$fields)->error()){
+            $sql = "INSERT INTO {$table} (`" . implode('`, `',$keys) . "`) VALUES ({$values})";
+            echo $sql;
+            if(!$this->query($sql,$fields)->error()){
                 return true;
             }
+        }
+        return false;
+    }
+    public function update($table,$id ,$fields){
+        $set ='';
+        $x =1;
+        foreach($fields as $name => $value){
+            $set .= "{$name} = ?";
+            if($x< count($fields)){
+                $set .= ', ';
+            }
+            $x++;
+        }
+        //die($set);
+        $sql="UPDATE {$table} SET {$set} WHERE id = ({$id})";
+        echo $sql;
+        if(!$this->query($sql,$fields)->error()){
+            return true;
         }
         return false;
     }
