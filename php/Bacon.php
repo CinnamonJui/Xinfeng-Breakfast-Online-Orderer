@@ -197,9 +197,9 @@ class Bacon
             echo $e->getMessage();
         }*/
 
-        $sqlFind = 'SELECT id, password
+        $sqlFind = 'SELECT user_id, password
                     from account
-                    where id =? and password =?;';
+                    where user_id =? and password =?;';
         $stmt = $this->conn->prepare($sqlFind);
         $stmt->bindParam(1,$ID);
         $stmt->bindParam(2,$pw);
@@ -209,7 +209,7 @@ class Bacon
             $account = $stmt->fetchObject();
             if($account->password==$pw){
                 session_start();
-                $_SESSION['ID'] = $account->id;
+                $_SESSION['ID'] = $account->user_id;
                 return true;
             }
             return false;
@@ -522,10 +522,10 @@ class Bacon
     }
     function checkIfIDAlreadyTaken($ID)
     {
-        //merge test
+
         $sqlFind = "SELECT COUNT(*) 
                     from Account
-                    WHERE ID=?;";
+                    WHERE user_ID=?;";
         $stmtF = $this->conn->prepare($sqlFind);
         $stmtF->bindParam(1, $ID);
         $stmtF->execute();
