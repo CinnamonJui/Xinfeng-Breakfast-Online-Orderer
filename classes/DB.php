@@ -31,20 +31,13 @@ class DB{
         //$testSql = "SELECT * from xbs.account;";
         if($this->_query = $this->_pdo->prepare($sql)){
             $x=1;
-            //echo '<br>'. $sql;
-            
             if(count($params))
                 foreach($params as $param){
                     $this->_query->bindValue($x,$param);
                     $x++;
-                    //echo 'bind!';
-                }
-            
-                //echo '<br>'. $this->_query;
-               
-                
+                }             
             if($this->_query->execute()){
-                echo 'enter execute! <br>';
+                //echo 'enter execute! <br>';
                 try{
                     $this->_results = $this->_query->fetchAll(PDO::FETCH_OBJ);//FETCH_OBJ may be broken on update n insert
                     
@@ -70,18 +63,14 @@ class DB{
             $field      = $where[0];
             $operator   = $where[1];
             $value      = $where[2];
-            //echo $field.'<br>';
             if(in_array($operator,$operators)){
                 $sql ="{$action} FROM {$table} WHERE {$field} {$operator} ?"; 
-                //$sql='SELECT * FROM xbs.account WHERE ID = ?';
-                //echo $sql;
                 if(!$this->query($sql,array($value))->error()){
                     return $this;
                 }
-                //echo 'error ='.$this->error();
             }
         }
-        return false;//$this
+        return false;
     }
     public function get($table,$where){
         return $this->action('SELECT *',$table,$where);
@@ -91,7 +80,6 @@ class DB{
         return $this->action('DELETE',$table,$where);
     }
     public function results(){
-        //echo $this->results->__toString();
         return $this->_results;
     }
     public function error(){
@@ -115,10 +103,8 @@ class DB{
                 }
                 $x++;
             }
-            //die($values);
             $sql = "INSERT INTO {$table} (`" . implode('`, `',$keys) . "`) VALUES {$values}";
-            //$sql="INSE(`" . impolde('', $keys) . "`)"
-            echo $sql;
+            //echo $sql;
             if(!$this->query($sql,$fields)->error()){
                 return true;
             }
@@ -135,9 +121,8 @@ class DB{
             }
             $x++;
         }
-        //die($set);
         $sql="UPDATE {$table} SET {$set} WHERE id = {$id}";
-        echo $sql."<br>";
+        //echo $sql."<br>";
         if(!$this->query($sql,$fields)->error()){
             return true;
         }

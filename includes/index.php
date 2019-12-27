@@ -15,9 +15,13 @@ if(!$user->count()){
     //echo print_r($user->results());
 }*/
 
-$user= DB::getInstance()->update('xbs.account','0912345678',array(
+/*$user= DB::getInstance()->update('xbs.account','0912345678',array(
     "password"=>"HEH00",
     "salt"=>"updat0"
-));
+));*/
 
 //$user=DB::getInstance()->query('INSERT INTO xbs.account (`ID`, `password`, `salt`) VALUES ("0822202222","111","123")');
+
+if(Session::exists('success')){
+    echo Session::flash('success');
+}

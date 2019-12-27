@@ -38,7 +38,7 @@ class Validate{
                         break;
                         case 'unique':
                             $check = $this->_db->get($rule_value,array($item,'=',$value));
-                            echo $check->count();
+                            //echo $check->count();
                             if($check->count()){
                                 $this->addError("{$item} already exist.");
                             }

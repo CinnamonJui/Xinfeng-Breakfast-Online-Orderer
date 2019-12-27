@@ -3,7 +3,7 @@ require_once '../core/init.php';
 
 if(Input::exists()){
     if(Token::check(Input::get('token'))){
-        echo 'HEHEHEHEHE';
+        //echo 'HEHEHEHEHE';
         $validate = new Validate();
         $validation= $validate->check($_POST,array(
             'ID'=>array(
@@ -29,10 +29,32 @@ if(Input::exists()){
             ) 
             ));
             if($validation->passed()){
-                echo 'Passed';
-     
+                
+                $user = new User();
+                echo $salt = Hash::salt(32);
+                die();
+                try{
+                    $user->create(array(
+                        'ID' => '',
+                        'password' => '',
+                        'salt' => '',
+                        'name' => '',
+                        'age' => '',
+                        'gender' => '',
+                        'email' => '',
+                        'total' => ''
+
+                    ));
+
+                }catch(Exception $e){
+                    die($e->getMessage());
+
+                }
             }else{
-                print_r($validation->errors());
+                foreach($validation->errors() as $error){
+                    echo $error, '<br>';
+                }
+                
             }
     }
   
