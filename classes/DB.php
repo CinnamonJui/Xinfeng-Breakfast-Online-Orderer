@@ -25,6 +25,8 @@ class DB{
         return self::$_instance;
     }
     public function query($sql,$params = array()){
+       
+        
         $this->_error=false;
         //$testSql = "SELECT * from xbs.account;";
         if($this->_query = $this->_pdo->prepare($sql)){
@@ -39,9 +41,16 @@ class DB{
                 }
             
                 //echo '<br>'. $this->_query;
+               
+                
             if($this->_query->execute()){
                 echo 'enter execute! <br>';
-                $this->_results = $this->_query->fetchAll(PDO::FETCH_OBJ);//FETCH_OBJ be broken on update n insert
+                try{
+                    $this->_results = $this->_query->fetchAll(PDO::FETCH_OBJ);//FETCH_OBJ may be broken on update n insert
+                    
+                }catch(PDOException $E){
+                    //echo $E->getMessage();
+                }
                 $this->_count=$this->_query->rowCount();
                 //echo print_r($this->results);//.'results'
     
@@ -97,7 +106,7 @@ class DB{
     public function insert($table,$fields = array()){
         if(count($fields)){
             $keys = array_keys($fields);
-            $values = '';
+            $values = '';//null
             $x= 1;
             foreach($fields as $field){
                 $values .= '?';
@@ -107,7 +116,8 @@ class DB{
                 $x++;
             }
             //die($values);
-            $sql = "INSERT INTO {$table} (`" . implode('`, `',$keys) . "`) VALUES ({$values})";
+            $sql = "INSERT INTO {$table} (`" . implode('`, `',$keys) . "`) VALUES {$values}";
+            //$sql="INSE(`" . impolde('', $keys) . "`)"
             echo $sql;
             if(!$this->query($sql,$fields)->error()){
                 return true;
@@ -126,8 +136,8 @@ class DB{
             $x++;
         }
         //die($set);
-        $sql="UPDATE {$table} SET {$set} WHERE id = ({$id})";
-        echo $sql;
+        $sql="UPDATE {$table} SET {$set} WHERE id = {$id}";
+        echo $sql."<br>";
         if(!$this->query($sql,$fields)->error()){
             return true;
         }
