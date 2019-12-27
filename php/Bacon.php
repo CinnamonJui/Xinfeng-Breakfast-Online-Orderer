@@ -525,7 +525,7 @@ class Bacon
 
         $sqlFind = "SELECT COUNT(*) 
                     from Account
-                    WHERE ID=?;";
+                    WHERE user_ID=?;";
         $stmtF = $this->conn->prepare($sqlFind);
         $stmtF->bindParam(1, $ID);
         $stmtF->execute();
