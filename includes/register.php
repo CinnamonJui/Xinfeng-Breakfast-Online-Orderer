@@ -31,21 +31,23 @@ if(Input::exists()){
             if($validation->passed()){
                 
                 $user = new User();
-                echo $salt = Hash::salt(32);
-                die();
+                $salt = Hash::salt(32);
+                //die();
                 try{
                     $user->create(array(
-                        'ID' => '',
-                        'password' => '',
-                        'salt' => '',
-                        'name' => '',
-                        'age' => '',
-                        'gender' => '',
-                        'email' => '',
-                        'total' => ''
+                        'ID' => Input::get('ID'),
+                        'password' => Hash::make(Input::get('password'),$salt),
+                        'salt' => $salt,
+                        'name' => Input::get('name'),
+                        'age' => '20',
+                        'gender' => '1',
+                        'email' => '1',
+                        'total' => '1'
 
                     ));
-
+                    Session::flash('home','You have been registered and can now log in!');
+                    //header('Location: index.php');
+                    Redirect::to(404);
                 }catch(Exception $e){
                     die($e->getMessage());
 
@@ -85,3 +87,4 @@ if(Input::exists()){
 
 
 </form>
+

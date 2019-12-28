@@ -20,7 +20,7 @@ class DB{
     public static function getInstance(){
         if(!isset(self::$_instance)){
             self::$_instance=new DB();
-
+            //echo 'Connected';
         }
         return self::$_instance;
     }
@@ -37,14 +37,14 @@ class DB{
                     $x++;
                 }             
             if($this->_query->execute()){
-                //echo 'enter execute! <br>';
+                echo 'enter execute! <br>';
                 try{
                     $this->_results = $this->_query->fetchAll(PDO::FETCH_OBJ);//FETCH_OBJ may be broken on update n insert
                     
                 }catch(PDOException $E){
                     //echo $E->getMessage();
                 }
-                $this->_count=$this->_query->rowCount();
+                //$this->_count=$this->_query->rowCount();
                 //echo print_r($this->results);//.'results'
     
             }else{
@@ -103,8 +103,8 @@ class DB{
                 }
                 $x++;
             }
-            $sql = "INSERT INTO {$table} (`" . implode('`, `',$keys) . "`) VALUES {$values}";
-            //echo $sql;
+            $sql = "INSERT INTO {$table} (`" . implode('`, `',$keys) . "`) VALUES ({$values})";
+            echo $sql;
             if(!$this->query($sql,$fields)->error()){
                 return true;
             }

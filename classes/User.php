@@ -2,16 +2,14 @@
 class User{
     private $_db;
 
-    public function __constructor($user = null){
+    public function __construct($user = null){
         $this->_db= DB::getInstance();
 
 
     }
-    public function create($field){
-        if($this->_db->insert('xbs.account',$field)){
+    public function create($fields=array()){
+        if(!$this->_db->insert('xbs.account',$fields)){
             throw new Exception('There was a problem creating an account.');
-            
-
         }
     }
 }
