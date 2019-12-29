@@ -44,7 +44,7 @@ class DB{
                 }catch(PDOException $E){
                     //echo $E->getMessage();
                 }
-                //$this->_count=$this->_query->rowCount();
+                $this->_count=$this->_query->rowCount();
                 //echo print_r($this->results);//.'results'
     
             }else{
