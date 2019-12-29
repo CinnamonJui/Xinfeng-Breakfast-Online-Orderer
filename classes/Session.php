@@ -10,8 +10,7 @@ class Session{
     public static function get($name=null){
         return $_SESSION[$name];
     }
-    public static function delete(){
-        $name='';//notice:undefine index
+    public static function delete($name){
         if(self::exists($name)){
             unset($_SESSION[$name]);
         }

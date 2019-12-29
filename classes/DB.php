@@ -11,7 +11,6 @@ class DB{
             $this->_pdo = new PDO('mysql:dbname='.Config::get('mysql/db').';host='.Config::get('mysql/host'),
             Config::get('mysql/username'),Config::get('mysql/password'));
             $this->_pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-            //echo 'Connected';
         }catch(PDOException $e){
             die($e->getMessage());
         }

@@ -2,7 +2,7 @@
 
 require_once '../core/init.php';
 
-//$user=DB::getInstance()->get('account',array('name','=','1111'));
+//$user=DB::getInstance();
 //$user=DB::getInstance()->query('SELECT ID FROM xbs.account WHERE ID = ?',array('0912345678'));
 /*$user=DB::getInstance()->get('xbs.account',array('ID','=','0912345678'));
 echo $user->count();*/
@@ -27,7 +27,7 @@ if(!$user->count()){
     echo Session::flash('success');
 }*/
 
-/*$user=DB::getInstance()->insert('xbs.account', array(
+/*$user=DB::getInstance()->insert('account', array(
     "ID" => "123456789",
     "password" => "mdfk",
     "salt" => "333"
@@ -36,4 +36,16 @@ if(!$user->count()){
 if(Session::exists('home')){
     echo '<p>' . Session::flash('home') . '</p>';
 }
-echo Session::get(Config::get('session/sesssion_name'));
+//echo Session::get(Config::get('session/sesssion_name'));
+
+$user= new User(); //current
+if($user->isLoggedIn()){
+    ?>
+    <p>Hello <a href="#"><?php echo escape($user->data()->ID); ?></a></p>
+    <ul>
+        <li><a href="logout.php">Log out</a></li>
+    </ul>
+<?php
+}else{
+    echo '<p>You need to <a href="login.php">log in</a> or <a href="register.php">register</a></p>';
+}

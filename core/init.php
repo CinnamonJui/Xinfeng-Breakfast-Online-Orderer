@@ -17,6 +17,7 @@ $GLOBALS['config']=array(
         'token_name' => 'token'
     )
 );
+//echo Config::get('mysql/db'); 
 spl_autoload_register(function($class){
     require_once '../classes/' . $class . '.php';
 });

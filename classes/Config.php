@@ -6,7 +6,13 @@ class Config{
             $config=$GLOBALS['config'];
             $path =explode('/',$path);
 
-            //print_r($path);
+            foreach($path as $bit){
+                if(isset($config[$bit])){
+                    $config = $config[$bit];
+                }
+            }
+            return $config;
         }
+        return false;
     }
 }
