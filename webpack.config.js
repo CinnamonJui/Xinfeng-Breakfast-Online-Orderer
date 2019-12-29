@@ -14,7 +14,21 @@ module.exports = {
     },
     output: {
         filename: '[name].bundle.js',
-        path: path.resolve(__dirname, 'build/javascripts')
+        path: path.resolve(__dirname, 'build/javascripts'),
+    },
+    optimization: {
+        splitChunks: {
+            // mind that this requires html-webpack-plugin 4.X
+            // 3.X won't automatically inject splitted js
+            cacheGroups: {
+                vendors: {
+                    test: /[\\/]node_modules[\\/]/i,
+                    name: 'vendors',
+                    chunks: 'all',
+                    minChunks: 2
+                }
+            }
+        }
     },
     module: {
         rules: [
