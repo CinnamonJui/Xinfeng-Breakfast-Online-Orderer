@@ -5,6 +5,7 @@ var type = -1;
 
 function start() {
     ShowTime();
+    initTime();
     confirm = document.getElementById("confirm");
     menu = document.getElementById("menu");
     order = document.getElementById("order");
@@ -15,9 +16,39 @@ function start() {
     user.addEventListener("click", function() { click_button(2); }, false);
 }
 
+function initTime() {
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "getTime.php", true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send("getTime=1");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            let newTime = JSON.parse(xhr.response);
+            $("#start_time").val(newTime['openTime']);
+            $("#end_time").val(newTime['closeTime']);
+        }
+    }
+}
+
 function set_time() {
     start_time = document.getElementById("start_time").value;
     end_time = document.getElementById("end_time").value;
+    console.log(start_time, end_time);
+    let send_data = "startTime=" + start_time +
+        "&endTime=" + end_time;
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "getTime.php", true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send(send_data);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            if (xhr.response) {
+                console.log("set time success");
+            } else {
+                console.log("set time fail");
+            }
+        }
+    }
 }
 
 function click_button(type) {

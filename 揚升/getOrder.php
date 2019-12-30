@@ -29,3 +29,4 @@
     //回傳資料
     //if($result!="[]") 
     echo ($result);
+?>
