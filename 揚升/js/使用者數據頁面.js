@@ -20,7 +20,9 @@ function start() {
 function getString() {
     let str = document.getElementById("string").value;
     let type = document.getElementById("type").value;
-    importdata(str, type);
+    $("tbody").fadeOut("fast", function() {
+        importdata(str, type);
+    });
 }
 
 
@@ -62,7 +64,9 @@ function importdata(str = null, type = null) {
                     importData[i].splice('password', 1);
                 }*/
             }
+
             buildtbody(importData);
+            $("tbody").fadeIn();
         }
     }
 }

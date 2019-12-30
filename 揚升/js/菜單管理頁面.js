@@ -5,28 +5,11 @@ var combo_upload, combo_upload_file;
 var item_width = [10, 20, 30, 15, 15, 10];
 var combo_width = [50, 15, 20, 15];
 var combo_item_width = [25, 60, 15];
-var item_ex = [
-    ["三明治", "牛肉三明治", "35", "pic/1.jpg", "好ㄘ"],
-    ["三明治", "鮪魚三明治", "35", "pic/2.jpg", "豪好ㄘ"],
-    ["飲料", "奶茶", "20", "pic/3.jpg", "好喝"],
-    ["飲料", "紅茶", "20", "pic/4.jpg", "不錯喝"],
-    ["點心", "薯條", "30", "pic/5.jpg", "有點好ㄘ"],
-    ["點心", "抓餅", "35", "pic/6.jpg", "這是點心嗎0.0"]
-];
-var combo_ex = [
-    ["薯條套餐", "45", "pic/1.jpg", "薯條、紅茶", "好ㄘ"],
-    ["鮪魚三明治套餐", "50", "pic/2.jpg", "鮪魚三明治、紅茶", "豪好ㄘ"],
-    ["豪華鮪魚三明治套餐", "80", "pic/3.jpg", "薯條、鮪魚三明治、奶茶", "超級好ㄘ"],
-    ["好多飲料套餐", "30", "pic/4.jpg", "奶茶、紅茶", "豪好喝"],
-    ["沒有比較便宜套餐", "60", "pic/5.jpg", "牛肉三明治、紅茶", "好貴"],
-    ["寫程式好累套餐", "45", "pic/6.jpg", "薯條、奶茶", "好累喔"],
-    ["都是點心套餐", "60", "pic/2.jpg", "薯條、抓餅", "會胖"]
-];
 var itemData = [],
     comboData = [];
 var item_type_name = [
-    ["三明治", "飲料", "點心"],
-    ["sandwich", "drink", "dessert"]
+    ["全部", "三明治", "飲料", "點心"],
+    ["all", "sandwich", "drink", "dessert"]
 ];
 var item_length = 6,
     combo_length = 4;
@@ -48,55 +31,72 @@ function comboUploadFile(ev) {
 }
 
 function start() {
+    $("#search").click(searchString);
     itemInit();
     comboInit();
+    ImagePreview.init({ id: "imgs" });
 }
 
-function getItemData() {
+function getItemData(send_data = "check=item") {
+    console.log(send_data);
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "getMenu.php", true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhr.send("check=item");
+    xhr.send(send_data);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
             //console.log(xhr.response);
-            let importData = JSON.parse(xhr.response);
-            itemData = [];
-            for (let i in importData) {
-                let index = 0,
-                    tmp = [];
-                for (let j in importData[i]) {
-                    tmp[index++] = importData[i][j];
+            if (xhr.response == "no matchs") {
+                window.alert("查無符合資料");
+                getItemData();
+            } else {
+                let importData = JSON.parse(xhr.response);
+                itemData = [];
+                for (let i in importData) {
+                    let index = 0,
+                        tmp = [];
+                    for (let j in importData[i]) {
+                        tmp[index++] = importData[i][j];
+                    }
+                    let t = tmp[0];
+                    tmp[0] = tmp[1];
+                    tmp[1] = t;
+                    index = 0;
+                    itemData[i] = tmp;
                 }
-                let t = tmp[0];
-                tmp[0] = tmp[1];
-                tmp[1] = t;
-                index = 0;
-                itemData[i] = tmp;
+                buildItemImgs();
+                ImagePreview.init({ id: "imgs" });
+                buildItemBody(itemData);
             }
-            buildItemBody(itemData);
         }
     }
 }
 
-function getComboData() {
+function getComboData(send_data = "check=combo") {
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "getMenu.php", true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhr.send("check=combo");
+    xhr.send(send_data);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
-            let importData = JSON.parse(xhr.response);
-            comboData = [];
-            for (let i in importData) {
-                let index = 0,
-                    tmp = [];
-                for (let j in importData[i]) {
-                    tmp[index++] = importData[i][j];
+            if (xhr.response == "no matchs") {
+                window.alert("查無符合資料");
+                getComboData();
+            } else {
+                let importData = JSON.parse(xhr.response);
+                comboData = [];
+                for (let i in importData) {
+                    let index = 0,
+                        tmp = [];
+                    for (let j in importData[i]) {
+                        tmp[index++] = importData[i][j];
+                    }
+                    comboData[i] = tmp;
                 }
-                comboData[i] = tmp;
+                buildComboImgs();
+                ImagePreview.init({ id: "imgs" });
+                buildComboBody(comboData);
             }
-            buildComboBody(comboData);
         }
     }
 }
@@ -111,8 +111,8 @@ function itemInit() {
     item_upload.addEventListener("change", itemUploadFile, false);
     document.getElementById("item_add").addEventListener("click", item_add, false);
     itemBody = document.getElementById("item_tbody");
-    buildItemHead(document.getElementById("thead"));
-    buildItemHead(item_type);
+    buildItemHead(1, document.getElementById("thead"));
+    buildItemHead(0, item_type);
     getItemData();
 
     //buildItemBody(item_ex);
@@ -163,6 +163,12 @@ function buildItemBody(tdata) {
                     col.appendChild(remove);
                     break;
                 default:
+                    if (j == 2) {
+                        col.addEventListener("click", printItemPic, false);
+                        col.addEventListener("mouseover", function() {
+                            $(this).css("cursor", "pointer");
+                        }, false);
+                    }
                     col.textContent = tdata[i][j - 1];
                     break;
             }
@@ -174,6 +180,7 @@ function buildItemBody(tdata) {
         row.setAttribute("id", tdata[i][1]);
         itemBody.appendChild(row);
     }
+    $("#item_tbody").fadeIn("fast");
 }
 
 function buildComboBody(tdata) {
@@ -205,6 +212,12 @@ function buildComboBody(tdata) {
                     col.appendChild(remove);
                     break;
                 default:
+                    if (j == 0) {
+                        col.addEventListener("click", printComboPic, false);
+                        col.addEventListener("mouseover", function() {
+                            $(this).css("cursor", "pointer");
+                        }, false);
+                    }
                     col.textContent = tdata[i][j];
                     break;
             }
@@ -214,9 +227,9 @@ function buildComboBody(tdata) {
         row.setAttribute("width", "100%");
         row.setAttribute("height", "25");
         row.setAttribute("id", tdata[i][0]);
-        row.addEventListener("click", printComboItems, false);
         comboBody.appendChild(row);
     }
+    $("#combo_tbody").fadeIn("fast");
 }
 
 function addToCombo(ev) {
@@ -393,7 +406,14 @@ function itemEdit(ev) {
             break;
         }
     }
-    delete_data("item", parent.id);
+    $("#" + parent.id).animate({
+        opacity: '0.1',
+        lineHeight: "0px",
+        height: "0px"
+    }, "normal", function() {
+        $(this)[0].parentNode.removeChild($(this)[0]);
+        delete_data("item", parent.id);
+    });
 }
 
 function comboEdit(ev) {
@@ -422,23 +442,48 @@ function comboEdit(ev) {
             break;
         }
     }
-    delete_data("combo", parent.id);
+    $("#" + parent.id).animate({
+        opacity: '0.1',
+        lineHeight: "0px",
+        height: "0px"
+    }, "normal", function() {
+        delete_data("combo", parent.id);
+    });
 }
 
 function itemRemove(ev) {
     if (!window.confirm("確定要刪除此餐點嗎?"))
         return;
     let parent = ev.target.parentNode.parentNode;
-    parent.parentNode.removeChild(parent);
-    delete_data("item", parent.id);
+    $("#" + parent.id).animate({
+        opacity: '0.1',
+        lineHeight: "0px",
+        height: "0px"
+    }, "normal", function() {
+        $(this)[0].parentNode.removeChild($(this)[0]);
+        delete_data("item", parent.id);
+    });
+    /*$("#" + parent.id).fadeOut(function() {
+        delete_data("item", parent.id);
+    });*/
 }
 
 function comboRemove(ev) {
     if (!window.confirm("確定要刪除此套餐嗎?"))
         return;
     let parent = ev.target.parentNode.parentNode;
-    delete_data("combo", parent.id);
-    even = 0;
+    $("#" + parent.id).animate({
+        opacity: '0.1',
+        lineHeight: "0px",
+        height: "0px"
+    }, "normal", function() {
+        delete_data("combo", parent.id);
+        even = 0;
+    });
+    /*$("#" + parent.id).fadeOut(function() {
+        delete_data("combo", parent.id);
+        even = 0;
+    });*/
 }
 
 function comboItemsRemove(ev) {
@@ -446,28 +491,154 @@ function comboItemsRemove(ev) {
     parent.parentNode.removeChild(parent);
 }
 
-function buildItemHead(select) {
+function buildItemHead(flag, select) {
+    /*let xhr = new XMLHttpRequest();
+    xhr.open("POST", "getMenu.php", true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send("getType=" + flag);
+    xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                let type = JSON.parse(xhr.response);
+                console.log(type[0]);
+                console.log(type[1]);
+                console.log(type[2]);
+                if (type)
+                    console.log("get type success");
+                else
+                    console.log("get type error");
+            }
+        }*/
+    if (flag) {
+        select.addEventListener("change", changeType, false);
+    }
     for (let i in item_type_name[0]) {
+        if (!flag)
+            if (i == 0)
+                continue;
         let option = document.createElement("option");
         option.value = item_type_name[1][i];
         option.innerHTML = "&nbsp;" + item_type_name[0][i];
         select.appendChild(option);
     }
+
 }
 
-function printComboItems(ev) {
+function changeType(ev) {
+    let send_data = "typeSelect=";
+    for (let i in item_type_name[0])
+        if (item_type_name[1][i] == ev.target.value) {
+            if (i == 0) {
+                $("#item_tbody").fadeOut("fast", function() {
+                    getItemData();
+                });
+            } else {
+                send_data += item_type_name[0][i];
+                $("#item_tbody").fadeOut("fast", function() {
+                    getItemData(send_data);
+                });
+            }
+            return;
+        }
+}
+
+function printComboPic(ev) {
     let parent;
     if (ev.target.tagName.toLowerCase() != "td")
         return;
     else
         parent = ev.target.parentNode;
     let cic = document.getElementById("combo_items_content");
-    console.log(parent);
+    console.log("pic" + parent.id);
+    $("#pic" + parent.id).trigger("click");
     for (let i in comboData) {
         if (comboData[i][0] == parent.id) {
             cic.innerHTML = "&nbsp;[ " + parent.id + " : " + comboData[i][3] + " ] ";
         }
     }
+}
+
+function printItemPic(ev) {
+    let parent;
+    if (ev.target.tagName.toLowerCase() != "td")
+        return;
+    else
+        parent = ev.target.parentNode;
+    console.log("pic" + parent.id);
+    $("#pic" + parent.id).trigger("click");
+}
+
+function buildItemImgs() {
+    for (let i in itemData) {
+        let img = document.createElement("img");
+        img.setAttribute("id", "pic" + itemData[i][1]);
+        img.setAttribute("src", "." + itemData[i][3]);
+        img.setAttribute("info", itemData[i][itemData[i].length - 1]);
+        img.setAttribute("alt", "pic");
+        $("#imgs").append(img);
+    }
+}
+
+function buildComboImgs() {
+    for (let i in comboData) {
+        let img = document.createElement("img");
+        img.setAttribute("id", "pic" + comboData[i][0]);
+        img.setAttribute("src", "." + comboData[i][2]);
+        img.setAttribute("info", comboData[i][comboData[i].length - 1]);
+        img.setAttribute("alt", "pic");
+        $("#imgs").append(img);
+    }
+}
+
+function searchString() {
+    console.log($("#type").val());
+    console.log($("#string").val());
+    if (!$("#string").val()) {
+        if ($("#type").val() == "item")
+            $("#item_tbody").fadeOut("fast", function() {
+                window.alert("搜尋字串不可為空");
+                getItemData();
+            });
+        else
+            $("#combo_tbody").fadeOut("fast", function() {
+                window.alert("搜尋字串不可為空");
+                getComboData();
+            });
+    } else {
+        let send_data = "search_check=" + $("#type").val() +
+            "&search_string=" + $("#string").val();
+        if ($("#type").val() == "item")
+            $("#item_tbody").fadeOut("fast", function() {
+                getItemData(send_data);
+            });
+        else {
+            even = 0;
+            $("#combo_tbody").fadeOut("fast", function() {
+                getComboData(send_data);
+            });
+        }
+
+    }
+
+
+    /*let xhr = new XMLHttpRequest();
+    xhr.open("POST", "getMenu.php", true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send(send_data);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            if (xhr.response == "no matchs") {
+                console.log("error");
+                console.log("success");
+                if ($("#type").val() == "item")
+                    getItemData();
+                else
+                    getComboData();
+            } else{
+                let 
+            }
+                
+        }
+    }*/
 }
 
 window.addEventListener("load", start, false);

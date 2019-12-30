@@ -38,7 +38,7 @@ td {
 }
 
 input.string {
-    width: 70%;
+    width: 50%;
     height: 85%;
 }
 
@@ -48,6 +48,7 @@ input {
 }
 
 .search {
+    margin-left: 10px;
     background-color: rgba(224, 183, 135, 0.8);
     border-radius: 4px;
     height: 100%;
@@ -86,9 +87,12 @@ input {
 }
 
 .item_right {
-    text-align: center;
     float: right;
     width: 55%;
+}
+
+.item_right_content {
+    text-align: center;
     overflow: auto;
     height: 350px;
     display: block;
@@ -255,4 +259,14 @@ label.combo_info {
     overflow: auto;
     height: 100px;
     width: 99%;
+}
+
+img {
+    display: none;
+}
+
+.select {
+    border: 1px solid black;
+    float: left;
+    height: 102%;
 }

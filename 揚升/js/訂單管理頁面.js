@@ -21,14 +21,16 @@ function start() {
     document.getElementById("refresh").addEventListener("click", checkRefresh, false);
     order_history = document.getElementById("order_history");
     order_history.addEventListener("click", function() {
-        getHistory(1);
+        $("tbody").fadeOut("fast", function() {
+            getHistory(1);
+        });
     }, false);
     getHistory();
 }
 
 function checkRefresh() {
     let xhr = new XMLHttpRequest();
-    xhr.open("POST", "BgetOrders.php", true);
+    xhr.open("POST", "getOrder.php", true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send("checkNew=1");
     xhr.onreadystatechange = function() {
@@ -45,14 +47,6 @@ function checkRefresh() {
     }
 }
 
-function getString() {
-    let str = document.getElementById("string").value;
-    let type = document.getElementById("type").value;
-    console.log(str);
-    console.log(type);
-}
-
-
 function buildthead() {
     thead.setAttribute("style", "text-align:center;");
     let row = document.createElement("tr");
@@ -61,6 +55,8 @@ function buildthead() {
     for (let i in thead_name) {
         let col = document.createElement("td");
         col.setAttribute("width", table_width[i] + "%");
+        if (i == 0)
+            col.setAttribute("id", "stateWidth");
         col.textContent = thead_name[i];
         row.appendChild(col);
     }
@@ -71,7 +67,7 @@ function getHistory(check = 0, order_status = null, order_ID = null) {
     console.log(order_status, order_ID);
     let xhr = new XMLHttpRequest();
     let send_data;
-    xhr.open("POST", "BgetOrders.php", true);
+    xhr.open("POST", "getOrder.php", true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     if (check == 1) {
         send_data = "order_history=" + order_history.value;
@@ -97,6 +93,7 @@ function getHistory(check = 0, order_status = null, order_ID = null) {
             let importData = JSON.parse(xhr.response);
             console.log(importData);
             buildtbody(importData);
+            $("tbody").fadeIn();
         }
     }
 }
@@ -118,17 +115,18 @@ function changeState(ev) {
                 li.textContent = state_name[0][i];
                 ul.appendChild(li);
             }
-
         }
         ev.target.parentNode.appendChild(ul);
+        $("li").width($("#stateWidth").width());
+        console.log($("ul").attr("top"));
+        $("ul").parent().css({ position: 'relative' });
+        $("ul").css({ top: "0px", left: parseInt($("#stateWidth").width()) + 3 + "px", position: 'absolute' });
+        $("li").height(parseInt($("#" + parent.id).height()) - 1.5 + "px");
+
     } else {
         let parent = ev.target.parentNode.parentNode;
-        /* parent.parentNode.setAttribute("class", ev.target.getAttribute("value"));
-         parent.firstChild.textContent = "[" + ev.target.textContent + "]";*/
-
         getHistory(0, ev.target.textContent, parent.parentNode.getAttribute("id"));
         console.log(ev.target.textContent, parent.parentNode.getAttribute("id"));
-        //location.reload();
         parent.removeChild(ev.target.parentNode);
         return;
     }
