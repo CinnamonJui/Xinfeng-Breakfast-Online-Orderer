@@ -5,8 +5,8 @@ class Bacon
     private $conn; //PDO connection class
 
     private $dbServername = "localhost";
-    private $dbUsername = "jason2714";
-    private $dbPassword = "winnie434498";
+    private $dbUsername = "root";
+    private $dbPassword = "";
     private $dbName = "XBS";
 
 
