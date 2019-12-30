@@ -596,4 +596,19 @@ class Bacon
         $data = json_encode($data);
         return $data;
     }
+    function getOrderStatus($id){
+        $sql ="SELECT status FROM orders
+                WHERE ID = :id;";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":id",$id);
+        try{
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+            return $result;
+        }
+        catch(PDOException $e){
+            return false;
+        }
+
+    }
 }
