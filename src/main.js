@@ -38,6 +38,73 @@ new Vue({
   },
 });
 
+// Cart-badge, improve UX
+import { CartBadgeEventBus } from './vue/eventbus-cart-badge'
+new Vue({
+  el: '#cart-badge',
+  data: {
+    combos: new Map(),
+    items: new Map(),
+    makeVueReactToMapFlag: true
+    // Vue 2.X can't react to Map now
+  },
+  computed: {
+    totalMeal() {
+      // weird I know
+      this.makeVueReactToMapFlag
+
+      // Feel ninja? I get you six covered
+      return [this.combos, this.items]// [Map, Map]
+        .map(mapObj => Array.from(mapObj.values())) // [[1, 2], [2, 4]]
+        .map(arr => arr.reduce((preVal, curVal) => preVal + curVal, 0)) // [3, 6]
+        .reduce((preVal, curVal) => preVal + curVal) // 9
+    },
+    totalPrice() {
+      // weird I know x 2
+      this.makeVueReactToMapFlag
+      let sum = 0
+
+      sum += Array.from(this.combos.entries())
+        .map(entry => {
+          let [meal, count] = entry
+          return meal.price * count
+        })
+        .reduce((preVal, curVal) => preVal + curVal, 0)
+
+      sum += Array.from(this.items.entries())
+        .map(entry => {
+          let [meal, count] = entry
+          return meal.price * count
+        })
+        .reduce((preVal, curVal) => preVal + curVal, 0)
+
+      return sum
+    }
+  },
+  created() {
+    CartBadgeEventBus.$on('item-added', (item, count) => {
+      if (count === 0)
+        this.items.delete(item)
+      else
+        this.items.set(item, count)
+
+      this.makeVueReactToMapFlag = !this.makeVueReactToMapFlag
+    })
+    CartBadgeEventBus.$on('combo-added', (combo, count) => {
+      if (count === 0)
+        this.combos.delete(combo)
+      else
+        this.combos.set(combo, count)
+
+      this.makeVueReactToMapFlag = !this.makeVueReactToMapFlag
+    })
+  },
+  beforeDestroy() {
+    CartBadgeEventBus.$off('combo-added')
+    CartBadgeEventBus.$off('item-added')
+  }
+})
+
 import ComboCard from './vue/combo-card.vue';
 import ItemCard from './vue/item-card.vue';
 import Modal from './vue/modal.vue'

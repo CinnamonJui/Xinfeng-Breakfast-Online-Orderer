@@ -19,7 +19,7 @@
         <!-- item decrease -->
         <div class="cart-minus input-group-prepend">
           <button class="btn btn-danger form-control" @click="decrement">
-            <font-awesome-icon icon="minus"/>
+            <font-awesome-icon icon="minus" />
             <!-- <i class="fa fa-minus"></i> -->
           </button>
         </div>
@@ -30,12 +30,12 @@
           class="item-num form-control text-center"
           min="0"
           max="50"
-          v-model="toCartCount"
+          v-model.number="toCartCount"
         />
         <!-- item increase -->
         <div class="cart-plus input-group-append">
           <button class="btn btn-success form-control" @click="increment">
-            <font-awesome-icon icon="plus"/>
+            <font-awesome-icon icon="plus" />
             <!-- <i class="fa fa-plus"></i> -->
           </button>
         </div>
@@ -46,14 +46,15 @@
 <!-- DOM template end here-->
 <script>
 import { ModalEventBus } from "./eventbus-modal";
+import { CartBadgeEventBus } from "./eventbus-cart-badge";
 import { Combo } from "./../models/meal";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import Vue from 'vue'
+import Vue from "vue";
 
 library.add(faPlus, faMinus);
-Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 export default {
   props: {
@@ -80,6 +81,7 @@ export default {
   },
   watch: {
     toCartCount() {
+      CartBadgeEventBus.$emit("combo-added", this.combo, this.toCartCount);
       const cartObj = JSON.parse(localStorage.getItem("cart"));
       this.toCartCount === 0
         ? delete cartObj[this.combo.ID]

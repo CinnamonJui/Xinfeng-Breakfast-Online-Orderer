@@ -21,7 +21,7 @@
           class="item-num form-control text-center"
           min="0"
           max="50"
-          v-model="toCartCount"
+          v-model.number="toCartCount"
         />
         <!-- item increase -->
         <div class="cart-plus input-group-append">
@@ -38,6 +38,7 @@
 <script>
 import Vue from "vue";
 import { ModalEventBus } from "./eventbus-modal";
+import { CartBadgeEventBus } from "./eventbus-cart-badge";
 import { Item } from "./../models/meal";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
@@ -71,6 +72,7 @@ export default {
   },
   watch: {
     toCartCount() {
+      CartBadgeEventBus.$emit("item-added", this.item, this.toCartCount);
       const cartObj = JSON.parse(localStorage.getItem("cart"));
       this.toCartCount == 0
         ? delete cartObj[this.item.ID]
