@@ -381,6 +381,24 @@ class Bacon
             echo $e->getMessage();
         }
     }
+
+    function getItemFromType($str)
+    {
+        $sql = "SELECT * FROM Item WHERE type LIKE '$str'
+                        Order by `type` ASC;";
+        try 
+		{
+            $result = $this->conn->query($sql);
+            $itemData = $result->fetchAll();
+            $itemData = json_encode($itemData);
+            return $itemData;
+        } 
+		catch (PDOException $e) 
+		{
+            echo $e->getMessage();
+        }
+    }
+
 	function getItem()
     {
         $sql = "SELECT * FROM Item
@@ -412,7 +430,6 @@ class Bacon
         catch(PDOException $e){
 
         }
-        
     }
     /*******************combo***********************/
     function addCombo($ID, $price, $picture, $items,$info)
