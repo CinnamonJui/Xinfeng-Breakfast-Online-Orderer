@@ -603,12 +603,15 @@ class Bacon
         $stmt->bindParam(":id",$id);
         try{
             $stmt->execute();
-            $result = $stmt->fetchAll();
+            $result = $stmt->fetchColumn();
             return $result;
         }
         catch(PDOException $e){
             return false;
         }
+    }
 
+    function getOrderByID($id){
+        
     }
 }
