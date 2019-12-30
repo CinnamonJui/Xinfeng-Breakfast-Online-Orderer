@@ -73,7 +73,7 @@ class Bacon
         $sql = "SELECT status,ID,price,
                 GetTime,FnsTime,name,
                 user_ID,items
-                from Orders natural join account
+                from Orders natural join Account
                 WHERE status in ('已結帳','婉拒') 
                 ORDER BY  status DESC,ID DESC;";
 
@@ -93,7 +93,7 @@ class Bacon
         $sql = "SELECT status,ID,price,
                 GetTime,FnsTime,name,
                 user_ID,items
-                from Orders natural join account
+                from Orders natural join Account
                 WHERE status in ('未確認','準備中','已完成') 
                 ORDER BY status DESC,ID DESC;";
         $sql2 = "UPDATE Orders SET isRead = 1 WHERE isRead= 0;";

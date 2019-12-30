@@ -15,6 +15,11 @@ function start() {
     thead = document.getElementById("thead");
     buildthead();
     tbody = document.getElementById("tbody");
+    $("input").keydown(function(event) {
+        if (event.which == 13) {
+            getString();
+        }
+    });
 }
 
 function getString() {

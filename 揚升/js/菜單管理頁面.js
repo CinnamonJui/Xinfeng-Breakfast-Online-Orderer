@@ -18,20 +18,25 @@ var even = 0;
 
 function itemUploadFile(ev) {
     let pic_src = item_upload.value;
-    pic_src = pic_src.split("\\");
+    pic_src = pic_src.split("/");
     item_picture.value = pic_src[pic_src.length - 1];
     item_upload_file = ev.target.files[0];
 }
 
 function comboUploadFile(ev) {
     let pic_src = combo_upload.value;
-    pic_src = pic_src.split("\\");
+    pic_src = pic_src.split("/");
     combo_picture.value = pic_src[pic_src.length - 1];
     combo_upload_file = ev.target.files[0];
 }
 
 function start() {
     $("#search").click(searchString);
+    $("#string").keydown(function(ev) {
+        if (ev.which == 13)
+            searchString();
+    });
+    console.log($(".item_left input"));
     itemInit();
     comboInit();
     ImagePreview.init({ id: "imgs" });
@@ -114,8 +119,16 @@ function itemInit() {
     buildItemHead(1, document.getElementById("thead"));
     buildItemHead(0, item_type);
     getItemData();
-
-    //buildItemBody(item_ex);
+    $("#item_info").keydown(function(ev) {
+        if (ev.which == 13) {
+            item_add();
+        }
+    });
+    $(".item_left input").keydown(function(ev) {
+        if (ev.which == 13) {
+            item_add();
+        }
+    });
 }
 
 function comboInit() {
@@ -128,7 +141,16 @@ function comboInit() {
     document.getElementById("combo_add").addEventListener("click", combo_add, false);
     comboBody = document.getElementById("combo_tbody");
     getComboData();
-    //buildComboBody(combo_ex);
+    $("#combo_info").keydown(function(ev) {
+        if (ev.which == 13) {
+            combo_add();
+        }
+    });
+    $(".right input").keydown(function(ev) {
+        if (ev.which == 13) {
+            combo_add();
+        }
+    });
 }
 
 function buildItemBody(tdata) {

@@ -18,7 +18,9 @@ function start() {
     thead = document.getElementById("thead");
     buildthead();
     tbody = document.getElementById("tbody");
-    document.getElementById("refresh").addEventListener("click", checkRefresh, false);
+    document.getElementById("refresh").addEventListener("click", function() {
+        $("tbody").fadeOut("fast", checkRefresh);
+    }, false);
     order_history = document.getElementById("order_history");
     order_history.addEventListener("click", function() {
         $("tbody").fadeOut("fast", function() {
@@ -42,7 +44,7 @@ function checkRefresh() {
             } else {
                 console.log("error");
             }
-
+            $("tbody").fadeIn("fast");
         }
     }
 }
@@ -93,7 +95,7 @@ function getHistory(check = 0, order_status = null, order_ID = null) {
             let importData = JSON.parse(xhr.response);
             console.log(importData);
             buildtbody(importData);
-            $("tbody").fadeIn();
+            $("tbody").fadeIn("fast");
         }
     }
 }
