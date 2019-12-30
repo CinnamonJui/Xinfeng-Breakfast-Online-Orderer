@@ -539,4 +539,61 @@ class Bacon
             return false;
         
     }
+    function initOpenTime(){
+        $sqlOpenTime = "INSERT INTO OrderTime (timeKey,times) VALUE ('openTime','05:00');";
+        $sqlCloseTime = "INSERT INTO OrderTime (timeKey,times) VALUE ('closeTime','12:00');";
+
+        try{
+            $this->conn->query($sqlOpenTime);
+            echo "Opentime initialize<br>";
+        }
+        catch(PDOException $e){
+            echo "Opentime already initialize<br>";
+        }
+        try{
+            $this->conn->query($sqlCloseTime);
+            echo "Closetime initialize<br>";
+        }
+        catch(PDOException $e){
+            echo "Closetime already initialize<br>";
+        }
+    }
+    function setTime($key, $time){
+        $sql = "UPDATE OrderTime 
+                SET times = :t
+                WHERE timeKey = :tk;";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(":t",$time);
+        $stmt->bindValue(":tk",$key);
+
+        try{
+            $stmt->execute();
+            return true;
+        }
+        catch(PDOException $e){
+            echo $e->getMessage();
+            return false;
+        }
+    }
+    function getOpeningTime(){
+        $sql = "SELECT * FROM OrderTime";
+        try{
+            $result = $this->conn->query($sql)->fetchAll();
+        }
+        catch(PDOException $e){
+            echo $e->getMessage();
+            return false;
+        }
+        $data = array();
+        
+        foreach($result as $row){
+            foreach ($row as $k => $v){
+                if($k == "timeKey") $key = $v;
+                if($k == "times") $value = $v;
+            }
+            $data = array_merge($data,array($key=>$value));
+        }
+        $data = json_encode($data);
+        return $data;
+    }
 }
