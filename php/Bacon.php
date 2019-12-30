@@ -612,6 +612,25 @@ class Bacon
     }
 
     function getOrderByID($id){
-        
+        $sql ="SELECT * FROM orders
+                WHERE ID = :id;";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":id",$id);
+        try{
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+            return json_encode($result[0]);
+        }
+        catch(PDOException $e){
+            return false;
+        }
+    }
+    function getName($id){
+        $sql = "SELECT name FROM account WHERE user_ID = :id;";
+        $stmtF = $this->conn->prepare($sql);
+        $stmtF->bindParam(":id", $id);
+        $stmtF->execute();
+        $data = $stmtF->fetchColumn();
+        return $data;
     }
 }
