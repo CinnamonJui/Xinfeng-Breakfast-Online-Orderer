@@ -14,7 +14,7 @@ if(Input::exists()){
                 Redirect::to('index.php');
                
             }else{
-                echo 'fail???';
+                echo 'fail';
             }
         }else{
             foreach($validation->errors() as $error){

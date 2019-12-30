@@ -3,14 +3,13 @@ require_once '../core/init.php';
 
 if(Input::exists()){
     if(Token::check(Input::get('token'))){
-        //echo 'HEHEHEHEHE';
         $validate = new Validate();
         $validation= $validate->check($_POST,array(
             'ID'=>array(
                 'required' => true,
                 'min' => 2,
                 'max' => 20,
-                'unique' => 'xbs.account'
+                'unique' => 'account'
             ),
             'password'=>array(
                 'required' => true,
