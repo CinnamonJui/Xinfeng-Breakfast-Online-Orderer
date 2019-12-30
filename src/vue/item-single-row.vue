@@ -1,8 +1,8 @@
 <template>
   <div class="row px-1 justify-content-between">
-    <div class="col m-0 my-auto click-area" @click="mealclicked">
-      <h5 class="d-inline">{{item.ID}}</h5>
-      <span class="text-muted">{{ item.price }}元</span>
+    <div class="col-6 m-0 my-auto click-area d-flex flex-shrink-0 flex-sm-wrap" @click="mealclicked">
+      <h5 class="flex-shrink-0">{{item.ID}}</h5>
+      <span class="text-muted flex-shrink-0">{{ item.price }}元</span>
     </div>
     <!-- item # control -->
     <div class="col-auto">
@@ -85,7 +85,7 @@ export default {
 
 <style lang="scss">
 .input-group {
-  width: 12rem;
+  // width: 12rem;
   display: inline-flex;
   justify-content: center;
   & * {

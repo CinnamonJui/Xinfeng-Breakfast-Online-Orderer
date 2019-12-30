@@ -1,15 +1,15 @@
 <template>
   <div class="combo card">
     <!-- card head: title & price -->
-    <div class="card-header d-flex justify-content-between align-items-end">
+    <div class="card-header click-area d-flex justify-content-between align-items-end" @click="this.mealclicked">
       <h5 class="card-title d-inline my-auto">{{ combo.ID }}</h5>
       <span class="price card-subtitle text-muted">{{ combo.price }}元</span>
     </div>
     <!-- card body: content & description -->
-    <div class="card-body click-area" @click="this.mealclicked">
+    <div class="card-body click-area d-none d-sm-block" @click="this.mealclicked">
       <p class="card-text">{{ combo.info }}</p>
     </div>
-    <ul class="list-group list-group-flush">
+    <ul class="list-group list-group-flush d-none d-sm-flex">
       <hr />
       <li class="list-group-item">{{ combo.items }}</li>
     </ul>
@@ -93,8 +93,17 @@ export default {
 </script>
 
 <style lang="scss">
+@media (max-width: 576px) {
+  .card-header {
+    border-bottom: 0px;
+  }
+  .card-footer {
+    border-top: 0px;
+  }
+}
+
 .combo {
-  width: 15rem;
+  width: 13rem;
 }
 .click-area {
   cursor: pointer;
