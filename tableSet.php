@@ -45,7 +45,8 @@ $sqlStatus = 'create table status(
 $sqlAccount = "create table Account(	 
         
             user_ID     nvarchar(128)     PRIMARY	KEY not null,  	
-            password 	nvarchar(128) 	not null	,  	
+            password 	nvarchar(128) 	not null	,
+            salt       nvarchar(128)   not null    ,  	
             name		nvarchar(128) 	not null	,   
             age			integer(4) 	 	not null	,	
             gender		nvarchar(10) 	not null	,	
