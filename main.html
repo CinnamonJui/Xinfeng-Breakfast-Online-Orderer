@@ -21,6 +21,10 @@
     <div class="navbar-collapse collapse justify-content-end" id="nav-items">
       <button class="btn btn-outline-light mr-auto" id="cart" onclick="location.href='./購物車.html';">
         <i class="fa fa-shopping-cart"></i>
+        <div id="cart-badge" class="d-inline">
+          <span class="badge badge-pill badge-dark" v-show="totalMeal">{{ totalMeal }}項</span>
+          <span class="badge badge-pill badge-dark" v-show="totalPrice">{{ totalPrice }}元</span>
+        </div>
       </button>
       <div class="mx-1" id="user-action">
         <div id="logout" v-if="isLogin">
@@ -34,7 +38,7 @@
       </div>
     </div>
   </nav>
-  <div class="container-fluid mt-3" id="menu">
+  <div class="container-md mt-3" id="menu">
     <!-- a single row for combo -->
     <div class="row">
       <div class="col-12">
@@ -58,6 +62,6 @@
   <div id="modal">
     <modal></modal>
   </div>
-<script type="text/javascript" src="javascripts/main.bundle.js"></script></body>
+<script src="javascripts/vendors.bundle.js"></script><script src="javascripts/main.bundle.js"></script></body>
 
 </html>
