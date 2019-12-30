@@ -37,3 +37,11 @@ Refactored (majorly) with the following tools
 #### modal window
 
 ![ModalWindow](./demo/ModalWindow.gif)
+
+#### cart badge
+
+![Cart-Badge](./demo/Cart-Badge.gif)
+
+#### RWD
+
+![RWD](./demo/RWD.gif)
