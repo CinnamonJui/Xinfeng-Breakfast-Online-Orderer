@@ -416,12 +416,14 @@ class Bacon
     }
     function getItemFromType($str)
     {
-        $sql = "SELECT * FROM Item WHERE type LIKE '$str'
+        $sql = "SELECT * FROM Item WHERE type LIKE :st
                         Order by `type` ASC;";
         try 
 		{
-            $result = $this->conn->query($sql);
-            $itemData = $result->fetchAll();
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(":st",$str);
+            $stmt->execute();
+            $itemData = $stmt->fetchAll();
             $itemData = json_encode($itemData);
             return $itemData;
         } 
