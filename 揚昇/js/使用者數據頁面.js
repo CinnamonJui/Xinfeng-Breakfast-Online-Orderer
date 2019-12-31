@@ -26,6 +26,8 @@ function getString() {
     let str = document.getElementById("string").value;
     let type = document.getElementById("type").value;
     $("tbody").fadeOut("fast", function() {
+        if (!document.getElementById("string").value)
+            window.alert("搜尋字串不能為空");
         importdata(str, type);
     });
 }
