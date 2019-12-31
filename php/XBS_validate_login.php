@@ -5,7 +5,10 @@ if(isset($_GET["logout"]) && $_GET["logout"] == true){
     return;
 }
 if (isset($_SESSION['ID'])) {
-    echo $_SESSION['ID'];
+    include_once "Bacon.php";
+    $conn = new Bacon();
+    echo $conn->getName($_SESSION['ID']);
+    //echo $_SESSION['ID'];
     return true;
 } else {
     return false;

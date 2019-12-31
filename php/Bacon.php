@@ -72,9 +72,9 @@ class Bacon
 
         $sql = "SELECT status,ID,price,
                 GetTime,FnsTime,name,
-                user_ID,items
-                from Orders natural join Account
-                WHERE status in ('已結帳','婉拒') 
+                Orders.user_ID,items
+                from Orders, Account
+                WHERE status in ('已結帳','婉拒') and Orders.user_ID = Account.user_ID
                 ORDER BY  status DESC,ID DESC;";
 
         try {
@@ -89,12 +89,11 @@ class Bacon
     //取得結束訂單
     function getUnFinishOrder() //ok
     {
-
         $sql = "SELECT status,ID,price,
                 GetTime,FnsTime,name,
-                user_ID,items
-                from Orders natural join Account
-                WHERE status in ('未確認','準備中','已完成') 
+                Orders.user_ID,items
+                from Orders, Account
+                WHERE status in ('未確認','準備中','已完成') and Orders.user_ID = Account.user_ID
                 ORDER BY status DESC,ID DESC;";
         $sql2 = "UPDATE Orders SET isRead = 1 WHERE isRead= 0;";
         $sql3 = "UPDATE status SET isNew = 0;";
@@ -105,7 +104,7 @@ class Bacon
             $data = json_encode($data);
             
         } catch (PDOException $e) {
-            //echo $e->getMessage();
+            echo $e->getMessage();
         }
         try{
             $stmt = $this->conn->prepare($sql2);
@@ -125,9 +124,9 @@ class Bacon
     {
         $sql = "SELECT status,ID,price,
                 GetTime,FnsTime,name,
-                user_ID,items
-                from Orders natural join account
-                WHERE isRead = 0
+                Orders.user_ID,items
+                from Orders, Account
+                WHERE isRead = 0 and Orders.user_ID = Account.user_ID
                 ORDER BY status DESC,ID DESC;";
         $sql2 = "UPDATE Orders SET isRead = 1 WHERE isRead= 0;";
         $sql3 = "UPDATE status SET isNew = 0;";
@@ -172,7 +171,23 @@ class Bacon
         catch(PDOException $e){
             echo $e->getMessage();
         }
-        
+        if($status == "已結帳"){
+            $sql = "SELECT user_ID,price FROM orders WHERE ID=:ID;";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindValue(":ID",$ID);
+            try{
+                $stmt->execute();
+                $data = $stmt->fetchALL();
+                $userID = $data[0]['user_ID'];
+                $price = $data[0]['price'];
+                echo $userID." ".$price;
+                $this->customerTotalIncrease($userID,$price);
+            }
+            catch(PDOException $e){
+                echo $e->getMessage();
+            }
+
+        }
 
     }
 
@@ -618,4 +633,71 @@ class Bacon
         $data = json_encode($data);
         return $data;
     }
+    function getOrderStatus($id){
+        $sql ="SELECT status FROM orders
+                WHERE ID = :id;";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":id",$id);
+        try{
+            $stmt->execute();
+            $result = $stmt->fetchColumn();
+            return $result;
+        }
+        catch(PDOException $e){
+            return false;
+        }
+    }
+
+    function getOrderByID($id){
+        $sql ="SELECT * FROM orders
+                WHERE ID = :id;";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":id",$id);
+        try{
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+            return json_encode($result[0]);
+        }
+        catch(PDOException $e){
+            return false;
+        }
+    }
+    function getName($id){
+        $sql = "SELECT name FROM account WHERE user_ID = :id;";
+        $stmtF = $this->conn->prepare($sql);
+        $stmtF->bindParam(":id", $id);
+        try{
+            $stmtF->execute();
+            $data = $stmtF->fetchColumn();
+            return $data;
+        }
+        catch(PDOException $e){
+            return "unKnown";
+        }
+    }
+
+    function customerTotalIncrease($id,$p){
+        $sql ="SELECT total FROM account WHERE user_ID =:id;";
+        $stmtF = $this->conn->prepare($sql);
+        $stmtF->bindParam(":id", $id);
+        try{
+            $stmtF->execute();
+            $data = $stmtF->fetchColumn();
+        }
+        catch(PDOException $e){
+        }
+        $data += $p;
+        //echo $data;
+        $sql = "UPDATE account SET total = :p WHERE user_ID = :id;";
+        $stmtF = $this->conn->prepare($sql);
+        $stmtF->bindParam(":p", $data);
+        $stmtF->bindParam(":id", $id);
+        try{
+            $stmtF->execute();
+            $data = $stmtF->fetchColumn();
+        }
+        catch(PDOException $e){
+        }
+    }
+
 }
