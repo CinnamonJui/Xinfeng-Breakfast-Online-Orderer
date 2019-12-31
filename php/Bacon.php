@@ -72,9 +72,9 @@ class Bacon
 
         $sql = "SELECT status,ID,price,
                 GetTime,FnsTime,name,
-                user_ID,items
-                from Orders natural join account
-                WHERE status in ('已結帳','婉拒') 
+                Orders.user_ID,items
+                from Orders, account
+                WHERE status in ('已結帳','婉拒') and Orders.user_ID = Account.user_ID
                 ORDER BY  status DESC,ID DESC;";
 
         try {
@@ -89,12 +89,11 @@ class Bacon
     //取得結束訂單
     function getUnFinishOrder() //ok
     {
-
         $sql = "SELECT status,ID,price,
                 GetTime,FnsTime,name,
-                user_ID,items
-                from Orders natural join account
-                WHERE status in ('未確認','準備中','已完成') 
+                Orders.user_ID,items
+                from Orders, Account
+                WHERE status in ('未確認','準備中','已完成') and Orders.user_ID = Account.user_ID
                 ORDER BY status DESC,ID DESC;";
         $sql2 = "UPDATE Orders SET isRead = 1 WHERE isRead= 0;";
         $sql3 = "UPDATE status SET isNew = 0;";
@@ -105,7 +104,7 @@ class Bacon
             $data = json_encode($data);
             
         } catch (PDOException $e) {
-            //echo $e->getMessage();
+            echo $e->getMessage();
         }
         try{
             $stmt = $this->conn->prepare($sql2);
@@ -125,9 +124,9 @@ class Bacon
     {
         $sql = "SELECT status,ID,price,
                 GetTime,FnsTime,name,
-                user_ID,items
-                from Orders natural join account
-                WHERE isRead = 0
+                Orders.user_ID,items
+                from Orders, Account
+                WHERE isRead = 0 and Orders.user_ID = Account.user_ID
                 ORDER BY status DESC,ID DESC;";
         $sql2 = "UPDATE Orders SET isRead = 1 WHERE isRead= 0;";
         $sql3 = "UPDATE status SET isNew = 0;";
