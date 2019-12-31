@@ -32,6 +32,10 @@
         font-weight: bold;
         background-color: rgba(244, 177, 133, 0.8);
     }
+    thead td:hover {
+        font-weight: bold;
+        background-color: rgba(244, 155, 110, 0.8);
+    }
     input {
         float: left;
         border: 1px solid black;

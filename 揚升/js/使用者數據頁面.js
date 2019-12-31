@@ -1,18 +1,18 @@
 var data = [];
 var thead_name = [
     ["使用者名稱", "姓名", "年齡", "性別", "電子信箱", "總消費"],
-    ["userName", "name", "age", "gender", "eMail", "totalCost"]
+    ["user_ID", "name", "age", "gender", "email", "total"]
 ];
 var table_width = [15, 15, 10, 10, 40, 10];
-var thead, tbody;
+var tbody;
 var mainmenu;
 var even = 0;
+var upDown = "ASC";
 
 function start() {
     importdata();
     search = document.getElementById("search");
     search.addEventListener("click", getString, false);
-    thead = document.getElementById("thead");
     buildthead();
     tbody = document.getElementById("tbody");
     $("input").keydown(function(event) {
@@ -32,8 +32,10 @@ function getString() {
 
 
 function buildthead() {
-    thead.setAttribute("style", "text-align:center;");
+    $("thead").css("text-align", "center");
+    $("thead").css("cursor", "pointer");
     let row = document.createElement("tr");
+    row.setAttribute("id", "thead");
     //row.setAttribute("style", "line-height:30px;");
     row.setAttribute("height", "30");
     for (let i in thead_name[0]) {
@@ -43,15 +45,37 @@ function buildthead() {
         col.textContent = thead_name[0][i];
         row.appendChild(col);
     }
-    thead.appendChild(row);
+    $("thead").append(row);
+    $("thead td").click(function() {
+        upDown = "ASC";
+        if ($("#sort")) {
+            if ($("#sort").parent("td").attr("id") == $(this).attr("id")) {
+                if ($("#sort").html() == "△") {
+                    $("#sort").html("▽");
+                    upDown = "DESC";
+                } else
+                    $("#sort").html("△");
+            } else {
+                $("#sort").remove();
+                $(this).append("<span id='sort'>△</span>");
+            }
+        } else
+            $(this).append("<span id='sort'>△</span>");
+        $("tbody").fadeOut("fast", function() {
+            console.log(upDown);
+            importdata(null, null, $("#sort").parent().attr("id"));
+        });
+
+    });
 }
 
-function importdata(str = null, type = null) {
-    let send_data;
+function importdata(str = null, type = null, par = "user_ID") {
+    let send_data = "";
     if (str && type) {
         send_data = "find_str=" + str + "&find_type=" + type;
-    } else
-        send_data = null;
+    } else //▽△
+        send_data += "par=" + par + "&sort=" + upDown;
+    console.log(send_data);
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "getAccount.php", true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -64,12 +88,7 @@ function importdata(str = null, type = null) {
                 importdata();
             } else {
                 importData = JSON.parse(xhr.response);
-                console.log(importData);
-                /*for (let i in importData) {
-                    importData[i].splice('password', 1);
-                }*/
             }
-
             buildtbody(importData);
             $("tbody").fadeIn();
         }

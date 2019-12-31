@@ -294,7 +294,6 @@ class Bacon
     //搜尋顧客資料(老闆)
     function searchCustomer($str,$type)
     {
-        
         $searchResult = array();
         $sql = "select user_ID, name, age, gender, email, total 
                 from Account
