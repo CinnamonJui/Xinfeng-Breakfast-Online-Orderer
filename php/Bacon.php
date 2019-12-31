@@ -256,15 +256,19 @@ class Bacon
     }
 
     //取得顧客資料(老闆)
-    function getCustomer()
+    function getCustomer($par,$up_or_down)
     {
-
+        
         $customerData = array();
-        $sql = "SELECT user_ID, name, age, gender, email, total  FROM Account;";
-
+        $sql = "SELECT user_ID, name, age, gender, email, total  
+                FROM Account
+                ORDER BY $par $up_or_down;";
+        
         try {
-            $result = $this->conn->query($sql);
-            $customerData = $result->fetchAll();
+            $stmt = $this->conn->prepare($sql);
+            //$stmt->bindParam(":par",$par,PDO::PARAM_STR);
+            $stmt->execute();
+            $customerData = $stmt->fetchAll();
             $customerData = json_encode($customerData);
             return $customerData;
         } catch (PDOException $e) {
