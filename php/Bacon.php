@@ -172,7 +172,23 @@ class Bacon
         catch(PDOException $e){
             echo $e->getMessage();
         }
-        
+        if($status == "已結帳"){
+            $sql = "SELECT user_ID,price FROM orders WHERE ID=:ID;";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindValue(":ID",$ID);
+            try{
+                $stmt->execute();
+                $data = $stmt->fetchALL();
+                $userID = $data[0]['user_ID'];
+                $price = $data[0]['price'];
+                echo $userID." ".$price;
+                $this->customerTotalIncrease($userID,$price);
+            }
+            catch(PDOException $e){
+                echo $e->getMessage();
+            }
+
+        }
 
     }
 
@@ -629,8 +645,38 @@ class Bacon
         $sql = "SELECT name FROM account WHERE user_ID = :id;";
         $stmtF = $this->conn->prepare($sql);
         $stmtF->bindParam(":id", $id);
-        $stmtF->execute();
-        $data = $stmtF->fetchColumn();
-        return $data;
+        try{
+            $stmtF->execute();
+            $data = $stmtF->fetchColumn();
+            return $data;
+        }
+        catch(PDOException $e){
+            return "unKnown";
+        }
     }
+
+    function customerTotalIncrease($id,$p){
+        $sql ="SELECT total FROM account WHERE user_ID =:id;";
+        $stmtF = $this->conn->prepare($sql);
+        $stmtF->bindParam(":id", $id);
+        try{
+            $stmtF->execute();
+            $data = $stmtF->fetchColumn();
+        }
+        catch(PDOException $e){
+        }
+        $data += $p;
+        //echo $data;
+        $sql = "UPDATE account SET total = :p WHERE user_ID = :id;";
+        $stmtF = $this->conn->prepare($sql);
+        $stmtF->bindParam(":p", $data);
+        $stmtF->bindParam(":id", $id);
+        try{
+            $stmtF->execute();
+            $data = $stmtF->fetchColumn();
+        }
+        catch(PDOException $e){
+        }
+    }
+
 }
