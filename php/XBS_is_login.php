@@ -11,7 +11,7 @@ if (isset($_SESSION['ID'])) {
     return false;
 }*/
 require_once '../core/init.php';
-$user = new User();
+$user = new User();////User class's constructor will check current session value
 if($user->isLoggedIn()){
     echo $_SESSION[Config::get('session/session_name')];
     return true;

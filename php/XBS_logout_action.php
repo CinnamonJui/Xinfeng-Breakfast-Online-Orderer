@@ -1,7 +1,7 @@
 <?php
 require_once '../core/init.php';
-
-$user = new User();
+                    //not test yet
+$user = new User(); //constructor will check current session value
 $user->logout();
 
 Redirect::to('../login.html');
