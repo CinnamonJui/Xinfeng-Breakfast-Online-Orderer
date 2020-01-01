@@ -32,7 +32,7 @@ class User{
     public function find($user=null){
         if($user){
             //$field = (is_numeric($user))? 'ID' :' name';// he want to find id too
-            $field='ID';
+            $field='user_ID';
             $data= $this->_db->get('account',array($field,'=',$user));
             if($data->count()){
                 $this->_data=$data->first();
@@ -47,8 +47,10 @@ class User{
     public function login($ID=null,$password=null){
         $user=$this->find($ID);
         if($user){
+            echo $ID . '<br>';
+            echo Hash::make($password, $this->data()->salt);
             if($this->data()->password ==Hash::make($password, $this->data()->salt)){
-                Session::put($this->_sessionName,$this->data()->ID);
+                Session::put($this->_sessionName,$this->data()->user_ID);
                 return true;
 
             }

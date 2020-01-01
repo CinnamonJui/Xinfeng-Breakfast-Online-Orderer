@@ -19,7 +19,7 @@ class DB{
     public static function getInstance(){
         if(!isset(self::$_instance)){
             self::$_instance=new DB();
-            //echo 'Connected';
+            echo 'Connected';
         }
         return self::$_instance;
     }
@@ -120,7 +120,7 @@ class DB{
             }
             $x++;
         }
-        $sql="UPDATE {$table} SET {$set} WHERE id = {$id}";
+        $sql="UPDATE {$table} SET {$set} WHERE user_id = {$id}";
         //echo $sql."<br>";
         if(!$this->query($sql,$fields)->error()){
             return true;
