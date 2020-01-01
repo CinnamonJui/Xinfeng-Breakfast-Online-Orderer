@@ -19,7 +19,7 @@
     </button>
     <!-- Log in&out control -->
     <div class="navbar-collapse collapse justify-content-end" id="nav-items">
-      <button class="btn btn-outline-light mr-auto" id="cart" onclick="location.href='./購物車.html';">
+      <button class="btn btn-outline-light mr-auto" id="cart">
         <i class="fa fa-shopping-cart"></i>
         <div id="cart-badge" class="d-inline">
           <span class="badge badge-pill badge-dark" v-show="totalMeal">{{ totalMeal }}項</span>
@@ -29,6 +29,7 @@
       <div class="mx-1" id="user-action">
         <div id="logout" v-if="isLogin">
           <span class="text-white">{{ username }} 你好！</span>
+          <button v-if="isLogin" class="btn btn-outline-light">我的訂單</button>
           <button class="btn btn-outline-light" @click="logout">登出</button>
         </div>
         <div id="reg-login" class="btn-group" v-else>

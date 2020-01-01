@@ -22,7 +22,7 @@ new Vue({
     },
   },
   created() {
-
+    const cartButton = document.getElementById('cart')
     fetch('./php/XBS_validate_login.php', {
       method: 'GET',
       credentials: 'same-origin',
@@ -32,9 +32,24 @@ new Vue({
         if (username) {
           this.isLogin = true;
           this.username = username;
+          cartButton.addEventListener('click', e => {
+            e.preventDefault()
+            window.location = './購物車.html'
+          })
+          return
         }
+        // issue #12
+        import(/* webpackChunkName: "Swal" */ 'sweetalert2')
+          .then(({ default: Swal }) => {
+            cartButton.addEventListener('click', (e) => {
+              e.preventDefault()
+              Swal.fire({
+                icon: 'error',
+                title: '你／妳還沒登入唷～',
+              })
+            })
+          })
       })
-
   },
 });
 

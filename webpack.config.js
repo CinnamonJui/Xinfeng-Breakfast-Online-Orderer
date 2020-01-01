@@ -1,7 +1,7 @@
 const path = require('path');
 // const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CopyPlugin = require('copy-webpack-plugin');
+// const CopyPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
@@ -15,6 +15,7 @@ module.exports = {
     output: {
         filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'build/javascripts'),
+        publicPath: './javascripts/'
     },
     optimization: {
         splitChunks: {
@@ -109,14 +110,14 @@ module.exports = {
             chunks: ['register']
         }),
         new VueLoaderPlugin(),
-        new CopyPlugin([{
-            from: path.resolve(__dirname, 'src/php'),
-            to: path.resolve(__dirname, 'build/php')
-        }]),
-        new CopyPlugin([{
-            from: path.resolve(__dirname, 'src/images'),
-            to: path.resolve(__dirname, 'build/images')
-        }]),
+        // new CopyPlugin([{
+        //     from: path.resolve(__dirname, 'src/php'),
+        //     to: path.resolve(__dirname, 'build/php')
+        // }]),
+        // new CopyPlugin([{
+        //     from: path.resolve(__dirname, 'src/images'),
+        //     to: path.resolve(__dirname, 'build/images')
+        // }]),
     ],
     resolve: {
         alias: {
