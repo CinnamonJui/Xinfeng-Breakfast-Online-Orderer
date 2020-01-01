@@ -1,6 +1,9 @@
 <template>
   <div class="row px-1 justify-content-between">
-    <div class="col-6 m-0 my-auto click-area d-flex flex-shrink-0 flex-sm-wrap" @click="mealclicked">
+    <div
+      class="col-6 m-0 my-auto click-area d-flex flex-shrink-0 flex-sm-wrap"
+      @click="mealclicked"
+    >
       <h5 class="flex-shrink-0">{{item.ID}}</h5>
       <span class="text-muted flex-shrink-0">{{ item.price }}元</span>
     </div>
@@ -73,10 +76,12 @@ export default {
   watch: {
     toCartCount() {
       CartBadgeEventBus.$emit("item-added", this.item, this.toCartCount);
+
       const cartObj = JSON.parse(localStorage.getItem("cart"));
       this.toCartCount == 0
         ? delete cartObj[this.item.ID]
-        : (cartObj[this.item.ID] = this.toCartCount);
+        : (cartObj[this.item.ID] =
+            this.toCartCount + "," + this.item.price * this.toCartCount);
       localStorage.setItem("cart", JSON.stringify(cartObj));
     }
   }

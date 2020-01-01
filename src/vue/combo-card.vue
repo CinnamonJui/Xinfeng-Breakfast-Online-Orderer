@@ -1,7 +1,10 @@
 <template>
   <div class="combo card">
     <!-- card head: title & price -->
-    <div class="card-header click-area d-flex justify-content-between align-items-end" @click="this.mealclicked">
+    <div
+      class="card-header click-area d-flex justify-content-between align-items-end"
+      @click="this.mealclicked"
+    >
       <h5 class="card-title d-inline my-auto">{{ combo.ID }}</h5>
       <span class="price card-subtitle text-muted">{{ combo.price }}元</span>
     </div>
@@ -82,10 +85,12 @@ export default {
   watch: {
     toCartCount() {
       CartBadgeEventBus.$emit("combo-added", this.combo, this.toCartCount);
+
       const cartObj = JSON.parse(localStorage.getItem("cart"));
       this.toCartCount === 0
         ? delete cartObj[this.combo.ID]
-        : (cartObj[this.combo.ID] = this.toCartCount);
+        : (cartObj[this.combo.ID] =
+            this.toCartCount + "," + this.combo.price * this.toCartCount);
       localStorage.setItem("cart", JSON.stringify(cartObj));
     }
   }
