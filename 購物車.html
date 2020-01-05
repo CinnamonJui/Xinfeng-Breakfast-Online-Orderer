@@ -40,20 +40,11 @@
 
 
     <div class=time_and_button>
-        <form method="POST" class=time id="form1" runat="server" action="./php/makeOrder.php">
+        <form>
             <div id="showbox"></div>
-            <input type="text" name="item_list" id="item_list">
-            <input type="hidden" name="finishTime" id="finishTime">
-            
-            <button class=action_btn type="submit" id="send">送出</button>
+            <input type="button" value="送出" onclick="makeOrder()">
         </form>
     </div>
-    <script>
-        document.getElementById('send').addEventListener('click', (e) => {
-            document.getElementById('item_list').value =localStorage.getItem('cart');
-            document.getElementById("finishTime").value=document.getElementById("finish_Time").value;
-        }, false);
-    </script>
     <script src="./javascripts/cart.js"></script>
 </body>
 
