@@ -17,19 +17,19 @@ new Vue({
   methods: {
     logout() {
       localStorage.removeItem('cart')
-      fetch('./php/XBS_validate_login.php?logout=true');
+      fetch('./php/XBS_logout_action.php');
       location.reload();
     },
   },
   created() {
     const cartButton = document.getElementById('cart')
-    fetch('./php/XBS_validate_login.php', {
+    fetch('./php/XBS_is_login.php', {
       method: 'GET',
       credentials: 'same-origin',
     })
       .then(res => res.text())
       .then(username => {
-        if (username) {
+        if (username !== ' ') {
           this.isLogin = true;
           this.username = username;
           cartButton.addEventListener('click', e => {
