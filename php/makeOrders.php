@@ -15,7 +15,7 @@
     //echo $finishTime;
     //print_r($items);
 
-    if(strtotime($limitTime1)<strtotime($ordertime) && strtotime($limitTime1)<strtotime($limitTime2)){
+    if(strtotime($limitTime1)<strtotime($ordertime) && strtotime($ordertime)<strtotime($limitTime2)){
         $jsonitems  = json_decode($items,true);
         //echo $items;
         $total_price = 0;
