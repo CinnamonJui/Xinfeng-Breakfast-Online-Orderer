@@ -1,0 +1,15 @@
+.vscode
+node_modules
+package-lock.json
+
+/php
+/src/php
+/images
+/src/images
+/javascripts
+stylesheets
+testFile
+temp
+/build
+/*.*
+揚升
