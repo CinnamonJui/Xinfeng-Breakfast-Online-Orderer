@@ -47,8 +47,8 @@ class User{
     public function login($ID=null,$password=null){
         $user=$this->find($ID);
         if($user){
-            echo $ID . '<br>';
-            echo Hash::make($password, $this->data()->salt);
+        //    echo $ID . '<br>';
+        //    echo Hash::make($password, $this->data()->salt);
             if($this->data()->password ==Hash::make($password, $this->data()->salt)){
                 Session::put($this->_sessionName,$this->data()->user_ID);
                 return true;
