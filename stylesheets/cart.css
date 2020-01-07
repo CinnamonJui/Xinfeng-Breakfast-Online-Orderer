@@ -6,6 +6,7 @@ body {
     position: relative;
     top: 2rem;
     font-size: 1.5rem;
+    background-image:url( 'https://images.unsplash.com/photo-1525351484163-7529414344d8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2000&q=80' );
 }
 
 #option-bar {
@@ -79,7 +80,7 @@ body {
     height: 100%;
 }/*刪除的按鈕*/
 
-.action_btn {
+.time_and_button input {
     font-size: 1.2rem;
     flex-grow: 1;
     background: rgb(171, 255, 235);
