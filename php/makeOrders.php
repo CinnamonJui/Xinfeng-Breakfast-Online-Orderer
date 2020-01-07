@@ -2,13 +2,14 @@
     include_once "Bacon.php";
 
     $conn = new Bacon();
-    
+    $temp = $conn->getOpeningTime();
+    $temp = json_decode($temp,true);
     if(isset($_POST['item_list'])&&isset($_POST['finishTime'])){
         $items = $_POST['item_list'];
-        $finishTime = $_POST['finishTime'];
+        $finishTime = $_POST['finishTime']; 
     }
-    $limitTime1 = date("Y-m-d")." "."05:00";
-    $limitTime2 = date("Y-m-d")." "."13:00";
+    $limitTime1 = date("Y-m-d")." ".$temp['openTime'];
+    $limitTime2 = date("Y-m-d")." ".$temp['closeTime'];
     $ordertime = date("Y-m-d")." ".$finishTime;
     //echo $items;
     //echo $finishTime;
