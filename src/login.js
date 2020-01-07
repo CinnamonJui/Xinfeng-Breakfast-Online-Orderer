@@ -35,11 +35,7 @@ const debounceSubmit = debounce((function () {
         })
             .then(res => res.text())
             .then(res => {
-                if (res === '1')
-                    window.location = './main.html'
-                else {
-                    msg.classList.remove('invisible')
-                }
+                window.location = res
             })
     }
 })(), 250, {
