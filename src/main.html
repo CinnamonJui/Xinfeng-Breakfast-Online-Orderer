@@ -29,7 +29,7 @@
       <div class="mx-1" id="user-action">
         <div id="logout" v-if="isLogin">
           <span class="text-white">{{ username }} 你好！</span>
-          <button v-if="isLogin" class="btn btn-outline-light">我的訂單</button>
+          <button v-if="isLogin" class="btn btn-outline-light" id="my-order" onclick="location.href='./顧客訂單頁面.html'">我的訂單</button>
           <button class="btn btn-outline-light" @click="logout">登出</button>
         </div>
         <div id="reg-login" class="btn-group" v-else>
