@@ -7,9 +7,11 @@ if (Input::exists()) {
     $login = $user->login(Input::get('tel'), Input::get('password'));
     if ($login) {
         if(Input::get('tel')=='0000000000'){
-            Redirect::to('./../register.html');//to boss
+            //Redirect::to('../揚昇/主控台頁面.html');//to boss
+            echo './揚昇/主控台頁面.html';
+        }else{
+            echo './main.html';
         }
-        echo true;
     } else {
         echo false;
     }

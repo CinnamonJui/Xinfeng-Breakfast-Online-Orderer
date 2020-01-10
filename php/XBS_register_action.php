@@ -18,7 +18,7 @@ if (Input::exists()) {
             ));
             $login = $user->login(Input::get('tel'), Input::get('password'));//
             //Session::flash('home', 'You have been registered and can now log in!');
-            Redirect::to('../login.html');
+            //Redirect::to('../login.html');
             //echo 'success';
         } catch (Exception $e) {
             die($e->getMessage());

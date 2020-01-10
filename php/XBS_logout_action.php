@@ -4,4 +4,5 @@ require_once '../core/init.php';
 $user = new User(); //constructor will check current session value
 $user->logout();
 
-Redirect::to('../login.html');
+echo './login.html';
+//Redirect::to('../login.html');

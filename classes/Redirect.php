@@ -11,7 +11,7 @@ class Redirect{
                      break;
                     
                 }
-               
+               echo $location;
             }
             exit();
         }

@@ -1,12 +1,12 @@
 var priceSum = 0;
 function createTable(){
-    /*var carts = localStorage.getItem("cart");
-    carts = JSON.parse(cart); */
-    //console.log(cart);
-    var carts = {"安安套餐": "5, 120"   
-                ,"早安套餐": "3, 400"}
+    var carts = localStorage.getItem("cart");
+    carts = JSON.parse(carts); 
+    console.log(carts);
+    /*var carts = {"安安套餐": "5, 120"   
+                ,"早安套餐": "3, 400"}*/
     var cart = JSON.stringify(carts)
-    localStorage.setItem("cart",cart)
+    //localStorage.setItem("cart",cart)
     var forTable = document.querySelector( ".carts tbody" );
     //var carts = JSON.parse(localStorage.getItem('cart'));
     console.log(carts);
