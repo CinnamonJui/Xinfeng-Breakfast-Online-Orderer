@@ -44,10 +44,11 @@
     }
     .order_time {
         float: right;
-        margin-right: 80px;
+        margin-right: 5%;
         height: 25px;
     }
     .st_caption {
+        text-align: center;
         height: 100%;
         background-color: rgba(249, 156, 150);
         border: 1px solid black;
