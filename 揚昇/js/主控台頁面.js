@@ -31,6 +31,7 @@ function initTime() {
 }
 
 function set_time() {
+    alert("set time success");
     start_time = document.getElementById("start_time").value;
     end_time = document.getElementById("end_time").value;
     console.log(start_time, end_time);
